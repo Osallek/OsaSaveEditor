@@ -10,10 +10,10 @@
 	</parent>
 
 	<groupId>fr.osallek</groupId>
-	<artifactId>eu4-save-editor</artifactId>
+	<artifactId>osa-save-editor</artifactId>
 	<version>1.2.0</version>
-	<name>Eu4SaveEditor</name>
-	<description>Eu4SaveEditor</description>
+	<name>OsaSaveEditor</name>
+	<description>OsaSaveEditor</description>
 
 	<properties>
 		<java.version>17</java.version>
