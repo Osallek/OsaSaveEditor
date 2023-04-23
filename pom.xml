@@ -18,7 +18,7 @@
 	<properties>
 		<java.version>17</java.version>
 
-		<eu4-parser.version>1.1.7</eu4-parser.version>
+		<eu4-parser.version>1.1.8</eu4-parser.version>
 		<javafx.version>19</javafx.version>
 		<controlsfx.version>11.1.2</controlsfx.version>
 		<maven-artifact.version>3.8.6</maven-artifact.version>

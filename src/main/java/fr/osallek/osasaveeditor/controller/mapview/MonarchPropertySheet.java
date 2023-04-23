@@ -108,8 +108,8 @@ public class MonarchPropertySheet extends VBox {
                                                          new ClearableComboBox<>(new SearchableComboBox<>()));
         this.religionField.setConverter(SaveReligionStringConverter.INSTANCE);
         this.religionField.setCellFactory(SaveReligionStringCellFactory.INSTANCE);
-        this.religionField.setValue(this.monarch.getReligion());
-        this.religionField.setSupplier(this.monarch::getReligion);
+        this.religionField.setValue(this.monarch.getCountry().getSave().getReligions().getReligion(this.monarch.getReligionName()));
+        this.religionField.setSupplier(() -> this.monarch.getCountry().getSave().getReligions().getReligion(this.monarch.getReligionName()));
         items.add(this.religionField);
 
         this.admPointField = new ClearableSpinnerItem<>(name,
@@ -223,7 +223,7 @@ public class MonarchPropertySheet extends VBox {
             this.monarch.setCulture(this.cultureField.getSelectedValue());
         }
 
-        if (!Objects.deepEquals(this.monarch.getReligion(), this.religionField.getSelectedValue())) {
+        if (!Objects.deepEquals(this.monarch.getReligionName(), this.religionField.getSelectedValue().getName())) {
             this.monarch.setReligion(this.religionField.getSelectedValue());
         }
 
