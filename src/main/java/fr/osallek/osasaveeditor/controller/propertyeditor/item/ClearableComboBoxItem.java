@@ -5,6 +5,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -178,6 +179,10 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
 
     public Predicate<U> getFilter() {
         return filter;
+    }
+
+    public ObservableList<U> getValues() {
+        return FXCollections.unmodifiableObservableList(this.values);
     }
 
     public void setFilter(Predicate<U> filter) {

@@ -41,8 +41,9 @@ import fr.osallek.osasaveeditor.controller.converter.CultureStringCellFactory;
 import fr.osallek.osasaveeditor.controller.converter.CultureStringConverter;
 import fr.osallek.osasaveeditor.controller.converter.FetishistCultStringCellFactory;
 import fr.osallek.osasaveeditor.controller.converter.FetishistCultStringConverter;
+import fr.osallek.osasaveeditor.controller.converter.GovernmentRankCellFactory;
+import fr.osallek.osasaveeditor.controller.converter.GovernmentRankConverter;
 import fr.osallek.osasaveeditor.controller.converter.PairCellFactory;
-import fr.osallek.osasaveeditor.controller.converter.PairConverter;
 import fr.osallek.osasaveeditor.controller.converter.PersonalDeityStringCellFactory;
 import fr.osallek.osasaveeditor.controller.converter.PersonalDeityStringConverter;
 import fr.osallek.osasaveeditor.controller.converter.ProvinceStringCellFactory;
@@ -89,7 +90,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.controlsfx.control.SearchableComboBox;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
@@ -200,7 +200,7 @@ public class CountryPropertySheet extends VBox {
 
     private final ClearableSpinnerItem<Double> governmentReformProgressField;
 
-    private final ClearableComboBoxItem<Pair<Integer, String>> governmentRankField;
+    private final ClearableComboBoxItem<Integer> governmentRankField;
 
     private final ButtonItem governmentReformsButton;
 
@@ -334,7 +334,8 @@ public class CountryPropertySheet extends VBox {
                                                OsaSaveEditorUtils.localize("LEDGER_NAME", save.getGame()));
         this.nameField.getTextField().getStylesheets().add(OsaSaveEditorApplication.class.getResource("/styles/style.css").toExternalForm());
 
-        this.wasPlayerField = new CheckBoxItem(this.messageSource.getMessage("ose.category.general", null, Constants.LOCALE), OsaSaveEditorUtils.localize("WAS_PLAYER", save.getGame()), false);
+        this.wasPlayerField = new CheckBoxItem(this.messageSource.getMessage("ose.category.general", null, Constants.LOCALE),
+                                               OsaSaveEditorUtils.localize("WAS_PLAYER", save.getGame()), false);
 
         this.admPointField = new ClearableSpinnerItem<>(this.messageSource.getMessage("ose.category.general", null, Constants.LOCALE),
                                                         OsaSaveEditorUtils.localize("ADM_POWER", save.getGame()),
@@ -489,7 +490,11 @@ public class CountryPropertySheet extends VBox {
                                                             0, 100);
 
         this.loansButton = new ButtonItem(this.messageSource.getMessage("ose.category.economy", null, Constants.LOCALE), null, save.getGame()
-                                                                                                                                   .getLocalisationClean("AI_LOANS", Eu4Language.getByLocale(Constants.LOCALE)), 2);
+                                                                                                                                   .getLocalisationClean(
+                                                                                                                                           "AI_LOANS",
+                                                                                                                                           Eu4Language.getByLocale(
+                                                                                                                                                   Constants.LOCALE)),
+                                          2);
         this.loans = FXCollections.observableArrayList();
 
         //Institutions
@@ -500,12 +505,13 @@ public class CountryPropertySheet extends VBox {
                                                                save.getGame().getLocalisationClean("GOV_RANK", Eu4Language.getByLocale(Constants.LOCALE)),
                                                                FXCollections.observableArrayList(),
                                                                new ClearableComboBox<>(new RequiredComboBox<>()));
-        this.governmentRankField.setConverter(new PairConverter());
-        this.governmentRankField.setCellFactory(new PairCellFactory());
+        this.governmentRankField.setConverter(new GovernmentRankConverter());
+        this.governmentRankField.setCellFactory(new GovernmentRankCellFactory());
 
         this.governmentReformProgressField = new ClearableSpinnerItem<>(this.messageSource.getMessage("ose.category.government", null, Constants.LOCALE),
                                                                         save.getGame()
-                                                                            .getLocalisationCleanNoPunctuation("CHANGE_GOVERNMENT_REFORM_PROGRESS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                            .getLocalisationCleanNoPunctuation("CHANGE_GOVERNMENT_REFORM_PROGRESS",
+                                                                                                               Eu4Language.getByLocale(Constants.LOCALE)),
                                                                         new ClearableSpinnerDouble(0, Double.MAX_VALUE, 10));
 
         this.governmentReformsButton = new ButtonItem(this.messageSource.getMessage("ose.category.government", null, Constants.LOCALE),
@@ -541,11 +547,14 @@ public class CountryPropertySheet extends VBox {
 
         //Military
         this.manpowerField = new ClearableSpinnerItem<>(this.messageSource.getMessage("ose.category.military", null, Constants.LOCALE),
-                                                        save.getGame().getLocalisationCleanNoPunctuation("HINT_MANPOWER_TITLE", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                        save.getGame()
+                                                            .getLocalisationCleanNoPunctuation("HINT_MANPOWER_TITLE",
+                                                                                               Eu4Language.getByLocale(Constants.LOCALE)),
                                                         new ClearableSpinnerDouble(0, Double.MAX_VALUE, 1000));
 
         this.sailorsField = new ClearableSpinnerItem<>(this.messageSource.getMessage("ose.category.military", null, Constants.LOCALE),
-                                                       save.getGame().getLocalisationCleanNoPunctuation("LEDGER_SAILORS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                       save.getGame()
+                                                           .getLocalisationCleanNoPunctuation("LEDGER_SAILORS", Eu4Language.getByLocale(Constants.LOCALE)),
                                                        new ClearableSpinnerDouble(0, Double.MAX_VALUE, 1000));
 
         this.armyTraditionField = new ClearableSliderItem(this.messageSource.getMessage("ose.category.military", null, Constants.LOCALE),
@@ -565,7 +574,11 @@ public class CountryPropertySheet extends VBox {
                                                          0, 20);
 
         this.leadersButton = new ButtonItem(this.messageSource.getMessage("ose.category.military", null, Constants.LOCALE), null, save.getGame()
-                                                                                                                                      .getLocalisationClean("HEADER_LEADER", Eu4Language.getByLocale(Constants.LOCALE)), 2);
+                                                                                                                                      .getLocalisationClean(
+                                                                                                                                              "HEADER_LEADER",
+                                                                                                                                              Eu4Language.getByLocale(
+                                                                                                                                                      Constants.LOCALE)),
+                                            2);
         this.leaders = FXCollections.observableArrayList();
 
         //ESTATES
@@ -753,7 +766,9 @@ public class CountryPropertySheet extends VBox {
                                                                                                         listSelectionView,
                                                                                                         this.country.getSave()
                                                                                                                     .getGame()
-                                                                                                                    .getLocalisationClean("CELESTIAL_DECISIONS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                                                    .getLocalisationClean("CELESTIAL_DECISIONS",
+                                                                                                                                          Eu4Language.getByLocale(
+                                                                                                                                                  Constants.LOCALE)),
                                                                                                         () -> this.notPassedReligiousReforms,
                                                                                                         () -> this.passedReligiousReforms);
 
@@ -869,7 +884,8 @@ public class CountryPropertySheet extends VBox {
                                                               listSelectionView,
                                                               this.country.getSave()
                                                                           .getGame()
-                                                                          .getLocalisationClean("HARMONIZED_RELIGION_GROUP", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                          .getLocalisationClean("HARMONIZED_RELIGION_GROUP",
+                                                                                                Eu4Language.getByLocale(Constants.LOCALE)),
                                                               () -> this.notHarmonizedReligionGroups,
                                                               () -> this.harmonizedReligionGroups);
 
@@ -881,7 +897,8 @@ public class CountryPropertySheet extends VBox {
                                                                                 .getGame()
                                                                                 .getReligionGroups()
                                                                                 .stream()
-                                                                                .filter(religionGroup -> StringUtils.isNotBlank(religionGroup.getHarmonizedModifier()))
+                                                                                .filter(religionGroup -> StringUtils.isNotBlank(
+                                                                                        religionGroup.getHarmonizedModifier()))
                                                                                 .filter(Predicate.not(this.harmonizedReligionGroups::contains))
                                                                                 .toArray(ReligionGroup[]::new));
                         });
@@ -912,7 +929,8 @@ public class CountryPropertySheet extends VBox {
                                                               listSelectionView,
                                                               this.country.getSave()
                                                                           .getGame()
-                                                                          .getLocalisationClean("HARMONIZED_RELIGION_", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                          .getLocalisationClean("HARMONIZED_RELIGION_",
+                                                                                                Eu4Language.getByLocale(Constants.LOCALE)),
                                                               () -> this.notHarmonizedReligions,
                                                               () -> this.harmonizedReligions);
 
@@ -982,7 +1000,8 @@ public class CountryPropertySheet extends VBox {
                                                                          new TableView2Loan(this.country, this.loans),
                                                                          this.country.getSave()
                                                                                      .getGame()
-                                                                                     .getLocalisationClean("AI_LOANS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                     .getLocalisationClean("AI_LOANS",
+                                                                                                           Eu4Language.getByLocale(Constants.LOCALE)),
                                                                          (list) -> new Loan(300, 4, this.country.getSave().getDate().plusYears(5)),
                                                                          () -> this.loans);
                     Optional<List<Loan>> countrySubjects = dialog.showAndWait();
@@ -1003,23 +1022,12 @@ public class CountryPropertySheet extends VBox {
                 items.addAll(this.institutionsEmbracedFields);
 
                 //Government
-                this.governmentRankField.setValues(FXCollections.observableArrayList(this.country.getGovernmentName()
-                                                                                                 .getRanks()
-                                                                                                 .entrySet()
-                                                                                                 .stream()
-                                                                                                 .map(e -> Pair.of(e.getKey(),
-                                                                                                                   OsaSaveEditorUtils.localize(e.getValue(),
-                                                                                                                                               this.country.getSave()
-                                                                                                                                                           .getGame())))
-                                                                                                 .toList()));
-                this.governmentRankField.setValue(Pair.of(this.country.getGovernmentLevel(),
-                                                          OsaSaveEditorUtils.localize(this.country.getGovernmentName()
-                                                                                                  .getRank(this.country.getGovernmentLevel()),
-                                                                                      this.country.getSave().getGame())));
-                this.governmentRankField.setSupplier(() -> Pair.of(this.country.getGovernmentLevel(),
-                                                                   OsaSaveEditorUtils.localize(this.country.getGovernmentName()
-                                                                                                           .getRank(this.country.getGovernmentLevel()),
-                                                                                               this.country.getSave().getGame())));
+                ((GovernmentRankConverter) this.governmentRankField.getConverter()).setCountry(this.country);
+                ((GovernmentRankCellFactory) this.governmentRankField.getCellFactory()).setCountry(this.country);
+                this.governmentRankField.setValues(FXCollections.observableArrayList(this.country.getGovernmentName().getRanks().keySet()));
+                this.governmentRankField.select(this.country.getGovernmentLevel());
+                this.governmentRankField.setValue(this.country.getGovernmentLevel());
+                this.governmentRankField.setSupplier(() -> this.country.getGovernmentLevel());
                 items.add(this.governmentRankField);
 
                 this.governmentReformProgressField.setSupplier(this.country::getGovernmentReformProgress);
@@ -1044,7 +1052,8 @@ public class CountryPropertySheet extends VBox {
                     MonarchPropertySheet sheet = new MonarchPropertySheet(this.country, this.country.getMonarch(),
                                                                           this.country.getSave()
                                                                                       .getGame()
-                                                                                      .getLocalisationClean("CURRENT_MONARCH", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                      .getLocalisationClean("CURRENT_MONARCH",
+                                                                                                            Eu4Language.getByLocale(Constants.LOCALE)),
                                                                           this.cultures, this.religions);
 
                     if (!sheet.getPropertySheet().getItems().isEmpty()) {
@@ -1074,7 +1083,8 @@ public class CountryPropertySheet extends VBox {
                     MonarchPropertySheet sheet = new MonarchPropertySheet(this.country, this.country.getQueen(),
                                                                           this.country.getSave()
                                                                                       .getGame()
-                                                                                      .getLocalisationClean("CONSORT", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                      .getLocalisationClean("CONSORT",
+                                                                                                            Eu4Language.getByLocale(Constants.LOCALE)),
                                                                           this.cultures, this.religions);
 
                     if (!sheet.getPropertySheet().getItems().isEmpty()) {
@@ -1084,8 +1094,9 @@ public class CountryPropertySheet extends VBox {
                 }
 
                 if (!this.courtPropertySheet.getItems().isEmpty()) {
-                    items.add(new PropertySheetItem(this.country.getSave().getGame().getLocalisationClean("CATEGORY_COURT", Eu4Language.getByLocale(Constants.LOCALE)),
-                                                    this.courtPropertySheet));
+                    items.add(new PropertySheetItem(
+                            this.country.getSave().getGame().getLocalisationClean("CATEGORY_COURT", Eu4Language.getByLocale(Constants.LOCALE)),
+                            this.courtPropertySheet));
                 }
 
                 //Diplomacy
@@ -1108,7 +1119,9 @@ public class CountryPropertySheet extends VBox {
                                                                                                                 FXCollections::observableArrayList)),
                                                                                this.countriesAlive,
                                                                                this.subjectTypes),
-                                                  this.country.getSave().getGame().getLocalisationClean("HEADER_SUBJECTS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                  this.country.getSave()
+                                                              .getGame()
+                                                              .getLocalisationClean("HEADER_SUBJECTS", Eu4Language.getByLocale(Constants.LOCALE)),
                                                   list -> new CountrySubject(this.country,
                                                                              this.countriesAlive.get(0),
                                                                              this.subjectTypes.get(0),
@@ -1133,7 +1146,8 @@ public class CountryPropertySheet extends VBox {
                                                                           tableView2Rival,
                                                                           this.country.getSave()
                                                                                       .getGame()
-                                                                                      .getLocalisationClean("RIVALS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                      .getLocalisationClean("RIVALS",
+                                                                                                            Eu4Language.getByLocale(Constants.LOCALE)),
                                                                           list -> new Rival(this.country,
                                                                                             this.countriesAlive.stream()
                                                                                                                .filter(c -> list.stream()
@@ -1182,7 +1196,8 @@ public class CountryPropertySheet extends VBox {
                                                                            new TableView2Leader(this.country, this.leaders),
                                                                            this.country.getSave()
                                                                                        .getGame()
-                                                                                       .getLocalisationClean("HEADER_LEADER", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                       .getLocalisationClean("HEADER_LEADER",
+                                                                                                             Eu4Language.getByLocale(Constants.LOCALE)),
                                                                            list -> new Leader(this.country,
                                                                                               "New one",
                                                                                               LeaderType.GENERAL,
@@ -1224,8 +1239,9 @@ public class CountryPropertySheet extends VBox {
                                                                                                                 .add(otherSheet.territoryValue())));
 
                 if (!this.estatesPropertySheet.getItems().isEmpty()) {
-                    items.add(new PropertySheetItem(this.country.getSave().getGame().getLocalisationClean("HEADER_ESTATES", Eu4Language.getByLocale(Constants.LOCALE)),
-                                                    this.estatesPropertySheet));
+                    items.add(new PropertySheetItem(
+                            this.country.getSave().getGame().getLocalisationClean("HEADER_ESTATES", Eu4Language.getByLocale(Constants.LOCALE)),
+                            this.estatesPropertySheet));
                 }
 
                 //Technology
@@ -1256,7 +1272,9 @@ public class CountryPropertySheet extends VBox {
                     TableViewDialog<Idea> dialog =
                             new TableViewDialog<>(this.country.getSave(),
                                                   tableView2Ideas,
-                                                  this.country.getSave().getGame().getLocalisationClean("HEADER_IDEAS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                  this.country.getSave()
+                                                              .getGame()
+                                                              .getLocalisationClean("HEADER_IDEAS", Eu4Language.getByLocale(Constants.LOCALE)),
                                                   list -> new Idea(this.country.getSave()
                                                                                .getGame()
                                                                                .getIdeaGroups()
@@ -1333,7 +1351,9 @@ public class CountryPropertySheet extends VBox {
                         TableViewDialog<ActivePolicy> dialog =
                                 new TableViewDialog<>(this.country.getSave(),
                                                       tableView2Policy,
-                                                      this.country.getSave().getGame().getLocalisationClean("POLICYVIEW_DIPLOMATIC", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                      this.country.getSave()
+                                                                  .getGame()
+                                                                  .getLocalisationClean("POLICYVIEW_DIPLOMATIC", Eu4Language.getByLocale(Constants.LOCALE)),
                                                       list -> new ActivePolicy(availableDipPolicies.stream()
                                                                                                    .filter(policy -> list.stream()
                                                                                                                          .noneMatch(
@@ -1370,7 +1390,9 @@ public class CountryPropertySheet extends VBox {
                         TableViewDialog<ActivePolicy> dialog =
                                 new TableViewDialog<>(this.country.getSave(),
                                                       tableView2Policy,
-                                                      this.country.getSave().getGame().getLocalisationClean("POLICYVIEW_MILITARY", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                      this.country.getSave()
+                                                                  .getGame()
+                                                                  .getLocalisationClean("POLICYVIEW_MILITARY", Eu4Language.getByLocale(Constants.LOCALE)),
                                                       list -> new ActivePolicy(availableMilPolicies.stream()
                                                                                                    .filter(policy -> list.stream()
                                                                                                                          .noneMatch(
@@ -1396,7 +1418,8 @@ public class CountryPropertySheet extends VBox {
                                                                              tableView2Modifier,
                                                                              this.country.getSave()
                                                                                          .getGame()
-                                                                                         .getLocalisationClean("DOMESTIC_MODIFIERS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                         .getLocalisationClean("DOMESTIC_MODIFIERS",
+                                                                                                               Eu4Language.getByLocale(Constants.LOCALE)),
                                                                              list -> null,
                                                                              () -> this.modifiers);
                     dialog.setDisableAddProperty(new SimpleBooleanProperty(true));
@@ -1444,7 +1467,8 @@ public class CountryPropertySheet extends VBox {
                         TableView2StringDate tableView2HiddenFlag = new TableView2StringDate(this.country.getSave(), this.hiddenFlags, false, null, null);
                         TableViewDialog<StringDate> dialog = new TableViewDialog<>(this.country.getSave(),
                                                                                    tableView2HiddenFlag,
-                                                                                   this.messageSource.getMessage("ose.category.hidden-flags", null, Constants.LOCALE),
+                                                                                   this.messageSource.getMessage("ose.category.hidden-flags", null,
+                                                                                                                 Constants.LOCALE),
                                                                                    list -> null,
                                                                                    () -> this.hiddenFlags,
                                                                                    new SimpleBooleanProperty(true));
@@ -1536,8 +1560,8 @@ public class CountryPropertySheet extends VBox {
             this.loans.forEach(l -> this.country.addLoan(l.getInterest(), l.getAmount(), l.getExpiryDate()));
         }
 
-        if (!Objects.equals(this.country.getGovernmentLevel(), this.governmentRankField.getSelectedValue().getKey())) {
-            this.country.setGovernmentRank(this.governmentRankField.getSelectedValue().getKey());
+        if (!Objects.equals(this.country.getGovernmentLevel(), this.governmentRankField.getSelectedValue())) {
+            this.country.setGovernmentRank(this.governmentRankField.getSelectedValue());
         }
 
         if (!Objects.equals(this.country.getGovernment().getReforms(), this.governmentReformsField)) {
