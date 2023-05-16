@@ -43,7 +43,6 @@ import fr.osallek.osasaveeditor.controller.converter.FetishistCultStringCellFact
 import fr.osallek.osasaveeditor.controller.converter.FetishistCultStringConverter;
 import fr.osallek.osasaveeditor.controller.converter.GovernmentRankCellFactory;
 import fr.osallek.osasaveeditor.controller.converter.GovernmentRankConverter;
-import fr.osallek.osasaveeditor.controller.converter.PairCellFactory;
 import fr.osallek.osasaveeditor.controller.converter.PersonalDeityStringCellFactory;
 import fr.osallek.osasaveeditor.controller.converter.PersonalDeityStringConverter;
 import fr.osallek.osasaveeditor.controller.converter.ProvinceStringCellFactory;
@@ -303,6 +302,8 @@ public class CountryPropertySheet extends VBox {
     private final ObservableList<StringDate> hiddenFlags;
 
     private final ButtonItem hiddenFlagsButton;
+
+    private final CheckBoxItem removeAe;
 
     private final CustomPropertySheetSkin propertySheetSkin;
 
@@ -638,6 +639,10 @@ public class CountryPropertySheet extends VBox {
         this.hiddenFlags = FXCollections.observableArrayList();
         this.hiddenFlagsButton = new ButtonItem(this.messageSource.getMessage("ose.category.flags", null, Constants.LOCALE), null,
                                                 this.messageSource.getMessage("ose.category.hidden-flags", null, Constants.LOCALE));
+
+        //Other
+        this.removeAe = new CheckBoxItem(this.messageSource.getMessage("ose.category.other", null, Constants.LOCALE),
+                                         this.messageSource.getMessage("country.removeAe", null, Constants.LOCALE), false);
 
         this.validationSupport = new ValidationSupport();
         this.validationSupport.registerValidator(this.nameField.getTextField(), Validator.createEmptyValidator("Text is required"));
@@ -1481,6 +1486,10 @@ public class CountryPropertySheet extends VBox {
                     this.hiddenFlags.clear();
                 }
 
+                //Other
+                this.removeAe.setValue(false);
+                items.add(this.removeAe);
+
                 this.propertySheet.getItems().setAll(items);
 
                 if (expandedPaneName != null) {
@@ -1999,6 +2008,10 @@ public class CountryPropertySheet extends VBox {
                                                                                   },
                                                                                   () -> this.country.removeActivePolicy(activePolicy.getPolicy())));
             this.milPolicies.forEach(policy -> this.country.addActivePolicy(policy.getPolicy(), policy.getDate()));
+        }
+
+        if (this.removeAe.isSelected()) {
+            this.country.getSave().getCountries().values().forEach(c -> c.removeAeFor(this.country.getTag()));
         }
 
         update(this.country, true);

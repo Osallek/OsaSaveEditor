@@ -14,7 +14,7 @@ public class OsaSaveEditorConfig {
     public MessageSource messageSource() {
         final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 
-        messageSource.addBasenames("messages/ose", "messages/province");
+        messageSource.addBasenames("messages/ose", "messages/province", "messages/country");
         messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setDefaultLocale(Locale.US);
         messageSource.setDefaultEncoding(StandardCharsets.UTF_8.name());
