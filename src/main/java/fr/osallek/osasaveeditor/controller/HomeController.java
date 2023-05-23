@@ -1,10 +1,9 @@
 package fr.osallek.osasaveeditor.controller;
 
-import fr.osallek.eu4parser.Eu4Parser;
 import fr.osallek.osasaveeditor.common.Config;
 import fr.osallek.osasaveeditor.common.Constants;
-import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
 import fr.osallek.osasaveeditor.common.FileProperty;
+import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
 import fr.osallek.osasaveeditor.common.ReadSaveTask;
 import fr.osallek.osasaveeditor.config.ApplicationProperties;
 import fr.osallek.osasaveeditor.controller.converter.FileStringConverter;
@@ -12,14 +11,6 @@ import fr.osallek.osasaveeditor.controller.object.BootstrapColumn;
 import fr.osallek.osasaveeditor.controller.object.BootstrapPane;
 import fr.osallek.osasaveeditor.controller.object.BootstrapRow;
 import fr.osallek.osasaveeditor.controller.object.LocalSaveListCell;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -45,11 +36,18 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.kordamp.bootstrapfx.scene.layout.Panel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class HomeController {
@@ -67,6 +65,8 @@ public class HomeController {
     private final FileProperty gameDirectory = new FileProperty(this, "gameDirectory");
 
     private final BooleanProperty loading = new SimpleBooleanProperty(false);
+
+    private Path savePath;
 
     private BootstrapPane root;
 
@@ -86,7 +86,8 @@ public class HomeController {
         this.editorController = editorController;
     }
 
-    public void initialize(Path savePath) throws IOException {
+    public void initialize(Path savePath) {
+        this.savePath = savePath;
         this.root = new BootstrapPane();
         this.root.setPadding(new Insets(50));
         this.root.setVgap(25);
@@ -215,13 +216,13 @@ public class HomeController {
         Config.getGameFolder().map(Path::toFile).ifPresent(this.gameDirectoryChooser::setInitialDirectory);
         Config.getGameFolder().map(Path::toFile).ifPresent(this.gameDirectory::set);
 
-        if (savePath != null) {
-            setSelectedSaveFile(savePath);
+        if (this.savePath != null) {
+            setSelectedSaveFile(this.savePath);
             handleStartExtract(null);
         }
     }
 
-    public GridPane getScene(Path savePath) throws IOException {
+    public GridPane getScene(Path savePath) {
         if (this.root == null) {
             initialize(savePath);
         }
@@ -257,7 +258,9 @@ public class HomeController {
     public void handleStartExtract(ActionEvent actionEvent) {
         this.loading.set(true);
 
-        ReadSaveTask task = new ReadSaveTask(this.gameDirectory, this.localSavesCombo.getSelectionModel().getSelectedItem(), this.messageSource);
+        ReadSaveTask task = new ReadSaveTask(this.gameDirectory,
+                                             ObjectUtils.firstNonNull(this.localSavesCombo.getSelectionModel().getSelectedItem(), this.savePath),
+                                             this.messageSource);
         this.progressText.setVisible(true);
         this.progressText.setFill(Color.BLACK);
         this.progressText.textProperty().bind(task.titleProperty());
