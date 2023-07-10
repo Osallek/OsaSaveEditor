@@ -305,6 +305,8 @@ public class CountryPropertySheet extends VBox {
 
     private final CheckBoxItem removeAe;
 
+    private final CheckBoxItem removeAnnexPartHre;
+
     private final CustomPropertySheetSkin propertySheetSkin;
 
     private BooleanProperty colorChanged;
@@ -643,6 +645,9 @@ public class CountryPropertySheet extends VBox {
         //Other
         this.removeAe = new CheckBoxItem(this.messageSource.getMessage("ose.category.other", null, Constants.LOCALE),
                                          this.messageSource.getMessage("country.removeAe", null, Constants.LOCALE), false);
+
+        this.removeAnnexPartHre = new CheckBoxItem(this.messageSource.getMessage("ose.category.other", null, Constants.LOCALE),
+                                         this.messageSource.getMessage("country.removeAnnexPartHre", null, Constants.LOCALE), false);
 
         this.validationSupport = new ValidationSupport();
         this.validationSupport.registerValidator(this.nameField.getTextField(), Validator.createEmptyValidator("Text is required"));
@@ -1490,6 +1495,9 @@ public class CountryPropertySheet extends VBox {
                 this.removeAe.setValue(false);
                 items.add(this.removeAe);
 
+                this.removeAnnexPartHre.setValue(false);
+                items.add(this.removeAnnexPartHre);
+
                 this.propertySheet.getItems().setAll(items);
 
                 if (expandedPaneName != null) {
@@ -2012,6 +2020,10 @@ public class CountryPropertySheet extends VBox {
 
         if (this.removeAe.isSelected()) {
             this.country.getSave().getCountries().values().forEach(c -> c.removeAeFor(this.country.getTag()));
+        }
+
+        if (this.removeAnnexPartHre.isSelected()) { //opinion_annex_part_of_empire
+            this.country.getSave().getCountries().values().forEach(c -> c.removeOpinionFor(this.country.getTag(), "\"opinion_annex_part_of_empire\""));
         }
 
         update(this.country, true);
