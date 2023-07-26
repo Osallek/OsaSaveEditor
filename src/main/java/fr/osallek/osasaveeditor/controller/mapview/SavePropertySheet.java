@@ -1016,11 +1016,11 @@ public class SavePropertySheet extends VBox {
                 this.save.getCelestialEmpire().setDecree(this.save.getGame().getDecree(this.decreeField.getSelectedValue().getDecree()));
             }
 
-            if (!this.save.getHreLeaguesActive().equals(this.hreLeaguesActives.isSelected())) {
+            if (this.hreLeaguesActives != null && !this.save.getHreLeaguesActive().equals(this.hreLeaguesActives.isSelected())) {
                 this.save.setHreLeaguesActive(this.hreLeaguesActives.isSelected());
             }
 
-            if (!this.save.getHreReligionStatus().equals(this.hreReligionStatusField.getSelectedValue())) {
+            if (this.hreReligionStatusField != null && !this.save.getHreReligionStatus().equals(this.hreReligionStatusField.getSelectedValue())) {
                 this.save.setHreReligionStatus(this.hreReligionStatusField.getSelectedValue());
             }
         }

@@ -9,6 +9,8 @@ import java.util.Objects;
 
 public class PriceChange extends Copy<PriceChange> {
 
+    private String key;
+
     private String name;
 
     private LocalDate expiryDate;
@@ -18,6 +20,7 @@ public class PriceChange extends Copy<PriceChange> {
     private boolean changed;
 
     public PriceChange(ChangePrice changePrice, Save save) {
+        this.key = changePrice.getKey();
         this.name = OsaSaveEditorUtils.localize(changePrice.getKey(), save.getGame());
         this.expiryDate = changePrice.getExpiryDate();
         this.value = changePrice.getValue();
@@ -32,6 +35,7 @@ public class PriceChange extends Copy<PriceChange> {
     }
 
     public PriceChange(PriceChange other) {
+        this.key = other.key;
         this.name = other.name;
         this.expiryDate = other.expiryDate;
         this.value = other.value;
@@ -81,7 +85,7 @@ public class PriceChange extends Copy<PriceChange> {
     }
 
     public ChangePrice toChangePrice() {
-        return new ChangePrice(this.name, this.value, this.expiryDate);
+        return new ChangePrice(this.key, this.value, this.expiryDate);
     }
 
     @Override
