@@ -1,13 +1,14 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
 import fr.osallek.osasaveeditor.controller.control.ClearableDatePicker;
-import java.time.LocalDate;
-import java.util.Optional;
-import java.util.function.Supplier;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+
+import java.time.LocalDate;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class ClearableDatePickerItem implements CustomItem<LocalDate> {
 

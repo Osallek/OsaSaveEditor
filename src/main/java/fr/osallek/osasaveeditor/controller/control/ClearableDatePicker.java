@@ -1,8 +1,5 @@
 package fr.osallek.osasaveeditor.controller.control;
 
-import java.time.LocalDate;
-import java.util.Objects;
-import java.util.function.Supplier;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -13,6 +10,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.text.TextAlignment;
 import org.apache.commons.lang3.BooleanUtils;
 import org.controlsfx.glyphfont.FontAwesome;
+
+import java.time.LocalDate;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 public class ClearableDatePicker extends HBox {
 

@@ -2,9 +2,10 @@ package fr.osallek.osasaveeditor.controller.mapview;
 
 import fr.osallek.eu4parser.model.save.province.SaveProvince;
 import fr.osallek.osasaveeditor.controller.pane.CustomPropertySheet;
-import java.util.List;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
+
+import java.util.List;
 
 public abstract class AbstractMapView {
 
@@ -14,7 +15,7 @@ public abstract class AbstractMapView {
 
     protected final Property<Boolean> selected;
 
-    public AbstractMapView(MapViewContainer mapViewContainer, MapViewType type) {
+    protected AbstractMapView(MapViewContainer mapViewContainer, MapViewType type) {
         this.type = type;
         this.mapViewContainer = mapViewContainer;
         this.selected = new SimpleBooleanProperty(false);

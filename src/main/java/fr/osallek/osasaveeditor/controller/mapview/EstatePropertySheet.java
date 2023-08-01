@@ -14,11 +14,6 @@ import fr.osallek.osasaveeditor.controller.propertyeditor.CustomPropertyEditorFa
 import fr.osallek.osasaveeditor.controller.propertyeditor.item.ButtonItem;
 import fr.osallek.osasaveeditor.controller.propertyeditor.item.ClearableSliderItem;
 import fr.osallek.osasaveeditor.controller.validator.CustomGraphicValidationDecoration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import javafx.beans.binding.DoubleExpression;
 import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
@@ -27,6 +22,12 @@ import javafx.scene.layout.VBox;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.decoration.CompoundValidationDecoration;
 import org.controlsfx.validation.decoration.StyleClassValidationDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class EstatePropertySheet extends VBox {
 

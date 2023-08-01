@@ -7,8 +7,6 @@ import fr.osallek.osasaveeditor.OsaSaveEditorApplication;
 import fr.osallek.osasaveeditor.common.Constants;
 import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
 import fr.osallek.osasaveeditor.controller.control.SelectableGridView;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -21,6 +19,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GovernmentReformsDialog extends Dialog<List<GovernmentReform>> {
 

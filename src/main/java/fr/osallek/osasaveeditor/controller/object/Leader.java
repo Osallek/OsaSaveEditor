@@ -5,6 +5,7 @@ import fr.osallek.eu4parser.model.game.LeaderPersonality;
 import fr.osallek.eu4parser.model.save.country.LeaderType;
 import fr.osallek.eu4parser.model.save.country.SaveCountry;
 import fr.osallek.osasaveeditor.common.Copy;
+
 import java.time.LocalDate;
 
 public class Leader extends Copy<Leader> {

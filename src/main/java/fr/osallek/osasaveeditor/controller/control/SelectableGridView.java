@@ -1,14 +1,15 @@
 package fr.osallek.osasaveeditor.controller.control;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
+import org.controlsfx.control.GridView;
+
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import org.controlsfx.control.GridView;
 
 public class SelectableGridView<T> extends GridView<T> {
 

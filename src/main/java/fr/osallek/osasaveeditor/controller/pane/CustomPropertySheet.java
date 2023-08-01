@@ -16,8 +16,6 @@
 package fr.osallek.osasaveeditor.controller.pane;
 
 import fr.osallek.osasaveeditor.OsaSaveEditorApplication;
-import java.util.Comparator;
-import java.util.Optional;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -31,6 +29,9 @@ import org.controlsfx.property.BeanPropertyUtils;
 import org.controlsfx.property.editor.DefaultPropertyEditorFactory;
 import org.controlsfx.property.editor.Editors;
 import org.controlsfx.property.editor.PropertyEditor;
+
+import java.util.Comparator;
+import java.util.Optional;
 
 /**
  * The PropertySheet control is a powerful control designed to make it really easy for developers to present to end users a list of properties that the end user

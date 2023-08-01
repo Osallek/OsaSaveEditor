@@ -1,6 +1,5 @@
 package fr.osallek.osasaveeditor.controller.control;
 
-import java.util.function.Supplier;
 import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -14,6 +13,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.TextAlignment;
 import org.controlsfx.glyphfont.FontAwesome;
+
+import java.util.function.Supplier;
 
 public abstract class ClearableSpinner<T> extends HBox {
 

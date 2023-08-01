@@ -1,8 +1,6 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
 import fr.osallek.osasaveeditor.controller.control.ClearableColorPicker;
-import java.util.Optional;
-import java.util.function.Supplier;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -15,6 +13,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class ClearableColorPickerItem implements CustomItem<Color> {
 

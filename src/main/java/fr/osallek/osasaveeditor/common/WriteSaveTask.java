@@ -4,9 +4,10 @@ import fr.osallek.clausewitzparser.model.ClausewitzItem;
 import fr.osallek.eu4parser.Eu4Parser;
 import fr.osallek.eu4parser.model.game.localisation.Eu4Language;
 import fr.osallek.eu4parser.model.save.Save;
+import javafx.concurrent.Task;
+
 import java.io.File;
 import java.util.Map;
-import javafx.concurrent.Task;
 
 public class WriteSaveTask extends Task<Void> {
 

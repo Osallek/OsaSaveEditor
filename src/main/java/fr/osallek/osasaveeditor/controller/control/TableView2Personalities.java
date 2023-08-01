@@ -8,8 +8,6 @@ import fr.osallek.osasaveeditor.common.Constants;
 import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
 import fr.osallek.osasaveeditor.controller.converter.PersonalityStringConverter;
 import fr.osallek.osasaveeditor.controller.object.Personality;
-import java.util.Comparator;
-import java.util.stream.Collectors;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -20,6 +18,9 @@ import javafx.collections.ObservableMap;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.apache.commons.collections4.CollectionUtils;
+
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class TableView2Personalities extends TableView<Personality> {
 

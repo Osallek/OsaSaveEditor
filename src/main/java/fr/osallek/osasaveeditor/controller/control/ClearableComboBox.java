@@ -1,6 +1,5 @@
 package fr.osallek.osasaveeditor.controller.control;
 
-import java.util.function.Supplier;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +16,8 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.glyphfont.FontAwesome;
+
+import java.util.function.Supplier;
 
 public class ClearableComboBox<U> extends HBox {
 

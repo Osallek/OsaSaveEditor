@@ -1,10 +1,11 @@
 package fr.osallek.osasaveeditor.controller.control;
 
-import java.util.function.Supplier;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.Priority;
+
+import java.util.function.Supplier;
 
 public class ClearableSpinnerInt extends ClearableSpinner<Integer> {
 

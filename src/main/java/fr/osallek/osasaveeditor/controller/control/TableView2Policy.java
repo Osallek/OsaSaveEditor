@@ -9,10 +9,6 @@ import fr.osallek.osasaveeditor.common.Constants;
 import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
 import fr.osallek.osasaveeditor.controller.converter.PolicyStringConverter;
 import fr.osallek.osasaveeditor.controller.object.ActivePolicy;
-import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -22,6 +18,11 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TableView2Policy extends TableView<ActivePolicy> {
 

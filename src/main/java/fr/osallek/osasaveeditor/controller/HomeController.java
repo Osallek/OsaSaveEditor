@@ -286,10 +286,11 @@ public class HomeController {
     }
 
     private void taskError(Throwable e) {
-        LOGGER.error("{} {}", this.messageSource.getMessage("ose.error.extracting", null, Constants.LOCALE), e.getMessage(), e);
+        String text = this.messageSource.getMessage("ose.error.extracting", null, Constants.LOCALE) + e.getMessage();
+        LOGGER.error("{} {}", text, e.getMessage(), e);
         this.progressText.setFill(Color.RED);
         this.progressText.textProperty().unbind();
-        this.progressText.setText(this.messageSource.getMessage("ose.error.extracting", null, Constants.LOCALE) + e.getMessage());
+        this.progressText.setText(text);
         this.loading.set(false);
     }
 }

@@ -1,9 +1,10 @@
 package fr.osallek.osasaveeditor.controller.object;
 
+import javafx.scene.layout.GridPane;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javafx.scene.layout.GridPane;
 
 public class BootstrapRow {
 

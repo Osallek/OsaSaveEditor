@@ -10,10 +10,6 @@ import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
 import fr.osallek.osasaveeditor.controller.converter.LeaderPersonalityStringConverter;
 import fr.osallek.osasaveeditor.controller.converter.LeaderTypeStringConverter;
 import fr.osallek.osasaveeditor.controller.object.Leader;
-import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +17,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.util.converter.IntegerStringConverter;
+
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TableView2Leader extends TableView<Leader> {
 

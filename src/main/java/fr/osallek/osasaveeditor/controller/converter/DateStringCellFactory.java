@@ -1,10 +1,11 @@
 package fr.osallek.osasaveeditor.controller.converter;
 
 import fr.osallek.clausewitzparser.common.ClausewitzUtils;
-import java.time.LocalDate;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
+
+import java.time.LocalDate;
 
 public class DateStringCellFactory implements Callback<ListView<LocalDate>, ListCell<LocalDate>> {
 

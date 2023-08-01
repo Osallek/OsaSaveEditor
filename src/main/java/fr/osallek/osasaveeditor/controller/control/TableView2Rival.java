@@ -6,9 +6,6 @@ import fr.osallek.eu4parser.model.save.country.SaveCountry;
 import fr.osallek.osasaveeditor.common.Constants;
 import fr.osallek.osasaveeditor.controller.converter.CountryStringConverter;
 import fr.osallek.osasaveeditor.controller.object.Rival;
-import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.stream.Collectors;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -18,6 +15,10 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class TableView2Rival extends TableView<Rival> {
 
@@ -46,7 +47,8 @@ public class TableView2Rival extends TableView<Rival> {
         target.setPrefWidth(200);
         target.setStyle("-fx-alignment: CENTER-LEFT");
 
-        TableColumn<Rival, LocalDate> date = new TableColumn<>(country.getSave().getGame().getLocalisationCleanNoPunctuation("FE_STARTING_DATE", Eu4Language.getByLocale(Constants.LOCALE)));
+        TableColumn<Rival, LocalDate> date = new TableColumn<>(
+                country.getSave().getGame().getLocalisationCleanNoPunctuation("FE_STARTING_DATE", Eu4Language.getByLocale(Constants.LOCALE)));
         date.setCellValueFactory(p -> p.getValue() == null ? null : new ReadOnlyObjectWrapper<>(p.getValue().getDate()));
         date.setCellFactory(DatePickerCell.forTableColumn(null, country.getSave().getDate()));
         date.setOnEditCommit(event -> event.getRowValue().setDate(event.getNewValue()));
@@ -72,10 +74,9 @@ public class TableView2Rival extends TableView<Rival> {
         this.disableAddProperty = new SimpleBooleanProperty(getItems().size() >= country.getSave().getGame().getNumPossibleRivals() ||
                                                             getItems().size() >= countriesAlive.size() - 1);
 
-        getItems().addListener((ListChangeListener<? super Rival>) c -> {
-            this.disableAddProperty.setValue(c.getList().size() >= country.getSave().getGame().getNumPossibleRivals() ||
-                                             c.getList().size() >= countriesAlive.size() - 1); // -1 for current country
-        });
+        getItems().addListener((ListChangeListener<? super Rival>) c -> this.disableAddProperty.setValue(
+                c.getList().size() >= country.getSave().getGame().getNumPossibleRivals() ||
+                c.getList().size() >= countriesAlive.size() - 1)); // -1 for current country
     }
 
     private ObservableList<SaveCountry> getNewList() {

@@ -18,11 +18,6 @@ package fr.osallek.osasaveeditor.controller.pane;
 import fr.osallek.osasaveeditor.controller.pane.CustomPropertySheet.Item;
 import fr.osallek.osasaveeditor.controller.pane.CustomPropertySheet.Mode;
 import fr.osallek.osasaveeditor.controller.propertyeditor.item.CustomItem;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
@@ -46,6 +41,12 @@ import org.controlsfx.control.action.Action;
 import org.controlsfx.control.action.ActionUtils;
 import org.controlsfx.control.textfield.TextFields;
 import org.controlsfx.property.editor.PropertyEditor;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class CustomPropertySheetSkin extends SkinBase<CustomPropertySheet> {
 

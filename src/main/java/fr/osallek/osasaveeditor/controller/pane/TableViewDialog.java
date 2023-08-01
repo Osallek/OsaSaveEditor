@@ -5,10 +5,6 @@ import fr.osallek.osasaveeditor.OsaSaveEditorApplication;
 import fr.osallek.osasaveeditor.common.Constants;
 import fr.osallek.osasaveeditor.common.Copy;
 import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -24,6 +20,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
+
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class TableViewDialog<S extends Copy<S>> extends Dialog<List<S>> {
 

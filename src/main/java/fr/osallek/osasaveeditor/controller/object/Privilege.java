@@ -4,6 +4,7 @@ import fr.osallek.eu4parser.model.game.EstatePrivilege;
 import fr.osallek.eu4parser.model.save.country.EstateInteraction;
 import fr.osallek.osasaveeditor.common.Copy;
 import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
+
 import java.time.LocalDate;
 
 public class Privilege extends Copy<Privilege> {

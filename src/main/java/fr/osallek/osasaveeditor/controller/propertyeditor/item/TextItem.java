@@ -1,9 +1,10 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
-import java.util.Optional;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.text.Text;
+
+import java.util.Optional;
 
 public record TextItem(String category, String name, String description, Text text) implements CustomItem<String> {
 

@@ -1,7 +1,8 @@
 package fr.osallek.osasaveeditor.controller.converter;
 
-import java.util.Locale;
 import javafx.util.StringConverter;
+
+import java.util.Locale;
 
 public class DoubleStringConverter extends StringConverter<Double> {
 

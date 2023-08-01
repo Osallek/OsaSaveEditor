@@ -1,10 +1,11 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
-import java.util.Optional;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+
+import java.util.Optional;
 
 public class CheckBoxItem implements CustomItem<Void> {
 

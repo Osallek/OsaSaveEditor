@@ -1,10 +1,11 @@
 package fr.osallek.osasaveeditor.controller.object;
 
-import java.util.ArrayList;
-import java.util.List;
 import javafx.geometry.Pos;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /*
   Found at : https://github.com/edencoding/javafx-layouts/tree/master/bootstrap-layout-pane

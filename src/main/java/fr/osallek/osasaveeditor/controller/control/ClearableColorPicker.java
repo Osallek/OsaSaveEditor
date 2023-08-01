@@ -1,6 +1,5 @@
 package fr.osallek.osasaveeditor.controller.control;
 
-import java.util.function.Supplier;
 import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +10,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import org.controlsfx.glyphfont.FontAwesome;
+
+import java.util.function.Supplier;
 
 public class ClearableColorPicker extends HBox {
 

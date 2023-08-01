@@ -1,12 +1,14 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
 import fr.osallek.osasaveeditor.controller.control.ClearableCheckBox;
-import java.util.Optional;
-import java.util.function.Supplier;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+
+import java.util.Optional;
+import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 public class ClearableCheckBoxItem implements CustomItem<Void> {
 
@@ -26,7 +28,7 @@ public class ClearableCheckBoxItem implements CustomItem<Void> {
         this(category, name, null, null, new SimpleBooleanProperty(true), new SimpleBooleanProperty(true));
     }
 
-    public ClearableCheckBoxItem(String category, String name, String description, Supplier<Boolean> clearSupplier, BooleanProperty editable, BooleanProperty visible) {
+    public ClearableCheckBoxItem(String category, String name, String description, BooleanSupplier clearSupplier, BooleanProperty editable, BooleanProperty visible) {
         this.category = category;
         this.name = name;
         this.description = description;
@@ -97,7 +99,7 @@ public class ClearableCheckBoxItem implements CustomItem<Void> {
         return this.checkBox.getValue();
     }
 
-    public void setSupplier(Supplier<Boolean> clearSupplier) {
+    public void setSupplier(BooleanSupplier clearSupplier) {
         if (clearSupplier != null) {
             this.checkBox.setSupplier(clearSupplier);
         }

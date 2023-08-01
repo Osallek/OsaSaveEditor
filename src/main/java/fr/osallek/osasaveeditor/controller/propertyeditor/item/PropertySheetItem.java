@@ -1,8 +1,9 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
 import fr.osallek.osasaveeditor.controller.pane.CustomPropertySheet;
-import java.util.Optional;
 import javafx.beans.value.ObservableValue;
+
+import java.util.Optional;
 
 public record PropertySheetItem(String category, CustomPropertySheet propertySheet) implements CustomPropertySheet.Item {
 

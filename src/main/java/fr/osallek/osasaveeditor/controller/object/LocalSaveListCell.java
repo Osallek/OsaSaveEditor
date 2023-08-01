@@ -1,9 +1,10 @@
 package fr.osallek.osasaveeditor.controller.object;
 
+import javafx.scene.control.ListCell;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.control.ListCell;
 
 public class LocalSaveListCell extends ListCell<Path> {
 

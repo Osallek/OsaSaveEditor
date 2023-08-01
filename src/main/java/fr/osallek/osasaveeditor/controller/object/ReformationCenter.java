@@ -3,6 +3,7 @@ package fr.osallek.osasaveeditor.controller.object;
 import fr.osallek.eu4parser.model.save.SaveReligion;
 import fr.osallek.eu4parser.model.save.province.SaveProvince;
 import fr.osallek.osasaveeditor.common.Copy;
+
 import java.util.Objects;
 
 public class ReformationCenter extends Copy<ReformationCenter> {

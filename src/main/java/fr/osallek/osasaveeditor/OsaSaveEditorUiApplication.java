@@ -3,12 +3,6 @@ package fr.osallek.osasaveeditor;
 import fr.osallek.osasaveeditor.common.Config;
 import fr.osallek.osasaveeditor.common.Constants;
 import fr.osallek.osasaveeditor.config.StageReadyEvent;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -17,6 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
 
 public class OsaSaveEditorUiApplication extends Application {
 

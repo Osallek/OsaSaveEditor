@@ -2,6 +2,7 @@ package fr.osallek.osasaveeditor.controller.object;
 
 import fr.osallek.eu4parser.model.game.Policy;
 import fr.osallek.osasaveeditor.common.Copy;
+
 import java.time.LocalDate;
 import java.util.Objects;
 

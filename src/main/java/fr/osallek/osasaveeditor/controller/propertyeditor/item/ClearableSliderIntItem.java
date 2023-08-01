@@ -1,13 +1,14 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
 import fr.osallek.osasaveeditor.controller.control.ClearableSliderInt;
-import java.util.Optional;
-import java.util.function.IntSupplier;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.util.converter.IntegerStringConverter;
+
+import java.util.Optional;
+import java.util.function.IntSupplier;
 
 public class ClearableSliderIntItem implements CustomItem<Integer> {
 

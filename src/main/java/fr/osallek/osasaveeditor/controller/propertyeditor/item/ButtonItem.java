@@ -1,6 +1,5 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
-import java.util.Optional;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -9,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+
+import java.util.Optional;
 
 public class ButtonItem implements CustomItem<String> {
 

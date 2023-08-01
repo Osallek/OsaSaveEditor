@@ -1,6 +1,5 @@
 package fr.osallek.osasaveeditor.controller.control;
 
-import java.util.function.Function;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -8,15 +7,15 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.apache.commons.lang3.BooleanUtils;
 
+import java.util.function.Function;
+
 public class SpinnerTableCell<S, T> extends TableCell<S, T> {
 
-    public static <S> Callback<TableColumn<S, Integer>, TableCell<S, Integer>> forTableColumn(int min, int max, int value,
-                                                                                              StringConverter<Integer> converter) {
+    public static <S> Callback<TableColumn<S, Integer>, TableCell<S, Integer>> forTableColumn(int min, int max, int value, StringConverter<Integer> converter) {
         return forTableColumn(min, max, value, converter, null);
     }
 
-    public static <S> Callback<TableColumn<S, Integer>, TableCell<S, Integer>> forTableColumn(int min, int max, int value,
-                                                                                              StringConverter<Integer> converter,
+    public static <S> Callback<TableColumn<S, Integer>, TableCell<S, Integer>> forTableColumn(int min, int max, int value, StringConverter<Integer> converter,
                                                                                               Function<S, Boolean> disableSupplier) {
         return param -> new SpinnerTableCell<>(min, max, value, converter, disableSupplier);
     }

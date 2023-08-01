@@ -27,12 +27,6 @@ import fr.osallek.osasaveeditor.controller.propertyeditor.item.ClearableComboBox
 import fr.osallek.osasaveeditor.controller.propertyeditor.item.ClearableSliderItem;
 import fr.osallek.osasaveeditor.controller.propertyeditor.item.ClearableSpinnerItem;
 import fr.osallek.osasaveeditor.controller.validator.CustomGraphicValidationDecoration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -42,6 +36,13 @@ import org.controlsfx.control.SearchableComboBox;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.decoration.CompoundValidationDecoration;
 import org.controlsfx.validation.decoration.StyleClassValidationDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ReligionPropertySheet extends VBox {
 

@@ -1,6 +1,5 @@
 package fr.osallek.osasaveeditor.controller.control;
 
-import java.util.function.Supplier;
 import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,6 +9,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.TextAlignment;
 import org.controlsfx.glyphfont.FontAwesome;
+
+import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 public class ClearableCheckBox extends HBox {
 
@@ -21,7 +23,7 @@ public class ClearableCheckBox extends HBox {
         this(null);
     }
 
-    public ClearableCheckBox(Supplier<Boolean> clearSupplier) {
+    public ClearableCheckBox(BooleanSupplier clearSupplier) {
         this.checkBox = new CheckBox();
         this.checkBox.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(this.checkBox, Priority.ALWAYS);
@@ -31,7 +33,7 @@ public class ClearableCheckBox extends HBox {
         this.button.setTextAlignment(TextAlignment.CENTER);
 
         if (clearSupplier != null) {
-            this.button.setOnMouseReleased(e -> this.checkBox.setSelected(clearSupplier.get()));
+            this.button.setOnMouseReleased(e -> this.checkBox.setSelected(clearSupplier.getAsBoolean()));
         }
 
         getChildren().add(this.checkBox);
@@ -54,9 +56,9 @@ public class ClearableCheckBox extends HBox {
         this.checkBox.setSelected(b);
     }
 
-    public void setSupplier(Supplier<Boolean> clearSupplier) {
+    public void setSupplier(BooleanSupplier clearSupplier) {
         if (clearSupplier != null) {
-            this.button.setOnMouseReleased(e -> setValue(clearSupplier.get()));
+            this.button.setOnMouseReleased(e -> setValue(clearSupplier.getAsBoolean()));
         }
     }
 

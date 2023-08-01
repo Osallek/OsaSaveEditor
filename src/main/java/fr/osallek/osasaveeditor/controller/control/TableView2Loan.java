@@ -5,8 +5,6 @@ import fr.osallek.eu4parser.model.save.country.SaveCountry;
 import fr.osallek.osasaveeditor.common.Constants;
 import fr.osallek.osasaveeditor.controller.converter.DoubleStringConverter;
 import fr.osallek.osasaveeditor.controller.object.Loan;
-import java.time.LocalDate;
-import java.util.stream.Collectors;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +12,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
+
+import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 public class TableView2Loan extends TableView<Loan> {
 

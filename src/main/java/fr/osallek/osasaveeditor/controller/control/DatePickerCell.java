@@ -1,10 +1,5 @@
 package fr.osallek.osasaveeditor.controller.control;
 
-import java.time.LocalDate;
-import java.time.chrono.Chronology;
-import java.time.format.FormatStyle;
-import java.util.Locale;
-import java.util.Objects;
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
@@ -17,6 +12,12 @@ import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import javafx.util.converter.LocalDateStringConverter;
 import org.apache.commons.lang3.BooleanUtils;
+
+import java.time.LocalDate;
+import java.time.chrono.Chronology;
+import java.time.format.FormatStyle;
+import java.util.Locale;
+import java.util.Objects;
 
 public class DatePickerCell<S> extends TableCell<S, LocalDate> {
 

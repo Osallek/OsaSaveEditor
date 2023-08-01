@@ -1,7 +1,8 @@
 package fr.osallek.osasaveeditor.controller.object;
 
-import java.util.Arrays;
 import javafx.scene.Node;
+
+import java.util.Arrays;
 
 public class BootstrapColumn {
 

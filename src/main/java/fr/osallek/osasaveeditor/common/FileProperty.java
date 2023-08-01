@@ -1,7 +1,8 @@
 package fr.osallek.osasaveeditor.common;
 
-import java.io.File;
 import javafx.beans.property.ObjectPropertyBase;
+
+import java.io.File;
 
 public class FileProperty extends ObjectPropertyBase<File> {
 

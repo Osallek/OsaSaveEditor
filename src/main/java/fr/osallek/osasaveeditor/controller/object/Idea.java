@@ -3,6 +3,7 @@ package fr.osallek.osasaveeditor.controller.object;
 import fr.osallek.eu4parser.model.game.IdeaGroup;
 import fr.osallek.osasaveeditor.common.Copy;
 import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
+
 import java.util.Map;
 
 public class Idea extends Copy<Idea> {

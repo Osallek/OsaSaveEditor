@@ -6,9 +6,6 @@ import fr.osallek.eu4parser.model.save.Save;
 import fr.osallek.osasaveeditor.common.Constants;
 import fr.osallek.osasaveeditor.controller.converter.PercentStringConverter;
 import fr.osallek.osasaveeditor.controller.object.PriceChange;
-import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -16,6 +13,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.LocalDateStringConverter;
+
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
 
 public class TableView2PriceChange extends TableView<PriceChange> {
 

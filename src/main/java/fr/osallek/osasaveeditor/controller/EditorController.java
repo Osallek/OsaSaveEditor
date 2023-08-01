@@ -364,8 +364,9 @@ public class EditorController {
             this.mapViewContainer.selectMapView(MapViewType.COUNTRIES_MAP_VIEW);
             this.mapViewContainer.draw();
         } catch (IOException e) {
-            LOGGER.error("{} {}", this.messageSource.getMessage("ose.error.terrain", null, Constants.LOCALE), e.getMessage(), e);
-            this.title.setText(this.messageSource.getMessage("ose.error.terrain", null, Constants.LOCALE));
+            String text = this.messageSource.getMessage("ose.error.terrain", null, Constants.LOCALE);
+            LOGGER.error("{} {}", text, e.getMessage(), e);
+            this.title.setText(text);
             this.title.setFill(Paint.valueOf(Color.RED.toString()));
             throw e;
         }

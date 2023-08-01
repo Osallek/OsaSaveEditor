@@ -1,8 +1,9 @@
 package fr.osallek.osasaveeditor.config;
 
-import java.nio.file.Path;
 import javafx.stage.Stage;
 import org.springframework.context.ApplicationEvent;
+
+import java.nio.file.Path;
 
 public class StageReadyEvent extends ApplicationEvent {
 

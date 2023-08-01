@@ -1,9 +1,10 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
-import java.util.Optional;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.HBox;
+
+import java.util.Optional;
 
 public class HBoxItem<U> implements CustomItem<U> {
 

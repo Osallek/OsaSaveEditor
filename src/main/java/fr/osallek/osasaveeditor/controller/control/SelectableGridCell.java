@@ -2,10 +2,6 @@ package fr.osallek.osasaveeditor.controller.control;
 
 import fr.osallek.eu4parser.common.ImageReader;
 import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.function.Function;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.ColorAdjust;
@@ -15,6 +11,11 @@ import javafx.stage.PopupWindow;
 import org.controlsfx.control.GridCell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.function.Function;
 
 public class SelectableGridCell<T> extends GridCell<T> {
 

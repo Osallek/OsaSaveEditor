@@ -7,15 +7,16 @@ import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
 import fr.osallek.osasaveeditor.controller.converter.CountryStringConverter;
 import fr.osallek.osasaveeditor.controller.converter.ProvinceIdStringConverter;
 import fr.osallek.osasaveeditor.controller.pane.CustomPropertySheet;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.paint.Color;
 import org.springframework.context.MessageSource;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 public class CountriesMapView extends AbstractMapView {
 
@@ -69,16 +70,6 @@ public class CountriesMapView extends AbstractMapView {
             }
         });
         this.provinceButton.disableProperty().bind(this.provinceButton.selectedProperty());
-    }
-
-    @Override
-    public MapViewType getType() {
-        return this.type;
-    }
-
-    @Override
-    public void setSelected(boolean selected) {
-        this.selected.setValue(selected);
     }
 
     @Override

@@ -7,8 +7,6 @@ import fr.osallek.eu4parser.model.save.province.SaveProvince;
 import fr.osallek.osasaveeditor.common.Constants;
 import fr.osallek.osasaveeditor.controller.converter.ProvinceStringConverter;
 import fr.osallek.osasaveeditor.controller.object.ReformationCenter;
-import java.util.Comparator;
-import java.util.stream.Collectors;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -19,6 +17,9 @@ import javafx.collections.ObservableMap;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.controlsfx.control.SearchableComboBox;
+
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class TableView2ReformationCenter extends TableView<ReformationCenter> {
 

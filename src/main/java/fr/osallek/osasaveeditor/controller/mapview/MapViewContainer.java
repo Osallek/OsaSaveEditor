@@ -11,10 +11,6 @@ import fr.osallek.eu4parser.model.save.province.SaveProvince;
 import fr.osallek.osasaveeditor.OsaSaveEditorApplication;
 import fr.osallek.osasaveeditor.common.Constants;
 import fr.osallek.osasaveeditor.controller.pane.CustomPropertySheet;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,6 +22,11 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.SegmentedButton;
 import org.springframework.context.MessageSource;
+
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 public class MapViewContainer {
 
