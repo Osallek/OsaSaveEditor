@@ -18,11 +18,11 @@ public class ClearableTextItem implements CustomItem<Void> {
 
     private final CustomTextField textField;
 
-    private String value;
-
     private Supplier<String> supplier;
 
     private final BooleanProperty editable;
+
+    private final BooleanProperty visible;
 
     public ClearableTextItem(String category, String name) {
         this(category, name, null, null);
@@ -33,12 +33,18 @@ public class ClearableTextItem implements CustomItem<Void> {
     }
 
     public ClearableTextItem(String category, String name, String value, Supplier<String> clearSupplier, BooleanProperty editable) {
+        this(category, name, value, clearSupplier, editable, new SimpleBooleanProperty(true));
+    }
+
+    public ClearableTextItem(String category, String name, String value, Supplier<String> clearSupplier, BooleanProperty editable, BooleanProperty visible) {
         this.category = category;
         this.name = name;
         this.textField = CustomClearableTextField.createClearableTextField(clearSupplier);
-        this.value = value;
+        this.textField.setText(value);
         this.supplier = clearSupplier;
         this.editable = editable;
+        this.visible = visible;
+        this.textField.managedProperty().bind(this.textField.visibleProperty());
     }
 
     @Override
@@ -63,12 +69,12 @@ public class ClearableTextItem implements CustomItem<Void> {
 
     @Override
     public Object getValue() {
-        return this.value;
+        return this.textField.getText();
     }
 
     @Override
     public void setValue(Object value) {
-        this.value = ((String) value);
+        this.textField.setText(((String) value));
     }
 
     @Override
@@ -86,8 +92,17 @@ public class ClearableTextItem implements CustomItem<Void> {
         return this.editable;
     }
 
+    @Override
+    public BooleanProperty isVisible() {
+        return this.visible;
+    }
+
     public void setEditable(boolean editable) {
         this.editable.set(editable);
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible.set(visible);
     }
 
     public void setSupplier(Supplier<String> supplier) {
@@ -100,7 +115,7 @@ public class ClearableTextItem implements CustomItem<Void> {
     }
 
     public String getText() {
-        return this.value;
+        return this.textField.getText();
     }
 
     public CustomTextField getTextField() {

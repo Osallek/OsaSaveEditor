@@ -390,6 +390,42 @@ public class ProvincePropertySheet extends VBox {
                 this.coresField.check(newValue);
             }
         };
+
+        this.propertySheet.getItems().add(this.nameField);
+        this.propertySheet.getItems().add(this.capitalField);
+        this.propertySheet.getItems().add(this.cultureComboBox);
+        this.propertySheet.getItems().add(this.religionComboBox);
+        this.propertySheet.getItems().add(this.ownerComboBox);
+        this.propertySheet.getItems().add(this.controllerComboBox);
+        this.propertySheet.getItems().add(this.coresField);
+        this.propertySheet.getItems().add(this.claimsField);
+        this.propertySheet.getItems().add(this.hreField);
+        this.propertySheet.getItems().add(this.discoveredField);
+        this.propertySheet.getItems().add(this.nationalismField);
+        this.propertySheet.getItems().add(this.colonizeForField);
+        this.propertySheet.getItems().add(this.colonySizeField);
+        this.propertySheet.getItems().add(this.nativeSizeField);
+        this.propertySheet.getItems().add(this.nativeHostilenessField);
+        this.propertySheet.getItems().add(this.nativeFerocityField);
+        this.propertySheet.getItems().add(this.baseTaxField);
+        this.propertySheet.getItems().add(this.baseProdField);
+        this.propertySheet.getItems().add(this.baseMPField);
+        this.propertySheet.getItems().add(this.tradeGoodField);
+        this.propertySheet.getItems().add(this.latentTradeGoodField);
+        this.propertySheet.getItems().add(this.cotField);
+        this.propertySheet.getItems().add(this.infrastructureField);
+        this.propertySheet.getItems().add(this.autonomyField);
+        this.propertySheet.getItems().add(this.devastationField);
+        this.propertySheet.getItems().add(this.tradeNodeField);
+        this.propertySheet.getItems().add(this.tradeCompanyField);
+        this.propertySheet.getItems().addAll(this.institutionFields);
+//        this.propertySheet.getItems().add(new HBoxItem<>(this.messageSource.getMessage("ose.category.buildings", null, Constants.LOCALE), hBox)); //Todo
+        this.propertySheet.getItems().add(this.modifiersButton);
+        this.propertySheet.getItems().addAll(this.greatProjectsField.values());
+        this.propertySheet.getItems().add(this.parliamentField);
+        this.propertySheet.getItems().add(this.parliamentBackingField);
+        this.propertySheet.getItems().add(this.parliamentBribeField);
+
     }
 
     public void update(SaveProvince province) {
@@ -432,10 +468,39 @@ public class ProvincePropertySheet extends VBox {
         this.parliamentField.setEditable(false);
         this.tradeCompanyField.setEditable(false);
 
+        this.cultureComboBox.setVisible(false);
+        this.religionComboBox.setVisible(false);
+        this.capitalField.setVisible(false);
+        this.ownerComboBox.setVisible(false);
+        this.controllerComboBox.setVisible(false);
+        this.coresField.setVisible(false);
+        this.claimsField.setVisible(false);
+        this.discoveredField.setVisible(false);
+        this.hreField.setVisible(false);
+        this.nationalismField.setVisible(false);
+        this.colonizeForField.setVisible(false);
+        this.colonizeForField.setValue(null);
+        this.colonySizeField.setVisible(false);
+        this.nativeHostilenessField.setVisible(false);
+        this.nativeFerocityField.setVisible(false);
+        this.nativeSizeField.setVisible(false);
+        this.baseTaxField.setVisible(false);
+        this.baseProdField.setVisible(false);
+        this.baseMPField.setVisible(false);
+        this.tradeGoodField.setVisible(false);
+        this.latentTradeGoodField.setVisible(false);
+        this.cotField.setVisible(false);
+        this.infrastructureField.setVisible(false);
+        this.institutionFields.forEach(clearableSliderItem -> clearableSliderItem.setVisible(false));
+        this.autonomyField.setVisible(false);
+        this.devastationField.setVisible(false);
+        this.tradeNodeField.setVisible(false);
+        this.parliamentField.setVisible(false);
+        this.tradeCompanyField.setVisible(false);
+
         //GENERAL
         this.nameField.setValue(ClausewitzUtils.removeQuotes(this.province.getName()));
         this.nameField.setSupplier(() -> ClausewitzUtils.removeQuotes(this.province.getName()));
-        items.add(this.nameField);
 
         if (province.isColonizable()) {
             //GENERAL
@@ -688,7 +753,11 @@ public class ProvincePropertySheet extends VBox {
             items.add(this.parliamentBribeField);
         }
 
-        this.propertySheet.getItems().setAll(items);
+        items.forEach(i -> {
+            if (!i.isVisible().isBound()) {
+                i.isVisible().set(true);
+            }
+        });
 
         if (expandedPaneName != null) {
             this.propertySheetSkin.getAccordion()

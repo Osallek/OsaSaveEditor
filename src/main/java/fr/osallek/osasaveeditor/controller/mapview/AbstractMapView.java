@@ -38,8 +38,6 @@ public abstract class AbstractMapView {
 
     public abstract void onProvinceSelected(SaveProvince province);
 
-    public abstract List<CustomPropertySheet> removeSheets();
-
     public abstract String updateTitle(SaveProvince selectedProvince);
 
     public abstract void onSelected();

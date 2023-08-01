@@ -785,6 +785,7 @@ public class SavePropertySheet extends VBox {
     }
 
     public void update() {
+        LOGGER.info("Start save update");
         //GAME OPTIONS
         this.difficultyField.setValue(this.save.getGameplayOptions().getDifficulty());
         this.allowHotJoinField.setValue(this.save.getGameplayOptions().getAllowHotjoin());
@@ -853,6 +854,8 @@ public class SavePropertySheet extends VBox {
         this.firedEvents.setAll(this.save.getFiredEvents().getEvents());
         this.notFiredEvents.setAll(this.save.getGame().getFireOnlyOnceEvents());
         this.notFiredEvents.removeIf(this.firedEvents::contains);
+
+        LOGGER.info("End save update");
     }
 
     public void validate() {

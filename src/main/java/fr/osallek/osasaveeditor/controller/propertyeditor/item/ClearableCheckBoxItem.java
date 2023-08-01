@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
 
 public class ClearableCheckBoxItem implements CustomItem<Void> {
 
@@ -35,6 +34,7 @@ public class ClearableCheckBoxItem implements CustomItem<Void> {
         this.checkBox = new ClearableCheckBox(clearSupplier);
         this.editable = editable;
         this.visible = visible;
+        this.checkBox.managedProperty().bind(this.checkBox.visibleProperty());
     }
 
     @Override
@@ -93,6 +93,10 @@ public class ClearableCheckBoxItem implements CustomItem<Void> {
 
     public void setEditable(boolean editable) {
         this.editable.set(editable);
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible.set(visible);
     }
 
     public boolean isSelected() {

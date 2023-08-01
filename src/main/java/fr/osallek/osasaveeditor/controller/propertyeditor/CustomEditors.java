@@ -1,5 +1,6 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor;
 
+import fr.osallek.osasaveeditor.controller.control.ClearableCheckComboBox;
 import fr.osallek.osasaveeditor.controller.pane.AbstractObjectField;
 import fr.osallek.osasaveeditor.controller.pane.AbstractPropertyEditor;
 import fr.osallek.osasaveeditor.controller.pane.CustomPropertySheet;
@@ -38,12 +39,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import org.apache.commons.collections4.CollectionUtils;
+import org.controlsfx.control.IndexedCheckModel;
 import org.controlsfx.dialog.FontSelectorDialog;
 import org.controlsfx.property.editor.PropertyEditor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 public class CustomEditors {
@@ -364,8 +368,23 @@ public class CustomEditors {
 
             @Override
             public void setValue(ObservableList<T> checked) {
-                getEditor().clearChecks();
-                checked.forEach(getEditor()::check);
+                ClearableCheckComboBox<T> comboBoxItem = getEditor();
+                IndexedCheckModel<T> checkModel = comboBoxItem.getCheckComboBox().getCheckModel();
+                if (CollectionUtils.isNotEmpty(checked)) {
+                    comboBoxItem.getItems().forEach(t -> {
+                        if (checked.contains(t)) {
+                            if (!checkModel.isChecked(t)) {
+                                checkModel.check(t);
+                            }
+                        } else {
+                            if (checkModel.isChecked(t)) {
+                                checkModel.clearCheck(t);
+                            }
+                        }
+                    });
+                } else {
+                    comboBoxItem.clearChecks();
+                }
             }
         };
     }

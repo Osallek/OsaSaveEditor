@@ -67,6 +67,7 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
         this.comboBox = comboBox;
         this.editable = editable;
         this.visible = visible;
+        this.comboBox.managedProperty().bind(this.comboBox.visibleProperty());
     }
 
     @Override
@@ -125,6 +126,10 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
 
     public void setEditable(boolean editable) {
         this.editable.set(editable);
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible.set(visible);
     }
 
     public ClearableComboBox<U> getComboBox() {

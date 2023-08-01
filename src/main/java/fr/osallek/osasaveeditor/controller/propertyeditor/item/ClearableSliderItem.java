@@ -21,6 +21,8 @@ public class ClearableSliderItem implements CustomItem<Integer> {
 
     private final BooleanProperty editable;
 
+    private final BooleanProperty visible;
+
     public ClearableSliderItem(String category, String name, double min, double max) {
         this(category, name, min, max, null, null);
     }
@@ -30,10 +32,16 @@ public class ClearableSliderItem implements CustomItem<Integer> {
     }
 
     public ClearableSliderItem(String category, String name, ClearableSlider slider, BooleanProperty editable) {
+        this(category, name, slider, editable, new SimpleBooleanProperty(true));
+    }
+
+    public ClearableSliderItem(String category, String name, ClearableSlider slider, BooleanProperty editable, BooleanProperty visible) {
         this.category = category;
         this.name = name;
         this.slider = slider;
         this.editable = editable;
+        this.visible = visible;
+        this.slider.managedProperty().bind(this.slider.visibleProperty());
     }
 
     @Override
@@ -81,8 +89,17 @@ public class ClearableSliderItem implements CustomItem<Integer> {
         return this.editable;
     }
 
+    @Override
+    public BooleanProperty isVisible() {
+        return this.visible;
+    }
+
     public void setEditable(boolean editable) {
         this.editable.set(editable);
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible.set(visible);
     }
 
     public ClearableSlider getSlider() {

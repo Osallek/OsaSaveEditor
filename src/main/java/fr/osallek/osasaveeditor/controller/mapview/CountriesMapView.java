@@ -6,16 +6,12 @@ import fr.osallek.eu4parser.model.save.province.SaveProvince;
 import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
 import fr.osallek.osasaveeditor.controller.converter.CountryStringConverter;
 import fr.osallek.osasaveeditor.controller.converter.ProvinceIdStringConverter;
-import fr.osallek.osasaveeditor.controller.pane.CustomPropertySheet;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.paint.Color;
 import org.springframework.context.MessageSource;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 public class CountriesMapView extends AbstractMapView {
@@ -44,6 +40,7 @@ public class CountriesMapView extends AbstractMapView {
                 draw();
             }
         });
+        this.provinceSheet.getPropertySheet().visibleProperty().set(false);
 
         this.countrySheet = new CountryPropertySheet(messageSource, this.mapViewContainer.getSave(),
                                                      this.mapViewContainer.getCountriesAlive(),
@@ -54,6 +51,7 @@ public class CountriesMapView extends AbstractMapView {
                 draw();
             }
         });
+        this.countrySheet.getPropertySheet().visibleProperty().set(false);
 
         this.countryButton = new ToggleButton(OsaSaveEditorUtils.localize("TRIGGER_COUNTRY", this.mapViewContainer.getSave().getGame()));
         this.countryButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -70,6 +68,9 @@ public class CountriesMapView extends AbstractMapView {
             }
         });
         this.provinceButton.disableProperty().bind(this.provinceButton.selectedProperty());
+
+        this.mapViewContainer.addSheet(this.countrySheet.getPropertySheet());
+        this.mapViewContainer.addSheet(this.provinceSheet.getPropertySheet());
     }
 
     @Override
@@ -101,8 +102,6 @@ public class CountriesMapView extends AbstractMapView {
                 selectProvinceButton();
             }
         } else {
-            this.provinceSheet.update(this.provinceSheet.getProvince());
-            this.countrySheet.update(this.countrySheet.getCountry());
             this.mapViewContainer.updateTitle();
 
             if (this.countryButton.isSelected()) {
@@ -113,21 +112,6 @@ public class CountriesMapView extends AbstractMapView {
                 }
             }
         }
-    }
-
-    @Override
-    public List<CustomPropertySheet> removeSheets() {
-        List<CustomPropertySheet> sheets = new ArrayList<>();
-
-        if (this.provinceSheet != null) {
-            sheets.add(this.provinceSheet.getPropertySheet());
-        }
-
-        if (this.countrySheet != null) {
-            sheets.add(this.countrySheet.getPropertySheet());
-        }
-
-        return sheets;
     }
 
     @Override
@@ -149,9 +133,9 @@ public class CountriesMapView extends AbstractMapView {
     }
 
     private void selectCountryButton() {
-        this.mapViewContainer.removeSaveSheet();
-        this.mapViewContainer.removeSheet(this.provinceSheet.getPropertySheet());
-        this.mapViewContainer.addSheets(Collections.singletonList(this.countrySheet.getPropertySheet()));
+        this.mapViewContainer.hideSaveSheet();
+        this.mapViewContainer.hideSheet(this.provinceSheet.getPropertySheet());
+        this.mapViewContainer.showSheet(this.countrySheet.getPropertySheet());
         this.mapViewContainer.updateTitle();
         this.mapViewContainer.setSubmitButtonOnAction(e -> {
             this.countrySheet.validate();
@@ -166,9 +150,9 @@ public class CountriesMapView extends AbstractMapView {
     }
 
     private void selectProvinceButton() {
-        this.mapViewContainer.removeSaveSheet();
-        this.mapViewContainer.removeSheet(this.countrySheet.getPropertySheet());
-        this.mapViewContainer.addSheets(Collections.singletonList(this.provinceSheet.getPropertySheet()));
+        this.mapViewContainer.hideSaveSheet();
+        this.mapViewContainer.hideSheet(this.countrySheet.getPropertySheet());
+        this.mapViewContainer.showSheet(this.provinceSheet.getPropertySheet());
         this.mapViewContainer.updateTitle();
         this.mapViewContainer.setSubmitButtonOnAction(e -> {
             this.provinceSheet.validate();

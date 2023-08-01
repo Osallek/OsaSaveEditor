@@ -21,14 +21,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.SegmentedButton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 public class MapViewContainer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MapViewContainer.class);
 
     private final SaveProvince[][] provincesMap;
 
@@ -69,6 +74,8 @@ public class MapViewContainer {
     private final SavePropertySheet saveSheet;
 
     private final Button submitButton;
+
+    private final List<CustomPropertySheet> sheets = new ArrayList<>();
 
     public MapViewContainer(MessageSource messageSource, SaveProvince[][] provincesMap, Canvas canvas, VBox editPane, Save save,
                             ObservableList<SaveCountry> playableCountries, ObservableList<SaveCountry> countriesAlive, ObservableList<Culture> cultures,
@@ -114,6 +121,8 @@ public class MapViewContainer {
         this.editPane.getChildren().add(this.titleLabel);
         this.editPane.getChildren().add(this.submitButton);
 
+        addSheet(this.saveSheet.getPropertySheet());
+
         this.saveButton.setSelected(true);
     }
 
@@ -156,10 +165,8 @@ public class MapViewContainer {
     }
 
     public void selectSaveButton() {
-        removeSheets();
         updateTitle();
-        this.saveSheet.update();
-        addSheets(Collections.singletonList(this.saveSheet.getPropertySheet()));
+        showSheet(this.saveSheet.getPropertySheet());
         setSubmitButtonOnAction(event -> {
             this.saveSheet.validate();
             this.saveSheet.update();
@@ -168,26 +175,18 @@ public class MapViewContainer {
         bindSubmitButtonDisableProperty(this.saveSheet.getValidationSupport().invalidProperty());
     }
 
-    public void addSheets(List<CustomPropertySheet> sheets) {
-        for (int i = 0; i < sheets.size(); i++) {
-            if (!this.editPane.getChildren().contains(sheets.get(i))) {
-                this.editPane.getChildren().add(i + 2, sheets.get(i)); //+2 for buttons and title
-            }
+    public void showSheet(CustomPropertySheet toShow) {
+        for (CustomPropertySheet sheet : this.sheets) {
+            sheet.visibleProperty().set(sheet.equals(toShow));
         }
     }
 
-    public void removeSaveSheet() {
-        removeSheet(this.saveSheet.getPropertySheet());
+    public void hideSaveSheet() {
+        hideSheet(this.saveSheet.getPropertySheet());
     }
 
-    public void removeSheet(CustomPropertySheet propertySheet) {
-        this.editPane.getChildren().remove(propertySheet);
-    }
-
-    public void removeSheets() {
-        if (this.selectedMapView != null) {
-            this.editPane.getChildren().removeAll(this.selectedMapView.removeSheets());
-        }
+    public void hideSheet(CustomPropertySheet propertySheet) {
+        propertySheet.visibleProperty().set(false);
     }
 
     public void setSubmitButtonOnAction(EventHandler<ActionEvent> value) {
@@ -208,11 +207,14 @@ public class MapViewContainer {
         this.tabsSegmentedButton.getButtons()
                                 .forEach(toggleButton -> toggleButton.prefWidthProperty()
                                                                      .bind(this.tabsSegmentedButton.widthProperty()
-                                                                                                   .divide(this.tabsSegmentedButton
-                                                                                                                   .getButtons()
-                                                                                                                   .size())));
-        this.tabsSegmentedButton.getButtons()
-                                .forEach(button -> button.disableProperty().bind(button.selectedProperty()));
+                                                                                                   .divide(this.tabsSegmentedButton.getButtons().size())));
+        this.tabsSegmentedButton.getButtons().forEach(button -> button.disableProperty().bind(button.selectedProperty()));
+    }
+
+    public void addSheet(CustomPropertySheet sheet) {
+        this.editPane.getChildren().add(2 + this.sheets.size(), sheet); //+2 for buttons and title
+        this.sheets.add(sheet);
+        sheet.managedProperty().bind(sheet.visibleProperty());
     }
 
     public SaveProvince[][] getProvincesMap() {
