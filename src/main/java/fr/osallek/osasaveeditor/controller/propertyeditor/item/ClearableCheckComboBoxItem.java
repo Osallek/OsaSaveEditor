@@ -2,7 +2,6 @@ package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
 import fr.osallek.osasaveeditor.controller.control.ClearableCheckComboBox;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -38,25 +37,17 @@ public class ClearableCheckComboBoxItem<U> implements CustomItem<ObservableList<
 
     private Callback<ListView<U>, ListCell<U>> cellFactory;
 
-    private final BooleanProperty visible;
-
     public ClearableCheckComboBoxItem(String category, String name, ObservableList<U> values, ClearableCheckComboBox<U> checkComboBox) {
         this(category, name, values, null, checkComboBox, new SimpleBooleanProperty(true));
     }
 
     public ClearableCheckComboBoxItem(String category, String name, ObservableList<U> values, ObservableList<U> selectedValues,
                                       ClearableCheckComboBox<U> checkComboBox, BooleanProperty editable) {
-        this(category, name, values, selectedValues, checkComboBox, editable, new SimpleBooleanProperty(true));
-    }
-
-    public ClearableCheckComboBoxItem(String category, String name, ObservableList<U> values, ObservableList<U> selectedValues,
-                                      ClearableCheckComboBox<U> checkComboBox, BooleanProperty editable, BooleanProperty visible) {
         this.category = category;
         this.name = name;
         this.values = values;
         this.checkComboBox = checkComboBox;
         this.editable = editable;
-        this.visible = visible;
         this.checkComboBox.managedProperty().bind(this.checkComboBox.visibleProperty());
         setValue(selectedValues);
     }
@@ -123,15 +114,11 @@ public class ClearableCheckComboBoxItem<U> implements CustomItem<ObservableList<
 
     @Override
     public BooleanProperty isVisible() {
-        return this.visible;
+        return this.checkComboBox.visibleProperty();
     }
 
     public void setEditable(boolean editable) {
         this.editable.set(editable);
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible.set(visible);
     }
 
     public ClearableCheckComboBox<U> getCheckComboBox() {

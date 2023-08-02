@@ -78,6 +78,11 @@ public class ClearableDatePickerItem implements CustomItem<LocalDate> {
         return this.editable;
     }
 
+    @Override
+    public BooleanProperty isVisible() {
+        return this.datePicker.visibleProperty();
+    }
+
     public void setEditable(boolean editable) {
         this.editable.set(editable);
     }

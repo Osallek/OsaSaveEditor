@@ -3,7 +3,6 @@ package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -83,6 +82,11 @@ public class ButtonItem implements CustomItem<String> {
     @Override
     public BooleanProperty isEditable() {
         return new SimpleBooleanProperty(true);
+    }
+
+    @Override
+    public BooleanProperty isVisible() {
+        return this.button.visibleProperty();
     }
 
     @Override

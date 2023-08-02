@@ -26,7 +26,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Skin;
 import javafx.util.Callback;
 import org.controlsfx.property.BeanPropertyUtils;
-import org.controlsfx.property.editor.DefaultPropertyEditorFactory;
 import org.controlsfx.property.editor.Editors;
 import org.controlsfx.property.editor.PropertyEditor;
 
@@ -45,8 +44,8 @@ import java.util.Optional;
  *
  * <p>In this property sheet there exists two columns: the left column shows a
  * label describing the property itself, whereas the right column provides a {@link PropertyEditor} that allows the end user the means to manipulate the
- * property. In the screenshot you can see CheckEditor, ChoiceEditor, TextEditor and FontEditor, among the many editors that are available in the {@link
- * Editors} package.
+ * property. In the screenshot you can see CheckEditor, ChoiceEditor, TextEditor and FontEditor, among the many editors that are available in the
+ * {@link Editors} package.
  *
  * <p>To create a PropertySheet is simple: you firstly instantiate an instance
  * of PropertySheet, and then you pass in a list of {@link Item} instances, where each Item represents a single property that is to be editable by the end
@@ -62,86 +61,28 @@ import java.util.Optional;
  */
 public class CustomPropertySheet extends CustomControlsFXControl {
 
+    private static final String DEFAULT_STYLE_CLASS = "property-sheet";
 
-    /**************************************************************************
-     *
-     * Static fields
-     *
-     **************************************************************************/
-
-
-    /**************************************************************************
-     *
-     * Static enumerations / interfaces
-     *
-     **************************************************************************/
-
-    /**
-     * Specifies how the {@link CustomPropertySheet} should be laid out. Refer to the enumeration values to learn what each one means.
-     */
-    public static enum Mode {
-        /**
-         * Simply displays the properties in the {@link CustomPropertySheet#getItems() items list} in the order they are in the list.
-         */
-        NAME,
-
-        /**
-         * Groups the properties in the {@link CustomPropertySheet#getItems() items list} based on their {@link Item#category() category}.
-         */
-        CATEGORY
+    public enum Mode {
+        NAME, CATEGORY
     }
 
-
-    /**
-     * A wrapper interface for a single property to be displayed in a {@link CustomPropertySheet} control.
-     *
-     * @see CustomPropertySheet
-     */
     public interface Item<U> {
 
-        /**
-         * Returns the class type of the property.
-         */
         Class<?> getType();
 
-        /**
-         * Returns a String representation of the category of the property. This is relevant when the {@link CustomPropertySheet} {@link
-         * CustomPropertySheet#modeProperty() mode property} is set to {@link Mode#CATEGORY} - as then all properties with the same category will be grouped
-         * together visually.
-         */
         String category();
 
-        /**
-         * Returns the display name of the property, which should be short (i.e. less than two words). This is used to explain to the end user what the property
-         * represents and is displayed beside the {@link PropertyEditor}. If you need to explain more detail to the user, consider placing it in the {@link
-         * #description()}.
-         */
         String name();
 
-        /**
-         * A String that will be shown to the user as a tooltip. This allows for a longer form of detail than what is possible with the {@link #name()}
-         * method.
-         */
         String description();
 
-        /**
-         * Returns the current value of the property.
-         */
         U getValue();
 
-        /**
-         * Sets the current value of the property.
-         */
         void setValue(U value);
 
-        /**
-         * Returns the underlying ObservableValue, where one exists, that the editor can monitor for changes.
-         */
         Optional<ObservableValue<U>> getObservableValue();
 
-        /**
-         * Indicates whether the PropertySheet should allow editing of this property, or whether it is read-only. The default implementation returns true.
-         */
         default BooleanProperty isEditable() {
             return new SimpleBooleanProperty(true);
         }
@@ -151,281 +92,118 @@ public class CustomPropertySheet extends CustomControlsFXControl {
         }
     }
 
+    private final ObservableList<Item<? extends Object>> items;
 
-    /**************************************************************************
-     *
-     * Private fields
-     *
-     **************************************************************************/
-
-    private final ObservableList<Item<?>> items;
-
-
-    /**************************************************************************
-     *
-     * Constructors
-     *
-     **************************************************************************/
-
-    /**
-     * Creates a default PropertySheet instance with no properties to edit.
-     */
     public CustomPropertySheet() {
         this(null);
     }
 
-    /**
-     * Creates a PropertySheet instance prepopulated with the items provided in the items {@link ObservableList}.
-     *
-     * @param items The items that should appear within the PropertySheet.
-     */
-    public CustomPropertySheet(ObservableList<Item<?>> items) {
+    public CustomPropertySheet(ObservableList<Item<? extends Object>> items) {
         getStyleClass().add(DEFAULT_STYLE_CLASS);
 
         this.items = items == null ? FXCollections.observableArrayList() : items;
     }
 
-
-    /**************************************************************************
-     *
-     * Public API
-     *
-     **************************************************************************/
-
-    /**
-     * @return An ObservableList of properties that will be displayed to the user to allow for them to be edited.
-     */
-    public ObservableList<Item<?>> getItems() {
+    public ObservableList<Item<? extends Object>> getItems() {
         return items;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected Skin<?> createDefaultSkin() {
         return new CustomPropertySheetSkin(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getUserAgentStylesheet() {
         return OsaSaveEditorApplication.class.getResource("/styles/style.css").toExternalForm();
     }
 
+    private final SimpleObjectProperty<Mode> modeProperty = new SimpleObjectProperty<>(this, "mode", Mode.NAME);
 
-    /**************************************************************************
-     *
-     * Properties
-     *
-     **************************************************************************/
-
-    // --- modeProperty 
-    private final SimpleObjectProperty<Mode> modeProperty =
-            new SimpleObjectProperty<>(this, "mode", Mode.NAME); //$NON-NLS-1$
-
-    /**
-     * Used to represent how the properties should be laid out in the PropertySheet. Refer to the {@link Mode} enumeration to better understand the available
-     * options.
-     *
-     * @return A SimpleObjectproperty.
-     */
     public final SimpleObjectProperty<Mode> modeProperty() {
         return modeProperty;
     }
 
-    /**
-     * @return how the properties should be laid out in the PropertySheet.
-     *
-     * @see Mode
-     */
     public final Mode getMode() {
-        return modeProperty.get();
+        return this.modeProperty.get();
     }
 
-    /**
-     * Set how the properties should be laid out in the PropertySheet.
-     *
-     * @param mode
-     */
     public final void setMode(Mode mode) {
-        modeProperty.set(mode);
+        this.modeProperty.set(mode);
     }
 
+    private final SimpleObjectProperty<Callback<Item<?>, PropertyEditor<?>>> propertyEditorFactory = new SimpleObjectProperty<>(this, "propertyEditor",
+                                                                                                                                new CustomDefaultPropertyEditorFactory());
 
-    // --- propertyEditorFactory
-    private final SimpleObjectProperty<Callback<Item, PropertyEditor<?>>> propertyEditorFactory =
-            new SimpleObjectProperty<>(this, "propertyEditor", new CustomDefaultPropertyEditorFactory()); //$NON-NLS-1$
-
-    /**
-     * The property editor factory is used by the PropertySheet to determine which {@link PropertyEditor} to use for a given {@link Item}. By default the {@link
-     * DefaultPropertyEditorFactory} is used, but this may be replaced or extended by developers wishing to add in (or substitute) their own property editors.
-     *
-     * @return A SimpleObjectproperty.
-     */
-    public final SimpleObjectProperty<Callback<Item, PropertyEditor<?>>> propertyEditorFactory() {
+    public final SimpleObjectProperty<Callback<Item<?>, PropertyEditor<?>>> propertyEditorFactory() {
         return propertyEditorFactory;
     }
 
-    /**
-     * @return The editor factory used by the PropertySheet to determine which {@link PropertyEditor} to use for a given {@link Item}.
-     */
-    public final Callback<Item, PropertyEditor<?>> getPropertyEditorFactory() {
-        return propertyEditorFactory.get();
+    public final Callback<Item<?>, PropertyEditor<?>> getPropertyEditorFactory() {
+        return this.propertyEditorFactory.get();
     }
 
-    /**
-     * Sets a new editor factory used by the PropertySheet to determine which {@link PropertyEditor} to use for a given {@link Item}.
-     *
-     * @param factory
-     */
-    public final void setPropertyEditorFactory(Callback<Item, PropertyEditor<?>> factory) {
-        propertyEditorFactory.set(factory == null ? new CustomDefaultPropertyEditorFactory() : factory);
+    public final void setPropertyEditorFactory(Callback<Item<?>, PropertyEditor<?>> factory) {
+        this.propertyEditorFactory.set(factory == null ? new CustomDefaultPropertyEditorFactory() : factory);
     }
 
+    private final SimpleBooleanProperty modeSwitcherVisible = new SimpleBooleanProperty(this, "modeSwitcherVisible", true);
 
-    // --- modeSwitcherVisible
-    private final SimpleBooleanProperty modeSwitcherVisible =
-            new SimpleBooleanProperty(this, "modeSwitcherVisible", true); //$NON-NLS-1$
-
-    /**
-     * This property represents whether a visual option should be presented to users to switch between the various {@link Mode modes} available. By default this
-     * is true, so setting it to false will hide these buttons.
-     *
-     * @return A SimpleBooleanproperty.
-     */
     public final SimpleBooleanProperty modeSwitcherVisibleProperty() {
         return modeSwitcherVisible;
     }
 
-    /**
-     * @return whether a visual option is presented to users to switch between the various {@link Mode modes} available.
-     */
     public final boolean isModeSwitcherVisible() {
-        return modeSwitcherVisible.get();
+        return this.modeSwitcherVisible.get();
     }
 
-    /**
-     * Set whether a visual option should be presented to users to switch between the various {@link Mode modes} available.
-     *
-     * @param visible
-     */
     public final void setModeSwitcherVisible(boolean visible) {
-        modeSwitcherVisible.set(visible);
+        this.modeSwitcherVisible.set(visible);
     }
 
+    private final SimpleBooleanProperty searchBoxVisible = new SimpleBooleanProperty(this, "searchBoxVisible", true);
 
-    // --- toolbarSearchVisibleProperty
-    private final SimpleBooleanProperty searchBoxVisible =
-            new SimpleBooleanProperty(this, "searchBoxVisible", true); //$NON-NLS-1$
-
-    /**
-     *
-     */
-    /**
-     * This property represents whether a text field should be presented to users to allow for them to filter the properties in the property sheet to only show
-     * ones matching the typed input. By default this is true, so setting it to false will hide this search field.
-     *
-     * @return A SimpleBooleanProperty.
-     */
     public final SimpleBooleanProperty searchBoxVisibleProperty() {
         return searchBoxVisible;
     }
 
-    /**
-     * @return whether a text field should be presented to users to allow for them to filter the properties in the property sheet to only show ones matching the
-     * typed input.
-     */
     public final boolean isSearchBoxVisible() {
-        return searchBoxVisible.get();
+        return this.searchBoxVisible.get();
     }
 
-    /**
-     * Sets whether a text field should be presented to users to allow for them to filter the properties in the property sheet to only show ones matching the
-     * typed input.
-     *
-     * @param visible
-     */
     public final void setSearchBoxVisible(boolean visible) {
-        searchBoxVisible.set(visible);
+        this.searchBoxVisible.set(visible);
     }
 
 
     // --- titleFilterProperty
-    private final SimpleStringProperty titleFilterProperty =
-            new SimpleStringProperty(this, "titleFilter", ""); //$NON-NLS-1$ //$NON-NLS-2$
+    private final SimpleStringProperty titleFilterProperty = new SimpleStringProperty(this, "titleFilter", "");
 
-    /**
-     * Regardless of whether the {@link #searchBoxVisibleProperty() search box} is visible or not, it is possible to filter the options shown on screen using
-     * this title filter property. If the search box is visible, it will manipulate this property to contain whatever the user types.
-     *
-     * @return A SimpleStringProperty.
-     */
     public final SimpleStringProperty titleFilter() {
         return titleFilterProperty;
     }
 
-    /**
-     * @return the filter for filtering the options shown on screen
-     *
-     * @see #titleFilter()
-     */
     public final String getTitleFilter() {
-        return titleFilterProperty.get();
+        return this.titleFilterProperty.get();
     }
 
-    /**
-     * Sets the filter for filtering the options shown on screen.
-     *
-     * @param filter
-     *
-     * @see #titleFilter()
-     */
     public final void setTitleFilter(String filter) {
-        titleFilterProperty.set(filter);
+        this.titleFilterProperty.set(filter);
     }
 
-    // --- categoryComparatorProperty
-    private final SimpleObjectProperty<Comparator<String>> categoryComparatorProperty =
-            new SimpleObjectProperty<>(this, "categoryComparator", null); //$NON-NLS-1$
+    private final SimpleObjectProperty<Comparator<String>> categoryComparatorProperty = new SimpleObjectProperty<>(this, "categoryComparator",
+                                                                                                                   null);
 
-    /**
-     * Used to represent how the categories should be laid out in the PropertySheet when using the Category mode (see {@link Mode}). Thus allowing user to sort
-     * categories by other ways than alphabetical or numerical order.
-     *
-     * @return A SimpleObjectproperty.
-     */
     public final SimpleObjectProperty<Comparator<String>> categoryComparatorProperty() {
         return categoryComparatorProperty;
     }
 
-    /**
-     * @return how the categories should be laid out in the PropertySheet.
-     *
-     * @see Mode
-     */
     public final Comparator<String> getCategoryComparator() {
-        return categoryComparatorProperty.get();
+        return this.categoryComparatorProperty.get();
     }
 
-    /**
-     * Set how the categories should be laid out in the PropertySheet.
-     *
-     * @param categoryComparator
-     */
     public final void setCategoryComparator(Comparator<String> categoryComparator) {
-        categoryComparatorProperty.set(categoryComparator);
+        this.categoryComparatorProperty.set(categoryComparator);
     }
-
-
-    /***************************************************************************
-     *                                                                         *
-     * Stylesheet Handling                                                     *
-     *                                                                         *
-     **************************************************************************/
-
-    private static final String DEFAULT_STYLE_CLASS = "property-sheet"; //$NON-NLS-1$
 
 }

@@ -20,6 +20,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import org.controlsfx.property.editor.PropertyEditor;
 
+import java.util.Objects;
+
 /**
  * An abstract implementation of the {@link PropertyEditor} interface.
  *
@@ -28,85 +30,43 @@ import org.controlsfx.property.editor.PropertyEditor;
  */
 public abstract class AbstractPropertyEditor<T, C extends Node> implements PropertyEditor<T> {
 
-    /**************************************************************************
-     *
-     * Private fields
-     *
-     **************************************************************************/
-
     private final Item<T> property;
     private final C control;
     private boolean suspendUpdate;
 
-
-    /**************************************************************************
-     *
-     * Constructors
-     *
-     **************************************************************************/
-
-    /**
-     * Creates an AbstractPropertyEditor instance for the given property using the given editing control. It may be read-only or editable, based on the readonly
-     * boolean parameter being true or false.
-     *
-     * @param property The property that the instance is responsible for editing.
-     * @param control  The control that is responsible for editing the property.
-     */
-    public AbstractPropertyEditor(Item<T> property, C control) {
+    protected AbstractPropertyEditor(Item<T> property, C control) {
         this.control = control;
+        this.control.managedProperty().bind(this.control.visibleProperty());
         this.property = property;
 
         getObservableValue().addListener((ObservableValue<? extends T> o, T oldValue, T newValue) -> {
-            if (!suspendUpdate) {
-                suspendUpdate = true;
+            if (!this.suspendUpdate && !Objects.equals(oldValue, newValue)) {
+                this.suspendUpdate = true;
                 this.property.setValue(getValue());
-                suspendUpdate = false;
+                this.suspendUpdate = false;
             }
         });
 
-        if (property.getObservableValue().isPresent()) {
-            property.getObservableValue().get().addListener((ObservableValue<? extends Object> o, Object oldValue, Object newValue) -> {
-                if (!suspendUpdate) {
-                    suspendUpdate = true;
-                    setValue(property.getValue());
-                    suspendUpdate = false;
-                }
-            });
-        }
-
+        property.getObservableValue().ifPresent(v -> v.addListener((ObservableValue<? extends Object> o, Object oldValue, Object newValue) -> {
+            if (!this.suspendUpdate && !Objects.equals(oldValue, newValue)) {
+                this.suspendUpdate = true;
+                setValue(property.getValue());
+                this.suspendUpdate = false;
+            }
+        }));
     }
 
-
-    /**************************************************************************
-     *
-     * Public API
-     *
-     **************************************************************************/
-
-    /**
-     * Returns an {@link ObservableValue} of the property that this property editor is responsible for editing. This is the editor's value, e.g. a TextField's
-     * textProperty().
-     */
     protected abstract ObservableValue<T> getObservableValue();
 
-    /**
-     * Returns the property that this property editor is responsible for editing.
-     */
     public final Item<T> getProperty() {
         return property;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public C getEditor() {
         return control;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public T getValue() {
         return getObservableValue().getValue();

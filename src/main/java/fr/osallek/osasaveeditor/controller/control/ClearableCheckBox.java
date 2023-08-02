@@ -11,7 +11,6 @@ import javafx.scene.text.TextAlignment;
 import org.controlsfx.glyphfont.FontAwesome;
 
 import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
 
 public class ClearableCheckBox extends HBox {
 

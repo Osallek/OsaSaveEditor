@@ -1,5 +1,6 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.HBox;
 
@@ -62,6 +63,11 @@ public class HBoxItem<U> implements CustomItem<U> {
     @Override
     public Optional<ObservableValue<U>> getObservableValue() {
         return Optional.empty();
+    }
+
+    @Override
+    public BooleanProperty isVisible() {
+        return this.hBox.visibleProperty();
     }
 
     @Override

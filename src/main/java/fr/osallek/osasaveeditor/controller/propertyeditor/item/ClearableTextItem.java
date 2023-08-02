@@ -21,8 +21,6 @@ public class ClearableTextItem implements CustomItem<String> {
 
     private final BooleanProperty editable;
 
-    private final BooleanProperty visible;
-
     public ClearableTextItem(String category, String name) {
         this(category, name, null, null);
     }
@@ -32,17 +30,12 @@ public class ClearableTextItem implements CustomItem<String> {
     }
 
     public ClearableTextItem(String category, String name, String value, Supplier<String> clearSupplier, BooleanProperty editable) {
-        this(category, name, value, clearSupplier, editable, new SimpleBooleanProperty(true));
-    }
-
-    public ClearableTextItem(String category, String name, String value, Supplier<String> clearSupplier, BooleanProperty editable, BooleanProperty visible) {
         this.category = category;
         this.name = name;
         this.textField = CustomClearableTextField.createClearableTextField(clearSupplier);
         this.textField.setText(value);
         this.supplier = clearSupplier;
         this.editable = editable;
-        this.visible = visible;
         this.textField.managedProperty().bind(this.textField.visibleProperty());
     }
 
@@ -88,15 +81,11 @@ public class ClearableTextItem implements CustomItem<String> {
 
     @Override
     public BooleanProperty isVisible() {
-        return this.visible;
+        return this.textField.visibleProperty();
     }
 
     public void setEditable(boolean editable) {
         this.editable.set(editable);
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible.set(visible);
     }
 
     public void setSupplier(Supplier<String> supplier) {

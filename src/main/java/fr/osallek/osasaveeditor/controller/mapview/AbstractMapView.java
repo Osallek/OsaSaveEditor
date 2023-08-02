@@ -1,11 +1,8 @@
 package fr.osallek.osasaveeditor.controller.mapview;
 
 import fr.osallek.eu4parser.model.save.province.SaveProvince;
-import fr.osallek.osasaveeditor.controller.pane.CustomPropertySheet;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
-
-import java.util.List;
 
 public abstract class AbstractMapView {
 

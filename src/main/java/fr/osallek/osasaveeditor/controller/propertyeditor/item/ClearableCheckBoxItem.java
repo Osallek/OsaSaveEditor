@@ -4,7 +4,6 @@ import fr.osallek.osasaveeditor.controller.control.ClearableCheckBox;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
@@ -21,20 +20,16 @@ public class ClearableCheckBoxItem implements CustomItem<Boolean> {
 
     private final BooleanProperty editable;
 
-    private final BooleanProperty visible;
-
     public ClearableCheckBoxItem(String category, String name) {
-        this(category, name, null, null, new SimpleBooleanProperty(true), new SimpleBooleanProperty(true));
+        this(category, name, null, null, new SimpleBooleanProperty(true));
     }
 
-    public ClearableCheckBoxItem(String category, String name, String description, BooleanSupplier clearSupplier, BooleanProperty editable,
-                                 BooleanProperty visible) {
+    public ClearableCheckBoxItem(String category, String name, String description, BooleanSupplier clearSupplier, BooleanProperty editable) {
         this.category = category;
         this.name = name;
         this.description = description;
         this.checkBox = new ClearableCheckBox(clearSupplier);
         this.editable = editable;
-        this.visible = visible;
         this.checkBox.managedProperty().bind(this.checkBox.visibleProperty());
     }
 
@@ -80,7 +75,7 @@ public class ClearableCheckBoxItem implements CustomItem<Boolean> {
 
     @Override
     public BooleanProperty isVisible() {
-        return this.visible;
+        return this.checkBox.visibleProperty();
     }
 
     public ClearableCheckBox getCheckBox() {
@@ -89,10 +84,6 @@ public class ClearableCheckBoxItem implements CustomItem<Boolean> {
 
     public void setEditable(boolean editable) {
         this.editable.set(editable);
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible.set(visible);
     }
 
     public boolean isSelected() {

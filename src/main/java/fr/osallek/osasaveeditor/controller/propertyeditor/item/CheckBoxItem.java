@@ -3,7 +3,6 @@ package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 
 import java.util.Optional;
 
@@ -15,9 +14,11 @@ public class CheckBoxItem implements CustomItem<Boolean> {
 
     private final String description;
 
-    private BooleanProperty value;
+    private final BooleanProperty value;
 
     private final BooleanProperty editable;
+
+    private final BooleanProperty visible;
 
     public CheckBoxItem(String category, String name, boolean value) {
         this(category, name, value, null);
@@ -28,11 +29,16 @@ public class CheckBoxItem implements CustomItem<Boolean> {
     }
 
     public CheckBoxItem(String category, String name, boolean value, String description, BooleanProperty editable) {
+        this(category, name, value, description, editable, new SimpleBooleanProperty(true));
+    }
+
+    public CheckBoxItem(String category, String name, boolean value, String description, BooleanProperty editable, BooleanProperty visible) {
         this.category = category;
         this.name = name;
         this.description = description;
         this.value = new SimpleBooleanProperty(value);
         this.editable = editable;
+        this.visible = visible;
     }
 
     @Override
@@ -73,6 +79,11 @@ public class CheckBoxItem implements CustomItem<Boolean> {
     @Override
     public BooleanProperty isEditable() {
         return this.editable;
+    }
+
+    @Override
+    public BooleanProperty isVisible() {
+        return this.visible;
     }
 
     public void setEditable(boolean editable) {

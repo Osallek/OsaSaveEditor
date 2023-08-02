@@ -1,12 +1,12 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.scene.text.Text;
 
 import java.util.Optional;
 
-public record TextItem(String category, String name, String description, Text text) implements CustomItem<String> {
+public record TextItem(String category, String name, String description, Text text, BooleanProperty visible) implements CustomItem<String> {
 
     @Override
     public Class<?> getType() {
@@ -26,5 +26,10 @@ public record TextItem(String category, String name, String description, Text te
     @Override
     public Optional<ObservableValue<String>> getObservableValue() {
         return Optional.of(this.text().textProperty());
+    }
+
+    @Override
+    public BooleanProperty isVisible() {
+        return this.visible;
     }
 }

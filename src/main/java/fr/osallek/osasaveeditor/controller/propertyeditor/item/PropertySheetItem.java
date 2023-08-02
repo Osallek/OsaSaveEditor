@@ -1,6 +1,7 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
 import fr.osallek.osasaveeditor.controller.pane.CustomPropertySheet;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableValue;
 
 import java.util.Optional;
@@ -34,5 +35,10 @@ public record PropertySheetItem(String category, CustomPropertySheet propertyShe
     @Override
     public Optional<ObservableValue<String>> getObservableValue() {
         return Optional.empty();
+    }
+
+    @Override
+    public BooleanProperty isVisible() {
+        return this.propertySheet.visibleProperty();
     }
 }

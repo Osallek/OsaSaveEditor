@@ -4,7 +4,6 @@ import fr.osallek.osasaveeditor.controller.control.ClearableSliderInt;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.util.Optional;
@@ -73,6 +72,11 @@ public class ClearableSliderIntItem implements CustomItem<Integer> {
     @Override
     public BooleanProperty isEditable() {
         return this.editable;
+    }
+
+    @Override
+    public BooleanProperty isVisible() {
+        return this.slider.visibleProperty();
     }
 
     public void setEditable(boolean editable) {

@@ -24,9 +24,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SetProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleSetProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
@@ -58,7 +56,6 @@ public class CustomEditors {
     public static PropertyEditor<?> createTextEditor(CustomPropertySheet.Item property) {
 
         return new AbstractPropertyEditor<String, TextField>(property, new TextField()) {
-
             {
                 enableAutoSelectAll(getEditor());
             }
@@ -110,7 +107,7 @@ public class CustomEditors {
             @Override
             public Number getValue() {
                 try {
-                    return sourceClass.getConstructor(String.class).newInstance(getEditor().getText());
+                    return this.sourceClass.getConstructor(String.class).newInstance(getEditor().getText());
                 } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
                          | NoSuchMethodException | SecurityException e) {
                     e.printStackTrace();
@@ -127,9 +124,9 @@ public class CustomEditors {
         };
     }
 
-    public static PropertyEditor<?> createCheckEditor(CustomPropertySheet.Item property) {
+    public static PropertyEditor<Boolean> createCheckEditor(CustomPropertySheet.Item<Boolean> property) {
 
-        return new AbstractPropertyEditor<Boolean, CheckBox>(property, new CheckBox()) {
+        return new AbstractPropertyEditor<>(property, new CheckBox()) {
 
             @Override
             protected BooleanProperty getObservableValue() {
@@ -232,8 +229,7 @@ public class CustomEditors {
     }
 
     public static PropertyEditor<String> createClearableLabeledTextEditor(ClearableTextItem property) {
-
-        return new AbstractPropertyEditor<String, TextField>(property, property.getTextField()) {
+        return new AbstractPropertyEditor<>(property, property.getTextField()) {
 
             @Override
             protected StringProperty getObservableValue() {

@@ -5,7 +5,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ListCell;
@@ -89,6 +88,11 @@ public class ClearableColorPickerItem implements CustomItem<Color> {
     @Override
     public BooleanProperty isEditable() {
         return this.editable;
+    }
+
+    @Override
+    public BooleanProperty isVisible() {
+        return this.colorPicker.visibleProperty();
     }
 
     public void setEditable(boolean editable) {

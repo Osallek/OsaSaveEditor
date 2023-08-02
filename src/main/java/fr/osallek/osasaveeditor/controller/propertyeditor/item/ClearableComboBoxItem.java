@@ -41,8 +41,6 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
 
     private Predicate<U> filter;
 
-    private final BooleanProperty visible;
-
     public ClearableComboBoxItem(String category, String name, ObservableList<U> values, ClearableComboBox<U> comboBox) {
         this(category, name, values, null, null, comboBox);
     }
@@ -52,18 +50,17 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
     }
 
     public ClearableComboBoxItem(String category, String name, ObservableList<U> values, U value, String description, ClearableComboBox<U> comboBox) {
-        this(category, name, values, value, description, comboBox, new SimpleBooleanProperty(true), new SimpleBooleanProperty(true));
+        this(category, name, values, value, description, comboBox, new SimpleBooleanProperty(true));
     }
 
     public ClearableComboBoxItem(String category, String name, ObservableList<U> values, U value, String description, ClearableComboBox<U> comboBox,
-                                 BooleanProperty editable, BooleanProperty visible) {
+                                 BooleanProperty editable) {
         this.category = category;
         this.name = name;
         this.description = description;
         this.values = values.filtered(null);
         this.comboBox = comboBox;
         this.editable = editable;
-        this.visible = visible;
         this.comboBox.managedProperty().bind(this.comboBox.visibleProperty());
         setValue(value);
     }
@@ -114,7 +111,7 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
 
     @Override
     public BooleanProperty isVisible() {
-        return this.visible;
+        return this.comboBox.visibleProperty();
     }
 
     public void setValues(ObservableList<U> values) {
@@ -123,10 +120,6 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
 
     public void setEditable(boolean editable) {
         this.editable.set(editable);
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible.set(visible);
     }
 
     public ClearableComboBox<U> getComboBox() {

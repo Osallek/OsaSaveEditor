@@ -79,6 +79,11 @@ public class SelectableGridViewItem<U> implements CustomItem<ObservableSet<U>> {
         return this.editable;
     }
 
+    @Override
+    public BooleanProperty isVisible() {
+        return this.selectableGridView.visibleProperty();
+    }
+
     public SelectableGridView<U> getSelectableGridView() {
         return this.selectableGridView;
     }

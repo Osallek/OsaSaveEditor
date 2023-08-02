@@ -5,7 +5,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -20,23 +19,16 @@ public class ClearableSpinnerItem<T> implements CustomItem<T> {
 
     private final BooleanProperty editable;
 
-    private final BooleanProperty visible;
-
 
     public ClearableSpinnerItem(String category, String name, ClearableSpinner<T> spinner) {
         this(category, name, spinner, new SimpleBooleanProperty(true));
     }
 
     public ClearableSpinnerItem(String category, String name, ClearableSpinner<T> spinner, BooleanProperty editable) {
-        this(category, name, spinner, editable, new SimpleBooleanProperty(true));
-    }
-
-    public ClearableSpinnerItem(String category, String name, ClearableSpinner<T> spinner, BooleanProperty editable, BooleanProperty visible) {
         this.category = category;
         this.name = name;
         this.spinner = spinner;
         this.editable = editable;
-        this.visible = visible;
         this.spinner.managedProperty().bind(this.spinner.visibleProperty());
     }
 
@@ -82,15 +74,11 @@ public class ClearableSpinnerItem<T> implements CustomItem<T> {
 
     @Override
     public BooleanProperty isVisible() {
-        return this.visible;
+        return this.spinner.visibleProperty();
     }
 
     public void setEditable(boolean editable) {
         this.editable.set(editable);
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible.set(visible);
     }
 
     public ClearableSpinner<T> getSpinner() {
