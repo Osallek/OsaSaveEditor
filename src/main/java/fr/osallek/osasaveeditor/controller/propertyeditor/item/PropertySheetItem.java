@@ -5,10 +5,10 @@ import javafx.beans.value.ObservableValue;
 
 import java.util.Optional;
 
-public record PropertySheetItem(String category, CustomPropertySheet propertySheet) implements CustomPropertySheet.Item {
+public record PropertySheetItem(String category, CustomPropertySheet propertySheet) implements CustomPropertySheet.Item<String> {
 
     @Override
-    public Class<?> getType() {
+    public Class<PropertySheetItem> getType() {
         return PropertySheetItem.class;
     }
 
@@ -23,16 +23,16 @@ public record PropertySheetItem(String category, CustomPropertySheet propertyShe
     }
 
     @Override
-    public Object getValue() {
+    public String getValue() {
         return null;
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(String value) {
     }
 
     @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
+    public Optional<ObservableValue<String>> getObservableValue() {
         return Optional.empty();
     }
 }

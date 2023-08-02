@@ -66,23 +66,18 @@ public class ButtonItem implements CustomItem<String> {
     }
 
     @Override
-    public Object getValue() {
+    public String getValue() {
         return this.button.getText();
     }
 
     @Override
-    public void setValue(Object value) {
-        this.button.setText((String) value);
+    public void setValue(String value) {
+        this.button.setText(value);
     }
 
     @Override
-    public ObservableList<String> getChoices() {
-        return null;
-    }
-
-    @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
-        return Optional.empty();
+    public Optional<ObservableValue<String>> getObservableValue() {
+        return Optional.of(this.button.textProperty());
     }
 
     @Override

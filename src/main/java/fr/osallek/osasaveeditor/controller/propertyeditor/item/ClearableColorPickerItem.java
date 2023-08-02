@@ -72,22 +72,17 @@ public class ClearableColorPickerItem implements CustomItem<Color> {
     }
 
     @Override
-    public Object getValue() {
+    public Color getValue() {
         return this.colorPicker.getSelectedValue();
     }
 
     @Override
-    public void setValue(Object value) {
-        this.colorPicker.select((Color) value);
+    public void setValue(Color value) {
+        this.colorPicker.select(value);
     }
 
     @Override
-    public ObservableList<Color> getChoices() {
-        return null;
-    }
-
-    @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
+    public Optional<ObservableValue<Color>> getObservableValue() {
         return Optional.of(this.colorPicker.getColorPicker().valueProperty());
     }
 
@@ -102,10 +97,6 @@ public class ClearableColorPickerItem implements CustomItem<Color> {
 
     public ClearableColorPicker getColorPicker() {
         return this.colorPicker;
-    }
-
-    public Color getSelectedValue() {
-        return this.colorPicker.getSelectedValue();
     }
 
     public void setSupplier(Supplier<Color> clearSupplier) {

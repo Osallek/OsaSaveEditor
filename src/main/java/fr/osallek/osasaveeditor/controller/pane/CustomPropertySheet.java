@@ -97,7 +97,7 @@ public class CustomPropertySheet extends CustomControlsFXControl {
      *
      * @see CustomPropertySheet
      */
-    public interface Item {
+    public interface Item<U> {
 
         /**
          * Returns the class type of the property.
@@ -127,17 +127,17 @@ public class CustomPropertySheet extends CustomControlsFXControl {
         /**
          * Returns the current value of the property.
          */
-        Object getValue();
+        U getValue();
 
         /**
          * Sets the current value of the property.
          */
-        void setValue(Object value);
+        void setValue(U value);
 
         /**
          * Returns the underlying ObservableValue, where one exists, that the editor can monitor for changes.
          */
-        Optional<ObservableValue<? extends Object>> getObservableValue();
+        Optional<ObservableValue<U>> getObservableValue();
 
         /**
          * Indicates whether the PropertySheet should allow editing of this property, or whether it is read-only. The default implementation returns true.
@@ -158,7 +158,7 @@ public class CustomPropertySheet extends CustomControlsFXControl {
      *
      **************************************************************************/
 
-    private final ObservableList<Item> items;
+    private final ObservableList<Item<?>> items;
 
 
     /**************************************************************************
@@ -179,7 +179,7 @@ public class CustomPropertySheet extends CustomControlsFXControl {
      *
      * @param items The items that should appear within the PropertySheet.
      */
-    public CustomPropertySheet(ObservableList<Item> items) {
+    public CustomPropertySheet(ObservableList<Item<?>> items) {
         getStyleClass().add(DEFAULT_STYLE_CLASS);
 
         this.items = items == null ? FXCollections.observableArrayList() : items;
@@ -195,7 +195,7 @@ public class CustomPropertySheet extends CustomControlsFXControl {
     /**
      * @return An ObservableList of properties that will be displayed to the user to allow for them to be edited.
      */
-    public ObservableList<Item> getItems() {
+    public ObservableList<Item<?>> getItems() {
         return items;
     }
 

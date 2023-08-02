@@ -56,7 +56,7 @@ public class EstatePropertySheet extends VBox {
         this.propertySheet.setModeSwitcherVisible(false);
         this.propertySheet.setSearchBoxVisible(false);
 
-        List<CustomPropertySheet.Item> items = new ArrayList<>();
+        List<CustomPropertySheet.Item<?>> items = new ArrayList<>();
 
         CustomPropertySheetSkin propertySheetSkin = new CustomPropertySheetSkin(this.propertySheet);
         this.propertySheet.setSkin(propertySheetSkin);

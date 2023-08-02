@@ -158,11 +158,11 @@ public class CustomPropertySheetSkin extends SkinBase<CustomPropertySheet> {
         switch (getSkinnable().modeProperty().get()) {
             case CATEGORY: {
                 // group by category
-                Map<String, List<Item>> categoryMap = getSkinnable().getCategoryComparator() == null ? new LinkedHashMap<>() :
+                Map<String, List<Item<?>>> categoryMap = getSkinnable().getCategoryComparator() == null ? new LinkedHashMap<>() :
                                                       new TreeMap<>(getSkinnable().getCategoryComparator());
-                for (Item p : getSkinnable().getItems()) {
+                for (Item<?> p : getSkinnable().getItems()) {
                     String category = p.category();
-                    List<Item> list = categoryMap.computeIfAbsent(category, k -> new ArrayList<>());
+                    List<Item<?>> list = categoryMap.computeIfAbsent(category, k -> new ArrayList<>());
                     list.add(p);
                 }
 
@@ -219,11 +219,11 @@ public class CustomPropertySheetSkin extends SkinBase<CustomPropertySheet> {
 
     private class PropertyPane extends GridPane {
 
-        public PropertyPane(List<Item> properties) {
+        public PropertyPane(List<Item<?>> properties) {
             this(properties, 0);
         }
 
-        public PropertyPane(List<Item> properties, int nestingLevel) {
+        public PropertyPane(List<Item<?>> properties, int nestingLevel) {
             setVgap(5);
             setHgap(5);
             setPadding(new Insets(5, 15, 5, 15 + nestingLevel * 10));
@@ -232,7 +232,7 @@ public class CustomPropertySheetSkin extends SkinBase<CustomPropertySheet> {
             //            setGridLinesVisible(true);
         }
 
-        public void setItems(List<Item> properties) {
+        public void setItems(List<Item<?>> properties) {
             getChildren().clear();
 
             String filter = getSkinnable().titleFilter().get();
@@ -240,7 +240,7 @@ public class CustomPropertySheetSkin extends SkinBase<CustomPropertySheet> {
 
             int row = 0;
 
-            for (Item item : properties) {
+            for (Item<?> item : properties) {
 
                 // filter properties
                 String title = item.name();
@@ -294,7 +294,7 @@ public class CustomPropertySheetSkin extends SkinBase<CustomPropertySheet> {
         }
 
         @SuppressWarnings("unchecked")
-        private Node getEditor(Item item) {
+        private Node getEditor(Item<?> item) {
             @SuppressWarnings("rawtypes")
             PropertyEditor editor = getSkinnable().getPropertyEditorFactory().call(item);
 

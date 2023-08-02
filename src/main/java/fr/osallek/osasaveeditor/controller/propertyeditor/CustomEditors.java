@@ -24,7 +24,9 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SetProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleSetProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
@@ -47,7 +49,6 @@ import org.controlsfx.property.editor.PropertyEditor;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
 
 public class CustomEditors {

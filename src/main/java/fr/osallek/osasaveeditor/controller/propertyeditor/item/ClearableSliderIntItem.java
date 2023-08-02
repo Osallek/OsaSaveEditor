@@ -56,22 +56,17 @@ public class ClearableSliderIntItem implements CustomItem<Integer> {
     }
 
     @Override
-    public Object getValue() {
+    public Integer getValue() {
         return this.slider.getValue();
     }
 
     @Override
-    public void setValue(Object value) {
-        this.slider.setValue(value == null ? 0 : (int) value);
+    public void setValue(Integer value) {
+        this.slider.setValue(value == null ? 0 : value);
     }
 
     @Override
-    public ObservableList<Integer> getChoices() {
-        return null;
-    }
-
-    @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
+    public Optional<ObservableValue<Integer>> getObservableValue() {
         return Optional.empty();
     }
 
@@ -86,10 +81,6 @@ public class ClearableSliderIntItem implements CustomItem<Integer> {
 
     public ClearableSliderInt getSlider() {
         return this.slider;
-    }
-
-    public int getIntValue() {
-        return this.slider.getValue();
     }
 
     public void setSupplier(IntSupplier clearSupplier) {

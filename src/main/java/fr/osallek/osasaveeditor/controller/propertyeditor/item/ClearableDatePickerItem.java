@@ -4,7 +4,6 @@ import fr.osallek.osasaveeditor.controller.control.ClearableDatePicker;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -60,23 +59,18 @@ public class ClearableDatePickerItem implements CustomItem<LocalDate> {
     }
 
     @Override
-    public Object getValue() {
+    public LocalDate getValue() {
         return this.datePicker.getValue();
     }
 
     @Override
-    public void setValue(Object value) {
-        this.datePicker.setValue((LocalDate) value);
+    public void setValue(LocalDate value) {
+        this.datePicker.setValue(value);
     }
 
     @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
+    public Optional<ObservableValue<LocalDate>> getObservableValue() {
         return Optional.empty();
-    }
-
-    @Override
-    public ObservableList<LocalDate> getChoices() {
-        return null;
     }
 
     @Override
@@ -90,13 +84,5 @@ public class ClearableDatePickerItem implements CustomItem<LocalDate> {
 
     public ClearableDatePicker getDatePicker() {
         return this.datePicker;
-    }
-
-    public LocalDate getTrueValue() {
-        return this.datePicker.getValue();
-    }
-
-    public void setValue(LocalDate date) {
-        this.datePicker.setValue(date);
     }
 }

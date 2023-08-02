@@ -1,7 +1,6 @@
 package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.scene.layout.HBox;
 
 import java.util.Optional;
@@ -52,21 +51,16 @@ public class HBoxItem<U> implements CustomItem<U> {
     }
 
     @Override
-    public Object getValue() {
+    public U getValue() {
         return null;
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(U value) {
     }
 
     @Override
-    public ObservableList<U> getChoices() {
-        return null;
-    }
-
-    @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
+    public Optional<ObservableValue<U>> getObservableValue() {
         return Optional.empty();
     }
 

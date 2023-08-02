@@ -7,7 +7,7 @@ import javafx.collections.ObservableList;
 
 import java.util.Optional;
 
-public class CheckBoxItem implements CustomItem<Void> {
+public class CheckBoxItem implements CustomItem<Boolean> {
 
     private final String category;
 
@@ -15,7 +15,7 @@ public class CheckBoxItem implements CustomItem<Void> {
 
     private final String description;
 
-    private boolean value;
+    private BooleanProperty value;
 
     private final BooleanProperty editable;
 
@@ -31,7 +31,7 @@ public class CheckBoxItem implements CustomItem<Void> {
         this.category = category;
         this.name = name;
         this.description = description;
-        this.value = value;
+        this.value = new SimpleBooleanProperty(value);
         this.editable = editable;
     }
 
@@ -56,23 +56,18 @@ public class CheckBoxItem implements CustomItem<Void> {
     }
 
     @Override
-    public Object getValue() {
-        return this.value;
+    public Boolean getValue() {
+        return this.value.get();
     }
 
     @Override
-    public void setValue(Object value) {
-        this.value = ((boolean) value);
+    public void setValue(Boolean value) {
+        this.value.set(value);
     }
 
     @Override
-    public ObservableList<Void> getChoices() {
-        return null;
-    }
-
-    @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
-        return Optional.empty();
+    public Optional<ObservableValue<Boolean>> getObservableValue() {
+        return Optional.of(this.value);
     }
 
     @Override
@@ -85,6 +80,6 @@ public class CheckBoxItem implements CustomItem<Void> {
     }
 
     public boolean isSelected() {
-        return this.value;
+        return this.value.get();
     }
 }

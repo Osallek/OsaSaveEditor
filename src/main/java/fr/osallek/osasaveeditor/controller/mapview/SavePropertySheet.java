@@ -194,7 +194,7 @@ public class SavePropertySheet extends VBox {
         this.propertySheet.setModeSwitcherVisible(false);
         this.propertySheet.setSearchBoxVisible(false);
 
-        List<CustomPropertySheet.Item> items = new ArrayList<>();
+        List<CustomPropertySheet.Item<?>> items = new ArrayList<>();
 
         CustomPropertySheetSkin propertySheetSkin = new CustomPropertySheetSkin(this.propertySheet);
         this.propertySheet.setSkin(propertySheetSkin);
@@ -844,7 +844,7 @@ public class SavePropertySheet extends VBox {
             this.celestialInfluenceField.setValue(this.save.getCelestialEmpire().getImperialInfluence());
             this.passedCelestialReforms.setAll(this.save.getCelestialEmpire().getMainLinePassedReforms());
             this.notPassedCelestialReforms.setAll(this.save.getCelestialEmpire().getMainLineNotPassedReforms());
-            this.decreeField.setValue(this.save.getCelestialEmpire().getDecree().getDecree());
+            this.decreeField.setValue(new Decree(this.save.getCelestialEmpire().getDecree().getDecree(), this.save));
         }
 
         //RELIGIONS
@@ -860,8 +860,8 @@ public class SavePropertySheet extends VBox {
 
     public void validate() {
         //GAME OPTIONS
-        if (!this.save.getGameplayOptions().getDifficulty().equals(this.difficultyField.getSelectedValue())) {
-            this.save.getGameplayOptions().setDifficulty(this.difficultyField.getSelectedValue());
+        if (!this.save.getGameplayOptions().getDifficulty().equals(this.difficultyField.getValue())) {
+            this.save.getGameplayOptions().setDifficulty(this.difficultyField.getValue());
         }
 
         if (this.save.getGameplayOptions().getAllowHotjoin() != this.allowHotJoinField.isSelected()) {
@@ -894,9 +894,9 @@ public class SavePropertySheet extends VBox {
 
         if (!this.save.getGameplayOptions()
                       .getCustomNationDifficulty()
-                      .equals(this.customNationDifficultyField.getSelectedValue())) {
+                      .equals(this.customNationDifficultyField.getValue())) {
             this.save.getGameplayOptions()
-                     .setCustomNationDifficulty(this.customNationDifficultyField.getSelectedValue());
+                     .setCustomNationDifficulty(this.customNationDifficultyField.getValue());
         }
 
         if (this.save.getGameplayOptions().getAddNationsToGame() != this.addNationsToGameField.isSelected()) {
@@ -950,11 +950,11 @@ public class SavePropertySheet extends VBox {
             for (int i = 0; i < this.institutionAvailableFields.size(); i++) {
                 if ((this.institutionAvailableFields.get(i).isSelected() !=
                      this.save.getInstitutions().isAvailable(i))
-                    || this.institutionOriginFields.get(i).getSelectedValue() != this.save.getInstitutions()
+                    || this.institutionOriginFields.get(i).getValue() != this.save.getInstitutions()
                                                                                           .getOrigin(i)) {
                     if (this.institutionAvailableFields.get(i).isSelected()) {
                         this.save.getInstitutions()
-                                 .availableIn(i, this.institutionOriginFields.get(i).getSelectedValue());
+                                 .availableIn(i, this.institutionOriginFields.get(i).getValue());
                     } else {
                         this.save.getInstitutions().disable(i);
                         this.institutionOriginFields.get(i).getComboBox().reset();
@@ -974,8 +974,8 @@ public class SavePropertySheet extends VBox {
 
         //HRE
         if (!this.save.getHre().dismantled()) {
-            if (this.save.getHre().getEmperor() != this.hreEmperor.getSelectedValue()) {
-                this.save.getHre().setEmperor(this.hreEmperor.getSelectedValue());
+            if (this.save.getHre().getEmperor() != this.hreEmperor.getValue()) {
+                this.save.getHre().setEmperor(this.hreEmperor.getValue());
             }
 
             if (!this.save.getHre().getElectors().equals(this.hreElectors)) {
@@ -999,8 +999,8 @@ public class SavePropertySheet extends VBox {
 
         //CELESTIAL EMPIRE
         if (!this.save.getCelestialEmpire().dismantled()) {
-            if (this.save.getCelestialEmpire().getEmperor() != this.celestialEmperor.getSelectedValue()) {
-                this.save.getCelestialEmpire().setEmperor(this.celestialEmperor.getSelectedValue());
+            if (this.save.getCelestialEmpire().getEmperor() != this.celestialEmperor.getValue()) {
+                this.save.getCelestialEmpire().setEmperor(this.celestialEmperor.getValue());
             }
 
             if (!this.save.getCelestialEmpire()
@@ -1013,19 +1013,18 @@ public class SavePropertySheet extends VBox {
                 this.save.getCelestialEmpire().setPassedReforms(this.passedCelestialReforms);
             }
 
-            if ((this.decreeField.getSelectedValue() == null
-                 && this.save.getCelestialEmpire().getDecree().getDecree() != null)
-                || (this.decreeField.getSelectedValue() != null
-                    && !this.decreeField.getSelectedValue().getDecree().equals(this.save.getCelestialEmpire().getDecree().getDecree().getName()))) {
-                this.save.getCelestialEmpire().setDecree(this.save.getGame().getDecree(this.decreeField.getSelectedValue().getDecree()));
+            if ((this.decreeField.getValue() == null && this.save.getCelestialEmpire().getDecree().getDecree() != null)
+                || (this.decreeField.getValue() != null
+                    && !this.decreeField.getValue().getDecree().equals(this.save.getCelestialEmpire().getDecree().getDecree().getName()))) {
+                this.save.getCelestialEmpire().setDecree(this.save.getGame().getDecree(this.decreeField.getValue().getDecree()));
             }
 
             if (this.hreLeaguesActives != null && !this.save.getHreLeaguesActive().equals(this.hreLeaguesActives.isSelected())) {
                 this.save.setHreLeaguesActive(this.hreLeaguesActives.isSelected());
             }
 
-            if (this.hreReligionStatusField != null && !this.save.getHreReligionStatus().equals(this.hreReligionStatusField.getSelectedValue())) {
-                this.save.setHreReligionStatus(this.hreReligionStatusField.getSelectedValue());
+            if (this.hreReligionStatusField != null && !this.save.getHreReligionStatus().equals(this.hreReligionStatusField.getValue())) {
+                this.save.setHreReligionStatus(this.hreReligionStatusField.getValue());
             }
         }
 
@@ -1040,9 +1039,9 @@ public class SavePropertySheet extends VBox {
             Hegemon hegemon = hegemons.get(i);
             Optional<SaveHegemon> saveHegemon = this.save.getHegemons().stream().filter(h -> hegemon.equals(h.hegemon())).findFirst();
 
-            if (!Objects.equals(this.hegemoniesCountryFields.get(i).getSelectedValue(), saveHegemon.map(SaveHegemon::getCountry).orElse(null))
+            if (!Objects.equals(this.hegemoniesCountryFields.get(i).getValue(), saveHegemon.map(SaveHegemon::getCountry).orElse(null))
                 || !Objects.equals(this.hegemoniesProgressesFields.get(i).getDoubleValue(), saveHegemon.map(SaveHegemon::getProgress).orElse(0d))) {
-                this.save.setHegemon(hegemon, this.hegemoniesCountryFields.get(i).getSelectedValue(), this.hegemoniesProgressesFields.get(i).getDoubleValue());
+                this.save.setHegemon(hegemon, this.hegemoniesCountryFields.get(i).getValue(), this.hegemoniesProgressesFields.get(i).getDoubleValue());
             }
         }
     }

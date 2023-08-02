@@ -14,22 +14,17 @@ public record TextItem(String category, String name, String description, Text te
     }
 
     @Override
-    public Object getValue() {
+    public String getValue() {
         return this.text.getText();
     }
 
     @Override
-    public void setValue(Object value) {
-        this.text.setText((String) value);
+    public void setValue(String value) {
+        this.text.setText(value);
     }
 
     @Override
-    public ObservableList<String> getChoices() {
-        return null;
-    }
-
-    @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
-        return Optional.empty();
+    public Optional<ObservableValue<String>> getObservableValue() {
+        return Optional.of(this.text().textProperty());
     }
 }

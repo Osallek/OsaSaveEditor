@@ -677,7 +677,7 @@ public class CountryPropertySheet extends VBox {
                 String courtExpandedPaneName = this.courtPropertySheetSkin.getAccordion().getExpandedPane() == null ? null :
                                                this.courtPropertySheetSkin.getAccordion().getExpandedPane().getText();
 
-                List<CustomPropertySheet.Item> items = new ArrayList<>();
+                List<CustomPropertySheet.Item<?>> items = new ArrayList<>();
 
                 //GENERAL
                 this.nameField.setValue(CountryStringConverter.INSTANCE.toString(this.country));
@@ -1531,28 +1531,28 @@ public class CountryPropertySheet extends VBox {
     }
 
     public void validate() {
-        if (!Objects.equals(ClausewitzUtils.removeQuotes(this.country.getLocalizedName()), this.nameField.getText())) {
-            this.country.setLocalizedName(this.nameField.getText());
+        if (!Objects.equals(ClausewitzUtils.removeQuotes(this.country.getLocalizedName()), this.nameField.getValue())) {
+            this.country.setLocalizedName(this.nameField.getValue());
         }
 
         if (!Objects.equals(this.country.wasPlayer(), this.wasPlayerField.isSelected())) {
             this.country.setWasPlayer(this.wasPlayerField.isSelected());
         }
 
-        if (!Objects.equals(this.country.getTreasury(), this.treasuryField.getTrueValue())) {
-            this.country.setTreasury(this.treasuryField.getTrueValue());
+        if (!Objects.equals(this.country.getTreasury(), this.treasuryField.getValue())) {
+            this.country.setTreasury(this.treasuryField.getValue());
         }
 
         if (!Objects.equals(this.country.getCorruption(), this.corruptionField.getDoubleValue())) {
             this.country.setCorruption(this.corruptionField.getDoubleValue());
         }
 
-        if (!Objects.equals(this.country.getInflation(), this.inflationField.getTrueValue())) {
-            this.country.setInflation(this.inflationField.getTrueValue());
+        if (!Objects.equals(this.country.getInflation(), this.inflationField.getValue())) {
+            this.country.setInflation(this.inflationField.getValue());
         }
 
-        if (!Objects.equals(this.country.getMercantilism(), this.mercantilismField.getIntValue())) {
-            this.country.setMercantilism(this.mercantilismField.getIntValue());
+        if (!Objects.equals(this.country.getMercantilism(), this.mercantilismField.getValue())) {
+            this.country.setMercantilism(this.mercantilismField.getValue());
         }
 
         if (CollectionUtils.size(this.country.getLoans()) != this.loans.size() || this.loans.stream().anyMatch(Loan::isChanged)) {
@@ -1577,61 +1577,61 @@ public class CountryPropertySheet extends VBox {
             this.loans.forEach(l -> this.country.addLoan(l.getInterest(), l.getAmount(), l.getExpiryDate()));
         }
 
-        if (!Objects.equals(this.country.getGovernmentLevel(), this.governmentRankField.getSelectedValue())) {
-            this.country.setGovernmentRank(this.governmentRankField.getSelectedValue());
+        if (!Objects.equals(this.country.getGovernmentLevel(), this.governmentRankField.getValue())) {
+            this.country.setGovernmentRank(this.governmentRankField.getValue());
         }
 
         if (!Objects.equals(this.country.getGovernment().getReforms(), this.governmentReformsField)) {
             this.country.getGovernment().setReforms(this.governmentReformsField);
         }
 
-        if (!Objects.equals(this.country.getPowers().get(Power.ADM), this.admPointField.getTrueValue())) {
-            this.country.setPower(Power.ADM, this.admPointField.getTrueValue());
+        if (!Objects.equals(this.country.getPowers().get(Power.ADM), this.admPointField.getValue())) {
+            this.country.setPower(Power.ADM, this.admPointField.getValue());
         }
 
-        if (!Objects.equals(this.country.getPowers().get(Power.DIP), this.dipPointField.getTrueValue())) {
-            this.country.setPower(Power.DIP, this.dipPointField.getTrueValue());
+        if (!Objects.equals(this.country.getPowers().get(Power.DIP), this.dipPointField.getValue())) {
+            this.country.setPower(Power.DIP, this.dipPointField.getValue());
         }
 
-        if (!Objects.equals(this.country.getPowers().get(Power.MIL), this.milPointField.getTrueValue())) {
-            this.country.setPower(Power.MIL, this.milPointField.getTrueValue());
+        if (!Objects.equals(this.country.getPowers().get(Power.MIL), this.milPointField.getValue())) {
+            this.country.setPower(Power.MIL, this.milPointField.getValue());
         }
 
-        if (!Objects.equals(this.country.getStability(), this.stabilityField.getTrueValue())) {
-            this.country.setStability(this.stabilityField.getTrueValue());
+        if (!Objects.equals(this.country.getStability(), this.stabilityField.getValue())) {
+            this.country.setStability(this.stabilityField.getValue());
         }
 
-        if (!Objects.equals(this.country.getPrestige(), this.prestigeField.getTrueValue())) {
-            this.country.setPrestige(this.prestigeField.getTrueValue());
+        if (!Objects.equals(this.country.getPrestige(), this.prestigeField.getValue())) {
+            this.country.setPrestige(this.prestigeField.getValue());
         }
 
         if (MapUtils.isNotEmpty(this.country.getSave().getCurrentAge().getAbsolutism())) {
-            if (!Objects.equals(this.country.getAbsolutism(), this.absolutismField.getTrueValue())) {
-                this.country.setAbsolutism(this.absolutismField.getTrueValue());
+            if (!Objects.equals(this.country.getAbsolutism(), this.absolutismField.getValue())) {
+                this.country.setAbsolutism(this.absolutismField.getValue());
             }
         }
 
-        if (!Objects.deepEquals(this.country.getCapital(), this.capitalField.getSelectedValue())) {
-            this.country.setCapital(this.capitalField.getSelectedValue());
+        if (!Objects.deepEquals(this.country.getCapital(), this.capitalField.getValue())) {
+            this.country.setCapital(this.capitalField.getValue());
         }
 
         if (!Objects.deepEquals(OsaSaveEditorUtils.countryToMapColor(this.country), this.mapColorField.getValue())) {
-            this.country.getColors().setMapColor((int) (this.mapColorField.getSelectedValue().getRed() * 255),
-                                                 (int) (this.mapColorField.getSelectedValue().getGreen() * 255),
-                                                 (int) (this.mapColorField.getSelectedValue().getBlue() * 255));
+            this.country.getColors().setMapColor((int) (this.mapColorField.getValue().getRed() * 255),
+                                                 (int) (this.mapColorField.getValue().getGreen() * 255),
+                                                 (int) (this.mapColorField.getValue().getBlue() * 255));
             this.colorChanged.set(true);
         }
 
-        if (!Objects.deepEquals(this.country.getPrimaryCulture(), this.cultureField.getSelectedValue())) {
-            this.country.setPrimaryCulture(this.cultureField.getSelectedValue());
+        if (!Objects.deepEquals(this.country.getPrimaryCulture(), this.cultureField.getValue())) {
+            this.country.setPrimaryCulture(this.cultureField.getValue());
         }
 
-        if (!Objects.deepEquals(this.country.getAcceptedCultures(), this.acceptedCulturesField.getSelectedValues())) {
-            this.country.setAcceptedCulture(new ArrayList<>(this.acceptedCulturesField.getSelectedValues()));
+        if (!Objects.deepEquals(this.country.getAcceptedCultures(), this.acceptedCulturesField.getValue())) {
+            this.country.setAcceptedCulture(new ArrayList<>(this.acceptedCulturesField.getValue()));
         }
 
-        if (!Objects.deepEquals(this.country.getReligion(), this.religionField.getSelectedValue())) {
-            this.country.setReligion(this.religionField.getSelectedValue());
+        if (!Objects.deepEquals(this.country.getReligion(), this.religionField.getValue())) {
+            this.country.setReligion(this.religionField.getValue());
         }
 
         if (this.country.getReligion() != null && BooleanUtils.isTrue(this.country.getReligion().getGameReligion().isUseAuthority())) {
@@ -1675,20 +1675,20 @@ public class CountryPropertySheet extends VBox {
         }
 
         if (this.country.getReligion() != null && this.country.getReligion().getGameReligion().useFetishistCult()) {
-            if (!Objects.deepEquals(this.country.getFetishistCult(), this.fetishistCultField.getSelectedValue())) {
-                this.country.setFetishistCult(this.fetishistCultField.getSelectedValue());
+            if (!Objects.deepEquals(this.country.getFetishistCult(), this.fetishistCultField.getValue())) {
+                this.country.setFetishistCult(this.fetishistCultField.getValue());
             }
         }
 
         if (this.country.getReligion() != null && this.country.getReligion().getGameReligion().usesIsolationism()) {
-            if (!Objects.equals(this.country.getIsolationismLevel(), this.isolationismField.getTrueValue())) {
-                this.country.setIsolationismLevel(this.isolationismField.getTrueValue());
+            if (!Objects.equals(this.country.getIsolationismLevel(), this.isolationismField.getValue())) {
+                this.country.setIsolationismLevel(this.isolationismField.getValue());
             }
         }
 
         if (this.country.getReligion() != null && this.country.getReligion().getGameReligion().usesKarma()) {
-            if (!Objects.equals(this.country.getKarma(), this.karmaField.getIntValue())) {
-                this.country.setKarma(this.karmaField.getIntValue());
+            if (!Objects.equals(this.country.getKarma(), this.karmaField.getValue())) {
+                this.country.setKarma(this.karmaField.getValue());
             }
         }
 
@@ -1733,8 +1733,8 @@ public class CountryPropertySheet extends VBox {
         }
 
         if (this.country.getReligion() != null && this.country.getReligion().getGameReligion().usePersonalDeity()) {
-            if (!Objects.deepEquals(this.country.getPersonalDeity(), this.personalDeityField.getSelectedValue())) {
-                this.country.setPersonalDeity(this.personalDeityField.getSelectedValue());
+            if (!Objects.deepEquals(this.country.getPersonalDeity(), this.personalDeityField.getValue())) {
+                this.country.setPersonalDeity(this.personalDeityField.getValue());
             }
         }
 
@@ -1745,13 +1745,13 @@ public class CountryPropertySheet extends VBox {
         }
 
         if (this.country.getReligion() != null && this.country.getReligion().getGameReligion().canHaveSecondaryReligion()) {
-            if (!Objects.deepEquals(this.country.getSecondaryReligion(), this.secondaryReligionsField.getSelectedValue())) {
-                this.country.setSecondaryReligion(this.secondaryReligionsField.getSelectedValue());
+            if (!Objects.deepEquals(this.country.getSecondaryReligion(), this.secondaryReligionsField.getValue())) {
+                this.country.setSecondaryReligion(this.secondaryReligionsField.getValue());
             }
         }
 
-        if (!Objects.equals(this.country.getGovernmentReformProgress(), this.governmentReformProgressField.getTrueValue())) {
-            this.country.setGovernmentReformProgress(this.governmentReformProgressField.getTrueValue());
+        if (!Objects.equals(this.country.getGovernmentReformProgress(), this.governmentReformProgressField.getValue())) {
+            this.country.setGovernmentReformProgress(this.governmentReformProgressField.getValue());
         }
 
         for (int i = 0; i < this.country.getSave().getInstitutions().getNbInstitutions(); i++) {
@@ -1760,12 +1760,12 @@ public class CountryPropertySheet extends VBox {
             }
         }
 
-        if (!Objects.equals(this.country.getManpower() * 1000, this.manpowerField.getTrueValue())) {
-            this.country.setManpower(this.manpowerField.getTrueValue() / 1000);
+        if (!Objects.equals(this.country.getManpower() * 1000, this.manpowerField.getValue())) {
+            this.country.setManpower(this.manpowerField.getValue() / 1000);
         }
 
-        if (!Objects.equals(this.country.getSailors(), this.sailorsField.getTrueValue())) {
-            this.country.setSailors(this.sailorsField.getTrueValue());
+        if (!Objects.equals(this.country.getSailors(), this.sailorsField.getValue())) {
+            this.country.setSailors(this.sailorsField.getValue());
         }
 
         if (!Objects.equals(this.country.getArmyTradition(), this.armyTraditionField.getDoubleValue())) {
@@ -1862,16 +1862,16 @@ public class CountryPropertySheet extends VBox {
 
         this.estatePropertySheets.forEach(EstatePropertySheet::validate);
 
-        if (!Objects.equals(this.country.getTech().getAdm(), this.admTechField.getTrueValue())) {
-            this.country.getTech().setAdm(this.admTechField.getTrueValue());
+        if (!Objects.equals(this.country.getTech().getAdm(), this.admTechField.getValue())) {
+            this.country.getTech().setAdm(this.admTechField.getValue());
         }
 
-        if (!Objects.equals(this.country.getTech().getDip(), this.dipTechField.getTrueValue())) {
-            this.country.getTech().setDip(this.dipTechField.getTrueValue());
+        if (!Objects.equals(this.country.getTech().getDip(), this.dipTechField.getValue())) {
+            this.country.getTech().setDip(this.dipTechField.getValue());
         }
 
-        if (!Objects.equals(this.country.getTech().getMil(), this.milTechField.getTrueValue())) {
-            this.country.getTech().setMil(this.milTechField.getTrueValue());
+        if (!Objects.equals(this.country.getTech().getMil(), this.milTechField.getValue())) {
+            this.country.getTech().setMil(this.milTechField.getValue());
         }
 
         if (!Objects.equals(this.country.getInnovativeness(), this.innovativenessField.getDoubleValue())) {

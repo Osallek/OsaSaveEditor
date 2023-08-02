@@ -9,7 +9,7 @@ import javafx.collections.ObservableList;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 
-public class ClearableCheckBoxItem implements CustomItem<Void> {
+public class ClearableCheckBoxItem implements CustomItem<Boolean> {
 
     private final String category;
 
@@ -27,7 +27,8 @@ public class ClearableCheckBoxItem implements CustomItem<Void> {
         this(category, name, null, null, new SimpleBooleanProperty(true), new SimpleBooleanProperty(true));
     }
 
-    public ClearableCheckBoxItem(String category, String name, String description, BooleanSupplier clearSupplier, BooleanProperty editable, BooleanProperty visible) {
+    public ClearableCheckBoxItem(String category, String name, String description, BooleanSupplier clearSupplier, BooleanProperty editable,
+                                 BooleanProperty visible) {
         this.category = category;
         this.name = name;
         this.description = description;
@@ -58,22 +59,17 @@ public class ClearableCheckBoxItem implements CustomItem<Void> {
     }
 
     @Override
-    public Object getValue() {
+    public Boolean getValue() {
         return this.checkBox.getValue();
     }
 
     @Override
-    public void setValue(Object value) {
-        this.checkBox.setValue(((boolean) value));
+    public void setValue(Boolean value) {
+        this.checkBox.setValue((value));
     }
 
     @Override
-    public ObservableList<Void> getChoices() {
-        return null;
-    }
-
-    @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
+    public Optional<ObservableValue<Boolean>> getObservableValue() {
         return Optional.ofNullable(this.checkBox.getCheckBox().selectedProperty());
     }
 

@@ -29,8 +29,6 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
 
     private FilteredList<U> values;
 
-    private U value;
-
     private final ClearableComboBox<U> comboBox;
 
     private final BooleanProperty editable;
@@ -63,11 +61,11 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
         this.name = name;
         this.description = description;
         this.values = values.filtered(null);
-        this.value = value;
         this.comboBox = comboBox;
         this.editable = editable;
         this.visible = visible;
         this.comboBox.managedProperty().bind(this.comboBox.visibleProperty());
+        setValue(value);
     }
 
     @Override
@@ -91,23 +89,22 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
     }
 
     @Override
-    public Object getValue() {
-        return this.value;
+    public U getValue() {
+        return this.comboBox.getSelectedValue();
     }
 
     @Override
-    public void setValue(Object value) {
-        this.value = ((U) value);
+    public void setValue(U value) {
+        this.comboBox.getComboBox().setValue(value);
     }
 
-    @Override
     public ObservableList<U> getChoices() {
         return this.values;
     }
 
     @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
-        return Optional.empty();
+    public Optional<ObservableValue<U>> getObservableValue() {
+        return Optional.of(this.comboBox.getComboBox().valueProperty());
     }
 
     @Override
@@ -134,10 +131,6 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
 
     public ClearableComboBox<U> getComboBox() {
         return this.comboBox;
-    }
-
-    public U getSelectedValue() {
-        return this.value;
     }
 
     public void select(U u) {

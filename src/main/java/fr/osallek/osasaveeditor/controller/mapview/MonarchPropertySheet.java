@@ -81,7 +81,7 @@ public class MonarchPropertySheet extends VBox {
         this.propertySheet.setModeSwitcherVisible(false);
         this.propertySheet.setSearchBoxVisible(false);
 
-        List<CustomPropertySheet.Item> items = new ArrayList<>();
+        List<CustomPropertySheet.Item<?>> items = new ArrayList<>();
 
         CustomPropertySheetSkin propertySheetSkin = new CustomPropertySheetSkin(this.propertySheet);
         this.propertySheet.setSkin(propertySheetSkin);
@@ -216,32 +216,32 @@ public class MonarchPropertySheet extends VBox {
     }
 
     public void validate() {
-        if (!ClausewitzUtils.removeQuotes(this.monarch.getName()).equals(this.nameField.getText())) {
-            this.monarch.setName(ClausewitzUtils.addQuotes(this.nameField.getText()));
+        if (!ClausewitzUtils.removeQuotes(this.monarch.getName()).equals(this.nameField.getValue())) {
+            this.monarch.setName(ClausewitzUtils.addQuotes(this.nameField.getValue()));
         }
 
-        if (!Objects.deepEquals(this.monarch.getCulture(), this.cultureField.getSelectedValue())) {
-            this.monarch.setCulture(this.cultureField.getSelectedValue());
+        if (!Objects.deepEquals(this.monarch.getCulture(), this.cultureField.getValue())) {
+            this.monarch.setCulture(this.cultureField.getValue());
         }
 
-        if (!Objects.deepEquals(this.monarch.getReligionName(), this.religionField.getSelectedValue().getName())) {
-            this.monarch.setReligion(this.religionField.getSelectedValue());
+        if (!Objects.deepEquals(this.monarch.getReligionName(), this.religionField.getValue().getName())) {
+            this.monarch.setReligion(this.religionField.getValue());
         }
 
-        if (!Objects.deepEquals(this.monarch.getAdm(), this.admPointField.getTrueValue())) {
-            this.monarch.setAdm(this.admPointField.getTrueValue());
+        if (!Objects.deepEquals(this.monarch.getAdm(), this.admPointField.getValue())) {
+            this.monarch.setAdm(this.admPointField.getValue());
         }
 
-        if (!Objects.deepEquals(this.monarch.getDip(), this.dipPointField.getTrueValue())) {
-            this.monarch.setDip(this.dipPointField.getTrueValue());
+        if (!Objects.deepEquals(this.monarch.getDip(), this.dipPointField.getValue())) {
+            this.monarch.setDip(this.dipPointField.getValue());
         }
 
-        if (!Objects.deepEquals(this.monarch.getMil(), this.milPointField.getTrueValue())) {
-            this.monarch.setMil(this.milPointField.getTrueValue());
+        if (!Objects.deepEquals(this.monarch.getMil(), this.milPointField.getValue())) {
+            this.monarch.setMil(this.milPointField.getValue());
         }
 
-        if (!Objects.deepEquals(this.monarch.getBirthDate(), this.birthDateField.getTrueValue())) {
-            this.monarch.setBirthDate(this.birthDateField.getTrueValue());
+        if (!Objects.deepEquals(this.monarch.getBirthDate(), this.birthDateField.getValue())) {
+            this.monarch.setBirthDate(this.birthDateField.getValue());
         }
 
         if (this.claimField != null && !Objects.deepEquals(((Heir) this.monarch).getClaim(), this.claimField.getDoubleValue())) {

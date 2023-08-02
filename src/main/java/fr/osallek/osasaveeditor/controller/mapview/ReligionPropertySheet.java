@@ -80,7 +80,7 @@ public class ReligionPropertySheet extends VBox {
         this.propertySheet.setModeSwitcherVisible(false);
         this.propertySheet.setSearchBoxVisible(false);
 
-        List<CustomPropertySheet.Item> items = new ArrayList<>();
+        List<CustomPropertySheet.Item<?>> items = new ArrayList<>();
 
         CustomPropertySheetSkin propertySheetSkin = new CustomPropertySheetSkin(this.propertySheet);
         this.propertySheet.setSkin(propertySheetSkin);
@@ -265,20 +265,20 @@ public class ReligionPropertySheet extends VBox {
         }
 
         if (this.defenderOfFaithField != null) {
-            if (!Objects.equals(this.religion.getDefender(), this.defenderOfFaithField.getSelectedValue())) {
-                this.religion.setDefender(this.defenderOfFaithField.getSelectedValue(), this.save.getDate());
+            if (!Objects.equals(this.religion.getDefender(), this.defenderOfFaithField.getValue())) {
+                this.religion.setDefender(this.defenderOfFaithField.getValue(), this.save.getDate());
             }
         }
 
         if (this.papalControllerField != null) {
-            if (!Objects.equals(this.religion.getPapacy().getController(), this.papalControllerField.getSelectedValue())) {
-                this.religion.getPapacy().setController(this.papalControllerField.getSelectedValue());
+            if (!Objects.equals(this.religion.getPapacy().getController(), this.papalControllerField.getValue())) {
+                this.religion.getPapacy().setController(this.papalControllerField.getValue());
             }
         }
 
         if (this.crusadeTargetField != null) {
-            if (!Objects.equals(this.religion.getPapacy().getCrusadeTarget(), this.crusadeTargetField.getSelectedValue())) {
-                this.religion.getPapacy().setCrusadeTarget(this.crusadeTargetField.getSelectedValue());
+            if (!Objects.equals(this.religion.getPapacy().getCrusadeTarget(), this.crusadeTargetField.getValue())) {
+                this.religion.getPapacy().setCrusadeTarget(this.crusadeTargetField.getValue());
             }
         }
 
@@ -289,15 +289,15 @@ public class ReligionPropertySheet extends VBox {
         }
 
         if (this.curiaTreasuryField != null) {
-            if (!Objects.equals(this.religion.getPapacy().getCuriaTreasury(), this.curiaTreasuryField.getTrueValue())) {
-                this.religion.getPapacy().setCuriaTreasury(this.curiaTreasuryField.getTrueValue());
+            if (!Objects.equals(this.religion.getPapacy().getCuriaTreasury(), this.curiaTreasuryField.getValue())) {
+                this.religion.getPapacy().setCuriaTreasury(this.curiaTreasuryField.getValue());
             }
         }
 
         if (this.goldenBullField != null) {
-            if ((this.religion.getPapacy().getGoldenBull() == null && this.goldenBullField.getSelectedValue().getGoldenBull() != null)
-                || !Objects.equals(this.religion.getPapacy().getGoldenBull().getName(), this.goldenBullField.getSelectedValue().getGoldenBull())) {
-                this.religion.getPapacy().setGoldenBull(this.save.getGame().getGoldenBull(this.goldenBullField.getSelectedValue().getGoldenBull()));
+            if ((this.religion.getPapacy().getGoldenBull() == null && this.goldenBullField.getValue().getGoldenBull() != null)
+                || !Objects.equals(this.religion.getPapacy().getGoldenBull().getName(), this.goldenBullField.getValue().getGoldenBull())) {
+                this.religion.getPapacy().setGoldenBull(this.save.getGame().getGoldenBull(this.goldenBullField.getValue().getGoldenBull()));
             }
         }
 

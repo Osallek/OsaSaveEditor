@@ -34,7 +34,7 @@ public abstract class AbstractPropertyEditor<T, C extends Node> implements Prope
      *
      **************************************************************************/
 
-    private final Item property;
+    private final Item<T> property;
     private final C control;
     private boolean suspendUpdate;
 
@@ -52,14 +52,14 @@ public abstract class AbstractPropertyEditor<T, C extends Node> implements Prope
      * @param property The property that the instance is responsible for editing.
      * @param control  The control that is responsible for editing the property.
      */
-    public AbstractPropertyEditor(Item property, C control) {
+    public AbstractPropertyEditor(Item<T> property, C control) {
         this.control = control;
         this.property = property;
 
-        getObservableValue().addListener((ObservableValue<? extends Object> o, Object oldValue, Object newValue) -> {
+        getObservableValue().addListener((ObservableValue<? extends T> o, T oldValue, T newValue) -> {
             if (!suspendUpdate) {
                 suspendUpdate = true;
-                AbstractPropertyEditor.this.property.setValue(getValue());
+                this.property.setValue(getValue());
                 suspendUpdate = false;
             }
         });
@@ -68,7 +68,7 @@ public abstract class AbstractPropertyEditor<T, C extends Node> implements Prope
             property.getObservableValue().get().addListener((ObservableValue<? extends Object> o, Object oldValue, Object newValue) -> {
                 if (!suspendUpdate) {
                     suspendUpdate = true;
-                    AbstractPropertyEditor.this.setValue((T) property.getValue());
+                    setValue(property.getValue());
                     suspendUpdate = false;
                 }
             });
@@ -92,7 +92,7 @@ public abstract class AbstractPropertyEditor<T, C extends Node> implements Prope
     /**
      * Returns the property that this property editor is responsible for editing.
      */
-    public final Item getProperty() {
+    public final Item<T> getProperty() {
         return property;
     }
 

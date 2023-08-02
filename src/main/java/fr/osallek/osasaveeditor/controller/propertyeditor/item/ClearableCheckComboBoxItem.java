@@ -2,7 +2,9 @@ package fr.osallek.osasaveeditor.controller.propertyeditor.item;
 
 import fr.osallek.osasaveeditor.controller.control.ClearableCheckComboBox;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,20 +13,20 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import org.apache.commons.collections4.CollectionUtils;
+import org.controlsfx.control.IndexedCheckModel;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class ClearableCheckComboBoxItem<U> implements CustomItem<U> {
+public class ClearableCheckComboBoxItem<U> implements CustomItem<ObservableList<U>> {
 
     private final String category;
 
     private final String name;
 
     private final ObservableList<U> values;
-
-    private ObservableList<U> selectedValues;
 
     private final ClearableCheckComboBox<U> checkComboBox;
 
@@ -52,11 +54,11 @@ public class ClearableCheckComboBoxItem<U> implements CustomItem<U> {
         this.category = category;
         this.name = name;
         this.values = values;
-        this.selectedValues = selectedValues;
         this.checkComboBox = checkComboBox;
         this.editable = editable;
         this.visible = visible;
         this.checkComboBox.managedProperty().bind(this.checkComboBox.visibleProperty());
+        setValue(selectedValues);
     }
 
     @Override
@@ -80,23 +82,38 @@ public class ClearableCheckComboBoxItem<U> implements CustomItem<U> {
     }
 
     @Override
-    public Object getValue() {
-        return this.selectedValues;
+    public ObservableList<U> getValue() {
+        return this.checkComboBox.getSelectedValues();
     }
 
     @Override
-    public void setValue(Object value) {
-        this.selectedValues = ((ObservableList<U>) value);
+    public void setValue(ObservableList<U> value) {
+        IndexedCheckModel<U> checkModel = this.checkComboBox.getCheckComboBox().getCheckModel();
+
+        if (CollectionUtils.isNotEmpty(value)) {
+            this.checkComboBox.getItems().forEach(t -> {
+                if (value.contains(t)) {
+                    if (!checkModel.isChecked(t)) {
+                        checkModel.check(t);
+                    }
+                } else {
+                    if (checkModel.isChecked(t)) {
+                        checkModel.clearCheck(t);
+                    }
+                }
+            });
+        } else {
+            this.checkComboBox.clearChecks();
+        }
     }
 
-    @Override
     public ObservableList<U> getChoices() {
         return this.values;
     }
 
     @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
-        return Optional.empty();
+    public Optional<ObservableValue<ObservableList<U>>> getObservableValue() {
+        return Optional.of(new SimpleObjectProperty<>(this.checkComboBox.getSelectedValues()));
     }
 
     @Override
@@ -119,10 +136,6 @@ public class ClearableCheckComboBoxItem<U> implements CustomItem<U> {
 
     public ClearableCheckComboBox<U> getCheckComboBox() {
         return this.checkComboBox;
-    }
-
-    public ObservableList<U> getSelectedValues() {
-        return this.selectedValues;
     }
 
     public void check(U u) {

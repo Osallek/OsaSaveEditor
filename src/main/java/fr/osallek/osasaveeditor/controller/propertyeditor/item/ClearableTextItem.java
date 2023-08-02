@@ -4,13 +4,12 @@ import fr.osallek.osasaveeditor.controller.control.CustomClearableTextField;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import org.controlsfx.control.textfield.CustomTextField;
 
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class ClearableTextItem implements CustomItem<Void> {
+public class ClearableTextItem implements CustomItem<String> {
 
     private final String category;
 
@@ -68,23 +67,18 @@ public class ClearableTextItem implements CustomItem<Void> {
     }
 
     @Override
-    public Object getValue() {
+    public String getValue() {
         return this.textField.getText();
     }
 
     @Override
-    public void setValue(Object value) {
-        this.textField.setText(((String) value));
+    public void setValue(String value) {
+        this.textField.setText(value);
     }
 
     @Override
-    public ObservableList<Void> getChoices() {
-        return null;
-    }
-
-    @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
-        return Optional.empty();
+    public Optional<ObservableValue<String>> getObservableValue() {
+        return Optional.of(this.textField.textProperty());
     }
 
     @Override
@@ -112,10 +106,6 @@ public class ClearableTextItem implements CustomItem<Void> {
 
     public Supplier<String> getSupplier() {
         return supplier;
-    }
-
-    public String getText() {
-        return this.textField.getText();
     }
 
     public CustomTextField getTextField() {

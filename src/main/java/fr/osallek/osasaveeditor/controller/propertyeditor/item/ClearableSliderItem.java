@@ -5,13 +5,12 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.util.converter.NumberStringConverter;
 
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
-public class ClearableSliderItem implements CustomItem<Integer> {
+public class ClearableSliderItem implements CustomItem<Double> {
 
     private final String category;
 
@@ -65,23 +64,18 @@ public class ClearableSliderItem implements CustomItem<Integer> {
     }
 
     @Override
-    public Object getValue() {
+    public Double getValue() {
         return this.slider.getValue();
     }
 
     @Override
-    public void setValue(Object value) {
-        this.slider.setValue(value == null ? 0 : (double) value);
+    public void setValue(Double value) {
+        this.slider.setValue(value == null ? 0 : value);
     }
 
     @Override
-    public ObservableList<Integer> getChoices() {
-        return null;
-    }
-
-    @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
-        return Optional.empty();
+    public Optional<ObservableValue<Double>> getObservableValue() {
+        return Optional.of(this.slider.getDoubleProperty().asObject());
     }
 
     @Override

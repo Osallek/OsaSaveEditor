@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class ClearableSpinnerItem<T> implements CustomItem<Integer> {
+public class ClearableSpinnerItem<T> implements CustomItem<T> {
 
     private final String category;
 
@@ -61,23 +61,18 @@ public class ClearableSpinnerItem<T> implements CustomItem<Integer> {
     }
 
     @Override
-    public Object getValue() {
+    public T getValue() {
         return this.spinner.getValue();
     }
 
     @Override
-    public void setValue(Object value) {
-        this.spinner.setValue((T) value);
+    public void setValue(T value) {
+        this.spinner.setValue(value);
     }
 
     @Override
-    public ObservableList<Integer> getChoices() {
-        return null;
-    }
-
-    @Override
-    public Optional<ObservableValue<? extends Object>> getObservableValue() {
-        return Optional.empty();
+    public Optional<ObservableValue<T>> getObservableValue() {
+        return Optional.of(this.spinner.getSpinner().valueProperty());
     }
 
     @Override
@@ -100,10 +95,6 @@ public class ClearableSpinnerItem<T> implements CustomItem<Integer> {
 
     public ClearableSpinner<T> getSpinner() {
         return this.spinner;
-    }
-
-    public T getTrueValue() {
-        return this.spinner.getValue();
     }
 
     public ObjectProperty<T> valueProperty() {
