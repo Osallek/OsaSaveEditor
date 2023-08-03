@@ -101,7 +101,7 @@ public class SelectableGridViewItem<U> implements CustomItem<ObservableSet<U>> {
     }
 
     public void setCellFactory(Function<U, String> textFunction, Function<U, File> imageFunction, File defaultFile) {
-        this.getSelectableGridView().setCellFactory(textFunction, imageFunction, defaultFile);
+        getSelectableGridView().setCellFactory(textFunction, imageFunction, defaultFile);
     }
 
     public Function<U, String> getCellFactory() {

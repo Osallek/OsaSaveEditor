@@ -2,6 +2,7 @@ package fr.osallek.osasaveeditor.controller.control;
 
 import fr.osallek.eu4parser.common.ImageReader;
 import fr.osallek.osasaveeditor.common.OsaSaveEditorUtils;
+import javafx.collections.SetChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.ColorAdjust;
@@ -9,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.stage.PopupWindow;
 import org.controlsfx.control.GridCell;
+import org.controlsfx.control.GridView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +22,8 @@ import java.util.function.Function;
 public class SelectableGridCell<T> extends GridCell<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SelectableGridCell.class);
+
+    private final SelectableGridView<T> gridView;
 
     private final ColorAdjust notSelectedEffect;
 
@@ -35,7 +39,10 @@ public class SelectableGridCell<T> extends GridCell<T> {
 
     private final File defaultFile;
 
-    public SelectableGridCell(Function<T, String> textFunction, Function<T, File> imageFunction, int size, boolean unSelect, File defaultFile) {
+    private boolean init = false;
+
+    public SelectableGridCell(GridView<T> gridView, Function<T, String> textFunction, Function<T, File> imageFunction, int size, File defaultFile) {
+        this.gridView = (SelectableGridView<T>) gridView;
         this.size = size;
         this.defaultFile = defaultFile;
         this.notSelectedEffect = new ColorAdjust();
@@ -55,78 +62,60 @@ public class SelectableGridCell<T> extends GridCell<T> {
         }
 
         setAlignment(Pos.CENTER);
+        updateGridView(gridView);
         setOnMouseClicked(event -> {
             if (MouseButton.PRIMARY.equals(event.getButton())) {
                 SelectableGridCell<T> source = ((SelectableGridCell<T>) event.getSource());
 
-                if (source.isSelected()) {
-                    unSelect();
+                if (this.gridView.isSelected(source.getItem())) {
+                    this.gridView.unSelect(source.getItem());
                 } else {
-                    if (unSelect) {
-                        source.getSelectableGridView().getCells().forEach(SelectableGridCell::unSelect);
-                    }
-                    
-                    source.updateSelected(true);
-                    source.getSelectableGridView().select(source.getItem());
-
-                    if (this.imageView != null) {
-                        this.imageView.setEffect(null);
-                    }
+                    this.gridView.select(source.getItem());
                 }
             }
         });
-    }
-
-    public SelectableGridView<T> getSelectableGridView() {
-        return ((SelectableGridView<T>) gridViewProperty().get());
-    }
-
-    public void unSelect() {
-        updateSelected(false);
-        getSelectableGridView().unSelect(getItem());
-        this.imageView.setEffect(this.notSelectedEffect);
+        this.gridView.getSelectedItems().addListener((SetChangeListener<T>) change -> updateItem(gridView.getItems().get(getIndex()), false));
     }
 
     @Override
     protected void updateItem(T item, boolean empty) {
         super.updateItem(item, empty);
+
         if (!empty) {
+            updateSelected(this.gridView.isSelected(item));
+            this.imageView.setEffect(this.gridView.isSelected(item) ? null : this.notSelectedEffect);
 
-            updateSelected(getSelectableGridView().isSelected(item));
-            getSelectableGridView().getCells().add(this);
-
-            if (this.tooltip != null) {
-                this.tooltip.setText(this.textFunction.apply(item));
-            }
-
-            if (this.imageFunction != null) {
-                try {
-                    BufferedImage image = ImageReader.convertFileToImage(this.imageFunction.apply(item));
-
-                    if (image == null) {
-                        image = ImageReader.convertFileToImage(this.defaultFile);
-                    }
-
-                    if (image != null) {
-                        this.imageView.setImage(OsaSaveEditorUtils.bufferedToView(image).getImage());
-
-                        setGraphic(this.imageView);
-                        setMaxWidth(this.size);
-                        setMaxHeight(this.size);
-                        this.imageView.setFitHeight(this.size);
-                        this.imageView.setFitWidth(this.size);
-
-                        if (!selectedProperty().get()) {
-                            this.imageView.setEffect(this.notSelectedEffect);
-                        } else {
-                            this.imageView.setEffect(null);
-                        }
-                    }
-                } catch (IOException e) {
-                    LOGGER.error(e.getMessage(), e);
+            if (!this.init) {
+                if (this.tooltip != null) {
+                    this.tooltip.setText(this.textFunction.apply(item));
                 }
+
+                if (this.imageFunction != null) {
+                    try {
+                        if (this.imageView.getImage() == null) {
+                            BufferedImage image = ImageReader.convertFileToImage(this.imageFunction.apply(item));
+
+                            if (image == null) {
+                                image = ImageReader.convertFileToImage(this.defaultFile);
+                            }
+
+                            if (image != null) {
+                                this.imageView.setImage(OsaSaveEditorUtils.bufferedToView(image).getImage());
+
+                                setGraphic(this.imageView);
+                                setMaxWidth(this.size);
+                                setMaxHeight(this.size);
+                                this.imageView.setFitHeight(this.size);
+                                this.imageView.setFitWidth(this.size);
+                            }
+                        }
+                    } catch (IOException e) {
+                        LOGGER.error(e.getMessage(), e);
+                    }
+                }
+
+                this.init = true;
             }
         }
     }
-
 }

@@ -7,15 +7,12 @@ import org.controlsfx.control.GridView;
 
 import java.io.File;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class SelectableGridView<T> extends GridView<T> {
 
     private ObservableSet<T> selection = FXCollections.observableSet(new HashSet<>());
-
-    private final Set<SelectableGridCell<T>> cells = new HashSet<>();
 
     private boolean anyItemChanged;
 
@@ -56,7 +53,7 @@ public class SelectableGridView<T> extends GridView<T> {
     }
 
     public void setCellFactory(Function<T, String> textFunction, Function<T, File> imageFunction, File defaultFile) {
-        super.setCellFactory(param -> new SelectableGridCell<>(textFunction, imageFunction, this.size, !this.multiSelect, defaultFile));
+        super.setCellFactory(param -> new SelectableGridCell<>(param, textFunction, imageFunction, this.size, defaultFile));
     }
 
     public void select(T t) {
@@ -83,10 +80,6 @@ public class SelectableGridView<T> extends GridView<T> {
 
     public boolean anyItemChanged() {
         return anyItemChanged;
-    }
-
-    Set<SelectableGridCell<T>> getCells() {
-        return cells;
     }
 
     public void setFilter(Predicate<T> filter) {

@@ -209,7 +209,8 @@ public class SavePropertySheet extends VBox {
                                                            this.save.getGame().getLocalisationClean("FE_DIFFICULTY", Eu4Language.getByLocale(Constants.LOCALE)),
                                                            FXCollections.observableArrayList(Difficulty.values()),
                                                            this.save.getGameplayOptions().getDifficulty(),
-                                                           this.save.getGame().getLocalisationClean("FE_BONUSES_DESC", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                           this.save.getGame()
+                                                                    .getLocalisationClean("FE_BONUSES_DESC", Eu4Language.getByLocale(Constants.LOCALE)),
                                                            new ClearableComboBox<>(new RequiredComboBox<>()));
         this.difficultyField.setConverter(new DifficultyStringConverter(this.save));
         this.difficultyField.setCellFactory(new DifficultyStringCellFactory(this.save));
@@ -243,70 +244,95 @@ public class SavePropertySheet extends VBox {
         this.limitedLedgerField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
                                                    this.save.getGame().getLocalisationClean("FE_LIMITED_LEDGER", Eu4Language.getByLocale(Constants.LOCALE)),
                                                    this.save.getGameplayOptions().getLimitedLedger(),
-                                                   this.save.getGame().getLocalisationClean("FE_LIMITED_LEDGER_DESC", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                   this.save.getGame()
+                                                            .getLocalisationClean("FE_LIMITED_LEDGER_DESC", Eu4Language.getByLocale(Constants.LOCALE)));
 
         this.dynamicProvinceNamesField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
-                                                          this.save.getGame().getLocalisationClean("FE_USE_DYNAMIC_PROVINCE_NAMES", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                          this.save.getGame()
+                                                                   .getLocalisationClean("FE_USE_DYNAMIC_PROVINCE_NAMES",
+                                                                                         Eu4Language.getByLocale(Constants.LOCALE)),
                                                           this.save.getGameplayOptions().getDynamicProvinceNames(),
-                                                          this.save.getGame().getLocalisationClean("FE_DYNAMIC_PROVINCE_DESC", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                          this.save.getGame()
+                                                                   .getLocalisationClean("FE_DYNAMIC_PROVINCE_DESC",
+                                                                                         Eu4Language.getByLocale(Constants.LOCALE)));
 
         this.customNationDifficultyField = new ClearableComboBoxItem<>(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
                                                                        this.save.getGame()
-                                                                                .getLocalisationClean("FE_CUSTOM_NATION_DIFFICULTY", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                .getLocalisationClean("FE_CUSTOM_NATION_DIFFICULTY",
+                                                                                                      Eu4Language.getByLocale(Constants.LOCALE)),
                                                                        FXCollections.observableArrayList(CustomNationDifficulty.values()),
                                                                        this.save.getGameplayOptions().getCustomNationDifficulty(),
                                                                        this.save.getGame()
-                                                                                .getLocalisationClean("CN_DIFFICULTY_TOOLTIP", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                .getLocalisationClean("CN_DIFFICULTY_TOOLTIP",
+                                                                                                      Eu4Language.getByLocale(Constants.LOCALE)),
                                                                        new ClearableComboBox<>(new RequiredComboBox<>()));
         this.customNationDifficultyField.setConverter(new CustomNationDifficultyStringConverter(this.save));
         this.customNationDifficultyField.setCellFactory(new CustomNationDifficultyStringCellFactory(this.save));
         this.customNationDifficultyField.setSupplier(() -> this.save.getGameplayOptions().getCustomNationDifficulty());
 
         this.addNationsToGameField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
-                                                      this.save.getGame().getLocalisationClean("FE_CUSTOM_NATION_ADD_TO_SAVE", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                      this.save.getGame()
+                                                               .getLocalisationClean("FE_CUSTOM_NATION_ADD_TO_SAVE", Eu4Language.getByLocale(Constants.LOCALE)),
                                                       this.save.getGameplayOptions().getAddNationsToGame(),
-                                                      this.save.getGame().getLocalisationClean("CN_ADD_TO_SAVE_TOOLTIP1", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                      this.save.getGame()
+                                                               .getLocalisationClean("CN_ADD_TO_SAVE_TOOLTIP1", Eu4Language.getByLocale(Constants.LOCALE)));
 
         this.showMonthlyTaxIncomeField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
-                                                          this.save.getGame().getLocalisationClean("SHOW_MONTHLY_TAX_INCOME", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                          this.save.getGame()
+                                                                   .getLocalisationClean("SHOW_MONTHLY_TAX_INCOME", Eu4Language.getByLocale(Constants.LOCALE)),
                                                           this.save.getGameplayOptions().getShowMonthlyTaxIncome(),
                                                           this.save.getGame()
-                                                                   .getLocalisationClean("SHOW_MONTHLY_TAX_INCOME_TOOLTIP", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                                   .getLocalisationClean("SHOW_MONTHLY_TAX_INCOME_TOOLTIP",
+                                                                                         Eu4Language.getByLocale(Constants.LOCALE)));
 
         this.colorWastelandsField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
                                                      this.save.getGame().getLocalisationClean("COLOR_WASTELANDS", Eu4Language.getByLocale(Constants.LOCALE)),
                                                      this.save.getGameplayOptions().getColorWastelands(),
-                                                     this.save.getGame().getLocalisationClean("COLOR_WASTELANDS_TOOLTIP", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                     this.save.getGame()
+                                                              .getLocalisationClean("COLOR_WASTELANDS_TOOLTIP", Eu4Language.getByLocale(Constants.LOCALE)));
 
         this.exclavesRegionNameField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
                                                         this.save.getGame().getLocalisationClean("USE_REGION_NAMES", Eu4Language.getByLocale(Constants.LOCALE)),
                                                         this.save.getGameplayOptions().getExclavesRegionName(),
-                                                        this.save.getGame().getLocalisationClean("USE_REGION_NAMES_TOOLTIP", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                        this.save.getGame()
+                                                                 .getLocalisationClean("USE_REGION_NAMES_TOOLTIP", Eu4Language.getByLocale(Constants.LOCALE)));
 
         this.blockNationRuiningField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
-                                                        this.save.getGame().getLocalisationClean("FE_BLOCK_NATION_RUINING", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                        this.save.getGame()
+                                                                 .getLocalisationClean("FE_BLOCK_NATION_RUINING", Eu4Language.getByLocale(Constants.LOCALE)),
                                                         this.save.getGameplayOptions().getBlockNationRuining(),
-                                                        this.save.getGame().getLocalisationClean("FE_BLOCK_NATION_RUINING_DESC", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                        this.save.getGame()
+                                                                 .getLocalisationClean("FE_BLOCK_NATION_RUINING_DESC",
+                                                                                       Eu4Language.getByLocale(Constants.LOCALE)));
 
         this.unlimitedIdeaGroupsField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
-                                                         this.save.getGame().getLocalisationClean("USE_ANY_IDEAGROUP", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                         this.save.getGame()
+                                                                  .getLocalisationClean("USE_ANY_IDEAGROUP", Eu4Language.getByLocale(Constants.LOCALE)),
                                                          this.save.getGameplayOptions().getUnlimitedIdeaGroups(),
-                                                         this.save.getGame().getLocalisationClean("FE_NO_LIMITS_ON_IDEAS_DESC", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                         this.save.getGame()
+                                                                  .getLocalisationClean("FE_NO_LIMITS_ON_IDEAS_DESC",
+                                                                                        Eu4Language.getByLocale(Constants.LOCALE)));
 
         this.allowNameChangeField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
-                                                     this.save.getGame().getLocalisationClean("FE_ALLOW_NAME_CHANGE", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                     this.save.getGame()
+                                                              .getLocalisationClean("FE_ALLOW_NAME_CHANGE", Eu4Language.getByLocale(Constants.LOCALE)),
                                                      this.save.getGameplayOptions().getAllowNameChange(),
-                                                     this.save.getGame().getLocalisationClean("FE_ALLOW_NAME_CHANGE_DESC", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                     this.save.getGame()
+                                                              .getLocalisationClean("FE_ALLOW_NAME_CHANGE_DESC", Eu4Language.getByLocale(Constants.LOCALE)));
 
         this.onlyHostCanPauseField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
                                                       this.save.getGame().getLocalisationClean("FE_ONLY_HOST_PAUSE", Eu4Language.getByLocale(Constants.LOCALE)),
                                                       this.save.getGameplayOptions().getOnlyHostCanPause(),
-                                                      this.save.getGame().getLocalisationClean("FE_ONLY_HOST_PAUSE_DESC", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                      this.save.getGame()
+                                                               .getLocalisationClean("FE_ONLY_HOST_PAUSE_DESC", Eu4Language.getByLocale(Constants.LOCALE)));
 
         this.onlyHostAndObserversCanSaveField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
-                                                                 this.save.getGame().getLocalisationClean("FE_ONLY_HOST_SAVE", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                 this.save.getGame()
+                                                                          .getLocalisationClean("FE_ONLY_HOST_SAVE", Eu4Language.getByLocale(Constants.LOCALE)),
                                                                  this.save.getGameplayOptions().getOnlyHostAndObserversCanSave(),
-                                                                 this.save.getGame().getLocalisationClean("FE_ONLY_HOST_SAVE_DESC", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                                 this.save.getGame()
+                                                                          .getLocalisationClean("FE_ONLY_HOST_SAVE_DESC",
+                                                                                                Eu4Language.getByLocale(Constants.LOCALE)));
 
         this.allowTeamsField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
                                                 this.save.getGame().getLocalisationClean("FE_USE_TEAMS", Eu4Language.getByLocale(Constants.LOCALE)),
@@ -314,10 +340,13 @@ public class SavePropertySheet extends VBox {
                                                 this.save.getGame().getLocalisationClean("USE_TEAMS_TOOLTIP", Eu4Language.getByLocale(Constants.LOCALE)));
 
         this.allowFreeTeamCreationField = new CheckBoxItem(messageSource.getMessage("ose.category.options", null, Constants.LOCALE),
-                                                           this.save.getGame().getLocalisationClean("FE_ALLOW_FREE_TEAM_CREATION", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                           this.save.getGame()
+                                                                    .getLocalisationClean("FE_ALLOW_FREE_TEAM_CREATION",
+                                                                                          Eu4Language.getByLocale(Constants.LOCALE)),
                                                            this.save.getGameplayOptions().getAllowFreeTeamCreation(),
                                                            this.save.getGame()
-                                                                    .getLocalisationClean("ALLOW_FREE_TEAM_CREATION_TOOLTIP", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                                    .getLocalisationClean("ALLOW_FREE_TEAM_CREATION_TOOLTIP",
+                                                                                          Eu4Language.getByLocale(Constants.LOCALE)));
         items.add(this.difficultyField);
         items.add(this.terraIncognitaField);
         items.add(this.dynamicProvinceNamesField);
@@ -383,7 +412,8 @@ public class SavePropertySheet extends VBox {
                 TableViewDialog<PriceChange> dialog = new TableViewDialog<>(this.save,
                                                                             new TableView2PriceChange(this.goodsChangePrices.get(good.getName()), this.save),
                                                                             this.save.getGame()
-                                                                                     .getLocalisationClean("TSI_CURR_MOD_BY", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                     .getLocalisationClean("TSI_CURR_MOD_BY",
+                                                                                                           Eu4Language.getByLocale(Constants.LOCALE)),
                                                                             null,
                                                                             () -> good.getChangePrices()
                                                                                       .stream()
@@ -450,7 +480,8 @@ public class SavePropertySheet extends VBox {
 
             ButtonItem hreElectorsButtonItem = new ButtonItem(messageSource.getMessage("ose.category.hre", null, Constants.LOCALE),
                                                               null,
-                                                              save.getGame().getLocalisationClean("HINT_ELECTOR_TITLE", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                              save.getGame()
+                                                                  .getLocalisationClean("HINT_ELECTOR_TITLE", Eu4Language.getByLocale(Constants.LOCALE)),
                                                               2);
 
             this.hreElectors = FXCollections.observableArrayList(new ArrayList<>(this.save.getHre().getElectors()));
@@ -464,10 +495,13 @@ public class SavePropertySheet extends VBox {
                                                                                                                           new CountryStringCellFactory(),
                                                                                                                           750, 600),
                                                                                             this.save.getGame()
-                                                                                                     .getLocalisationClean("HINT_ELECTOR_TITLE", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                                     .getLocalisationClean("HINT_ELECTOR_TITLE",
+                                                                                                                           Eu4Language.getByLocale(
+                                                                                                                                   Constants.LOCALE)),
                                                                                             () -> countriesAlive.stream()
                                                                                                                 .filter(country -> country.getCapital().inHre())
-                                                                                                                .filter(country -> !this.hreElectors.contains(country))
+                                                                                                                .filter(country -> !this.hreElectors.contains(
+                                                                                                                        country))
                                                                                                                 .collect(Collectors.toList()),
                                                                                             () -> this.save.getHre()
                                                                                                            .getElectors());
@@ -487,7 +521,8 @@ public class SavePropertySheet extends VBox {
 
             ButtonItem hreMainLineReformsButtonItem = new ButtonItem(messageSource.getMessage("ose.category.hre", null, Constants.LOCALE),
                                                                      null,
-                                                                     save.getGame().getLocalisationClean("HRE_REFORMS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                     save.getGame()
+                                                                         .getLocalisationClean("HRE_REFORMS", Eu4Language.getByLocale(Constants.LOCALE)),
                                                                      2);
 
             this.passedHreMainLineReforms = FXCollections.observableArrayList(this.save.getHre().getMainLinePassedReforms());
@@ -503,7 +538,9 @@ public class SavePropertySheet extends VBox {
                 ListSelectionViewDialog<ImperialReform> dialog = new ListSelectionViewDialog<>(this.save,
                                                                                                listSelectionView,
                                                                                                this.save.getGame()
-                                                                                                        .getLocalisationClean("HRE_REFORMS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                                        .getLocalisationClean("HRE_REFORMS",
+                                                                                                                              Eu4Language.getByLocale(
+                                                                                                                                      Constants.LOCALE)),
                                                                                                () -> this.save.getHre().getMainLineNotPassedReforms(),
                                                                                                () -> this.save.getHre().getMainLinePassedReforms());
 
@@ -516,7 +553,9 @@ public class SavePropertySheet extends VBox {
             });
 
             ButtonItem hreLeftBranchReformsButtonItem = new ButtonItem(messageSource.getMessage("ose.category.hre", null, Constants.LOCALE), null,
-                                                                       this.save.getGame().getLocalisationClean("HRE_LEFTBRANCH", Eu4Language.getByLocale(Constants.LOCALE)), 2);
+                                                                       this.save.getGame()
+                                                                                .getLocalisationClean("HRE_LEFTBRANCH",
+                                                                                                      Eu4Language.getByLocale(Constants.LOCALE)), 2);
 
             this.passedHreLeftBranchReforms = FXCollections.observableArrayList(this.save.getHre().getLeftBranchPassedReforms());
             this.notPassedHreLeftBranchReforms = FXCollections.observableArrayList(this.save.getHre().getLeftBranchNotPassedReforms());
@@ -530,7 +569,9 @@ public class SavePropertySheet extends VBox {
                 ListSelectionViewDialog<ImperialReform> dialog = new ListSelectionViewDialog<>(this.save,
                                                                                                listSelectionView,
                                                                                                this.save.getGame()
-                                                                                                        .getLocalisationClean("HRE_LEFTBRANCH", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                                        .getLocalisationClean("HRE_LEFTBRANCH",
+                                                                                                                              Eu4Language.getByLocale(
+                                                                                                                                      Constants.LOCALE)),
                                                                                                () -> this.save.getHre().getLeftBranchNotPassedReforms(),
                                                                                                () -> this.save.getHre().getLeftBranchPassedReforms());
                 Optional<List<ImperialReform>> newLeftBranchReforms = dialog.showAndWait();
@@ -548,7 +589,9 @@ public class SavePropertySheet extends VBox {
 
             ButtonItem hreRightBranchReformsButtonItem = new ButtonItem(messageSource.getMessage("ose.category.hre", null, Constants.LOCALE),
                                                                         null,
-                                                                        this.save.getGame().getLocalisationClean("HRE_RIGHTBRANCH", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                        this.save.getGame()
+                                                                                 .getLocalisationClean("HRE_RIGHTBRANCH",
+                                                                                                       Eu4Language.getByLocale(Constants.LOCALE)),
                                                                         2);
 
             this.passedHreRightBranchReforms = FXCollections.observableArrayList(this.save.getHre().getRightBranchPassedReforms());
@@ -563,7 +606,9 @@ public class SavePropertySheet extends VBox {
                                                                                                        this.notPassedHreRightBranchReforms,
                                                                                                        this.passedHreRightBranchReforms, this.save.getGame()),
                                                                                                this.save.getGame()
-                                                                                                        .getLocalisationClean("HRE_RIGHTBRANCH", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                                        .getLocalisationClean("HRE_RIGHTBRANCH",
+                                                                                                                              Eu4Language.getByLocale(
+                                                                                                                                      Constants.LOCALE)),
                                                                                                () -> this.save
                                                                                                        .getHre()
                                                                                                        .getRightBranchNotPassedReforms(),
@@ -613,7 +658,8 @@ public class SavePropertySheet extends VBox {
         //CELESTIAL EMPIRE
         if (!this.save.getCelestialEmpire().dismantled()) {
             this.celestialEmperor = new ClearableComboBoxItem<>(messageSource.getMessage("ose.category.celestial-empire", null, Constants.LOCALE),
-                                                                save.getGame().getLocalisationClean("HINT_EMPEROR_TITLE", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                save.getGame()
+                                                                    .getLocalisationClean("HINT_EMPEROR_TITLE", Eu4Language.getByLocale(Constants.LOCALE)),
                                                                 new FilteredList<>(countriesAlive,
                                                                                    country ->
                                                                                            "pagan".equals(country.getReligion()
@@ -629,14 +675,17 @@ public class SavePropertySheet extends VBox {
             this.celestialEmperor.setCellFactory(new CountryStringCellFactory());
 
             this.celestialInfluenceField = new ClearableSliderItem(messageSource.getMessage("ose.category.celestial-empire", null, Constants.LOCALE),
-                                                                   save.getGame().getLocalisationClean("CELESTIAL_MANDATE", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                   save.getGame()
+                                                                       .getLocalisationClean("CELESTIAL_MANDATE", Eu4Language.getByLocale(Constants.LOCALE)),
                                                                    0, 100,
                                                                    this.save.getCelestialEmpire().getImperialInfluence(),
                                                                    () -> this.save.getCelestialEmpire().getImperialInfluence());
 
             ButtonItem celestialMainLineReformsButtonItem = new ButtonItem(messageSource.getMessage("ose.category.celestial-empire", null, Constants.LOCALE),
                                                                            null,
-                                                                           save.getGame().getLocalisationClean("CELESTIAL_DECISIONS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                           save.getGame()
+                                                                               .getLocalisationClean("CELESTIAL_DECISIONS",
+                                                                                                     Eu4Language.getByLocale(Constants.LOCALE)),
                                                                            2);
 
             this.passedCelestialReforms = FXCollections.observableArrayList(this.save.getCelestialEmpire().getMainLinePassedReforms());
@@ -652,7 +701,9 @@ public class SavePropertySheet extends VBox {
                 ListSelectionViewDialog<ImperialReform> dialog = new ListSelectionViewDialog<>(this.save,
                                                                                                listSelectionView,
                                                                                                this.save.getGame()
-                                                                                                        .getLocalisationClean("CELESTIAL_DECISIONS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                                        .getLocalisationClean("CELESTIAL_DECISIONS",
+                                                                                                                              Eu4Language.getByLocale(
+                                                                                                                                      Constants.LOCALE)),
                                                                                                () -> this.save
                                                                                                        .getCelestialEmpire()
                                                                                                        .getMainLineNotPassedReforms(),
@@ -673,7 +724,8 @@ public class SavePropertySheet extends VBox {
             decrees.add(0, new Decree(this.save));
 
             this.decreeField = new ClearableComboBoxItem<>(messageSource.getMessage("ose.category.celestial-empire", null, Constants.LOCALE),
-                                                           this.save.getGame().getLocalisationClean("CELESTIAL_DECREES", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                           this.save.getGame()
+                                                                    .getLocalisationClean("CELESTIAL_DECREES", Eu4Language.getByLocale(Constants.LOCALE)),
                                                            FXCollections.observableList(decrees),
                                                            Optional.ofNullable(this.save.getCelestialEmpire().getDecree().getDecree())
                                                                    .map(d -> new Decree(d, this.save))
@@ -722,15 +774,17 @@ public class SavePropertySheet extends VBox {
         }
 
         //EVENTS
-        ButtonItem firedEventsButtonItem = new ButtonItem(this.save.getGame().getLocalisationClean("MENU_MESSAGES_EVENTS", Eu4Language.getByLocale(Constants.LOCALE)),
-                                                          null, messageSource.getMessage("ose.fired-events", null, Constants.LOCALE));
+        ButtonItem firedEventsButtonItem = new ButtonItem(
+                this.save.getGame().getLocalisationClean("MENU_MESSAGES_EVENTS", Eu4Language.getByLocale(Constants.LOCALE)),
+                null, messageSource.getMessage("ose.fired-events", null, Constants.LOCALE));
 
         this.firedEvents = FXCollections.observableArrayList(this.save.getFiredEvents().getEvents());
         this.notFiredEvents = FXCollections.observableArrayList(this.save.getGame().getFireOnlyOnceEvents());
         this.notFiredEvents.removeIf(this.firedEvents::contains);
 
         firedEventsButtonItem.setOnAction(event -> {
-            CustomListSelectionView<Event> selectionView = new CustomListSelectionView<>(this.notFiredEvents, this.firedEvents, new EventStringCellFactory(this.save.getGame()),
+            CustomListSelectionView<Event> selectionView = new CustomListSelectionView<>(this.notFiredEvents, this.firedEvents,
+                                                                                         new EventStringCellFactory(this.save.getGame()),
                                                                                          1400, 600);
 
             ObservableList<Event> tmpFiredEvents = FXCollections.observableArrayList(this.firedEvents);
@@ -739,7 +793,8 @@ public class SavePropertySheet extends VBox {
             ListSelectionViewDialog<Event> dialog = new ListSelectionViewDialog<>(this.save,
                                                                                   selectionView,
                                                                                   this.save.getGame()
-                                                                                           .getLocalisationClean("MENU_MESSAGES_EVENTS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                           .getLocalisationClean("MENU_MESSAGES_EVENTS",
+                                                                                                                 Eu4Language.getByLocale(Constants.LOCALE)),
                                                                                   () -> tmpNotFiredEvents,
                                                                                   () -> tmpFiredEvents);
             Optional<List<Event>> newLeftBranchReforms = dialog.showAndWait();
@@ -785,7 +840,6 @@ public class SavePropertySheet extends VBox {
     }
 
     public void update() {
-        LOGGER.info("Start save update");
         //GAME OPTIONS
         this.difficultyField.setValue(this.save.getGameplayOptions().getDifficulty());
         this.allowHotJoinField.setValue(this.save.getGameplayOptions().getAllowHotjoin());
@@ -854,8 +908,6 @@ public class SavePropertySheet extends VBox {
         this.firedEvents.setAll(this.save.getFiredEvents().getEvents());
         this.notFiredEvents.setAll(this.save.getGame().getFireOnlyOnceEvents());
         this.notFiredEvents.removeIf(this.firedEvents::contains);
-
-        LOGGER.info("End save update");
     }
 
     public void validate() {
@@ -951,7 +1003,7 @@ public class SavePropertySheet extends VBox {
                 if ((this.institutionAvailableFields.get(i).isSelected() !=
                      this.save.getInstitutions().isAvailable(i))
                     || this.institutionOriginFields.get(i).getValue() != this.save.getInstitutions()
-                                                                                          .getOrigin(i)) {
+                                                                                  .getOrigin(i)) {
                     if (this.institutionAvailableFields.get(i).isSelected()) {
                         this.save.getInstitutions()
                                  .availableIn(i, this.institutionOriginFields.get(i).getValue());

@@ -80,6 +80,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -152,7 +153,7 @@ public class ProvincePropertySheet extends VBox {
 
     private final ClearableCheckBoxItem tradeCompanyField;
 
-    private final List<SelectableGridViewItem<Building>> buildingsFields;
+    private final Map<SelectableGridViewItem<Building>, HBoxItem<Building>> buildingsFields;
 
     private final File defaultBuildingImage;
 
@@ -214,7 +215,8 @@ public class ProvincePropertySheet extends VBox {
         this.religionComboBox.setCellFactory(SaveReligionStringCellFactory.INSTANCE);
 
         this.controllerComboBox = new ClearableComboBoxItem<>(this.messageSource.getMessage("ose.category.political", null, Constants.LOCALE),
-                                                              save.getGame().getLocalisationClean("SUPPLY_CONTROLLER", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                              save.getGame()
+                                                                  .getLocalisationClean("SUPPLY_CONTROLLER", Eu4Language.getByLocale(Constants.LOCALE)),
                                                               playableCountries,
                                                               new ClearableComboBox<>(new SearchableComboBox<>()));
         this.controllerComboBox.setConverter(CountryStringConverter.INSTANCE);
@@ -259,7 +261,8 @@ public class ProvincePropertySheet extends VBox {
         this.colonizeForField.setConverter(CountryStringConverter.INSTANCE);
 
         this.nativeHostilenessField = new ClearableSpinnerItem<>(this.messageSource.getMessage("ose.category.colony", null, Constants.LOCALE),
-                                                                 save.getGame().getLocalisationClean("PP_AGGRESSIVE", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                 save.getGame()
+                                                                     .getLocalisationClean("PP_AGGRESSIVE", Eu4Language.getByLocale(Constants.LOCALE)),
                                                                  new ClearableSpinnerInt(0, 10, 1));
 
         this.nativeFerocityField = new ClearableSpinnerItem<>(this.messageSource.getMessage("ose.category.colony", null, Constants.LOCALE),
@@ -304,7 +307,8 @@ public class ProvincePropertySheet extends VBox {
 
         this.latentTradeGoodField = new ClearableComboBoxItem<>(this.messageSource.getMessage("ose.category.economy", null, Constants.LOCALE),
                                                                 save.getGame()
-                                                                    .getLocalisationClean("LATENT_TRADE_GOODS_TOOLTIP_HEADER", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                    .getLocalisationClean("LATENT_TRADE_GOODS_TOOLTIP_HEADER",
+                                                                                          Eu4Language.getByLocale(Constants.LOCALE)),
                                                                 tradeGoods,
                                                                 new ClearableComboBox<>(new SearchableComboBox<>()));
         this.latentTradeGoodField.setConverter(TradeGoodStringConverter.INSTANCE);
@@ -334,7 +338,7 @@ public class ProvincePropertySheet extends VBox {
         }
 
         File defaultBuildingImage1;
-        this.buildingsFields = new ArrayList<>();
+        this.buildingsFields = new LinkedHashMap<>();
         try {
             defaultBuildingImage1 = new ClassPathResource("images/no_building.png").getFile();
         } catch (IOException ignored) {
@@ -346,14 +350,15 @@ public class ProvincePropertySheet extends VBox {
             buildings.removeIf(b -> "manufactory".equals(b.getName()));
 
             if (CollectionUtils.isNotEmpty(buildings)) {
-                SelectableGridViewItem<Building> grid = new SelectableGridViewItem<>(this.messageSource.getMessage("ose.category.buildings", null, Constants.LOCALE),
-                                                                                     new SelectableGridView<>(FXCollections.observableList(buildings),
-                                                                                                              buildings.stream()
-                                                                                                                       .anyMatch(b -> CollectionUtils.isNotEmpty(b.getManufactoryFor())),
-                                                                                                              FXCollections.observableSet(new HashSet<>())));
+                SelectableGridViewItem<Building> grid = new SelectableGridViewItem<>(
+                        this.messageSource.getMessage("ose.category.buildings", null, Constants.LOCALE),
+                        new SelectableGridView<>(FXCollections.observableList(buildings),
+                                                 buildings.stream()
+                                                          .anyMatch(b -> CollectionUtils.isNotEmpty(b.getManufactoryFor())),
+                                                 FXCollections.observableSet(new HashSet<>())));
                 grid.setCellFactory(b -> OsaSaveEditorUtils.localize("building_" + b.getName(), this.province.getSave().getGame()),
                                     Building::getImage, this.defaultBuildingImage);
-                this.buildingsFields.add(grid);
+                this.buildingsFields.put(grid, null);
             }
         });
 
@@ -371,8 +376,9 @@ public class ProvincePropertySheet extends VBox {
                                                          messageSource.getMessage("province.parliament.seat", null, Constants.LOCALE));
         this.parliamentBackingField = new ClearableCheckBoxItem(messageSource.getMessage("ose.category.parliament", null, Constants.LOCALE),
                                                                 messageSource.getMessage("province.parliament.backing", null, Constants.LOCALE));
-        this.parliamentBackingField.isVisible().bind(this.parliamentField.selectedProperty());
-        this.parliamentBackingField.isEditable().bind(this.parliamentField.isEditable().and(this.parliamentField.selectedProperty()));
+        this.parliamentBackingField.isVisible().bind(this.parliamentField.selectedProperty().and(this.parliamentField.isVisible()));
+        this.parliamentBackingField.isEditable()
+                                   .bind(this.parliamentField.isEditable().and(this.parliamentField.selectedProperty()).and(this.parliamentField.isVisible()));
         this.parliamentBribeField = new ClearableComboBoxItem<>(this.messageSource.getMessage("ose.category.parliament", null, Constants.LOCALE),
                                                                 this.messageSource.getMessage("province.parliament.bribe", null, Constants.LOCALE),
                                                                 FXCollections.observableList(save.getGame().getParliamentBribes())
@@ -381,8 +387,9 @@ public class ProvincePropertySheet extends VBox {
                                                                 new ClearableComboBox<>(new SearchableComboBox<>()));
         this.parliamentBribeField.setConverter(ParliamentBribeStringConverter.INSTANCE);
         this.parliamentBribeField.setCellFactory(ParliamentBribeStringCellFactory.INSTANCE);
-        this.parliamentBribeField.isVisible().bind(this.parliamentField.selectedProperty());
-        this.parliamentBribeField.editableProperty().bind(this.parliamentField.isEditable().and(this.parliamentField.selectedProperty()));
+        this.parliamentBribeField.isVisible().bind(this.parliamentField.selectedProperty().and(this.parliamentField.isVisible()));
+        this.parliamentBribeField.editableProperty()
+                                 .bind(this.parliamentField.isEditable().and(this.parliamentField.selectedProperty()).and(this.parliamentField.isVisible()));
 
         this.ownerChangeListener = (observable, oldValue, newValue) -> {
             this.controllerComboBox.select(newValue);
@@ -421,7 +428,33 @@ public class ProvincePropertySheet extends VBox {
         this.propertySheet.getItems().add(this.tradeNodeField);
         this.propertySheet.getItems().add(this.tradeCompanyField);
         this.propertySheet.getItems().addAll(this.institutionFields);
-//        this.propertySheet.getItems().add(new HBoxItem<>(this.messageSource.getMessage("ose.category.buildings", null, Constants.LOCALE), hBox)); //Todo
+
+        ListIterator<SelectableGridViewItem<Building>> iterator = new ArrayList<>(this.buildingsFields.keySet()).listIterator();
+        while (iterator.hasNext()) {
+            SelectableGridViewItem<Building> current = iterator.next();
+            HBox hBox = new HBox(13);
+            HBox.setHgrow(current.getSelectableGridView(), Priority.ALWAYS);
+
+            if (iterator.hasNext()) {
+                SelectableGridViewItem<Building> next = iterator.next();
+
+                if (current.getNbItems() <= 4 && next.getNbItems() <= 4) {
+                    HBox.setHgrow(next.getSelectableGridView(), Priority.ALWAYS);
+                    hBox.getChildren().addAll(current.getSelectableGridView(), next.getSelectableGridView());
+
+                    this.buildingsFields.put(next, this.buildingsFields.get(current));
+                } else {
+                    hBox.getChildren().add(current.getSelectableGridView());
+                    iterator.previous();
+                }
+            } else {
+                hBox.getChildren().add(current.getSelectableGridView());
+            }
+
+            this.buildingsFields.put(current, new HBoxItem<>(this.messageSource.getMessage("ose.category.buildings", null, Constants.LOCALE), hBox));
+            this.propertySheet.getItems().add(this.buildingsFields.get(current));
+        }
+
         this.propertySheet.getItems().add(this.modifiersButton);
         this.propertySheet.getItems().addAll(this.greatProjectsField.values());
         this.propertySheet.getItems().add(this.parliamentField);
@@ -607,37 +640,15 @@ public class ProvincePropertySheet extends VBox {
 
             if (this.province.isCity()) {
                 //BUILDINGS
-                Set<Building> availableBuildings = new HashSet<>(this.province.getAvailableBuildings());
                 Set<Building> buildings = this.province.getBuildings().stream().map(ProvinceBuilding::getBuilding).collect(Collectors.toSet());
-                this.buildingsFields.forEach(item -> {
-                    item.getSelectableGridView().setFilter(availableBuildings::contains);
-                    item.getSelectableGridView().getSelectedItems().clear();
-                    item.getSelectableGridView().getSelectedItems().addAll(buildings);
-                });
-                List<SelectableGridViewItem<Building>> grids = this.buildingsFields.stream()
-                                                                                   .filter(item -> !item.getSelectableGridView().getItems().isEmpty())
-                                                                                   .toList();
-                for (int i = 0; i < grids.size(); i++) {
-                    SelectableGridViewItem<Building> current = grids.get(i);
-                    HBox hBox = new HBox(13);
-                    HBox.setHgrow(current.getSelectableGridView(), Priority.ALWAYS);
-
-                    if (i < grids.size() - 1) {
-                        SelectableGridViewItem<Building> next = grids.get(i + 1);
-
-                        if (current.getNbItems() <= 4 && next.getNbItems() <= 4) {
-                            HBox.setHgrow(next.getSelectableGridView(), Priority.ALWAYS);
-                            hBox.getChildren().addAll(current.getSelectableGridView(), next.getSelectableGridView());
-                            i++;
-                        } else {
-                            hBox.getChildren().add(current.getSelectableGridView());
-                        }
-                    } else {
-                        hBox.getChildren().add(current.getSelectableGridView());
+                this.buildingsFields.keySet().forEach(item -> item.getSelectableGridView().getItems().forEach(b -> {
+                    if (buildings.contains(b) && !item.getSelectableGridView().getSelectedItems().contains(b)) {
+                        item.select(b);
+                    } else if (!buildings.contains(b) && item.getSelectableGridView().getSelectedItems().contains(b)) {
+                        item.unSelect(b);
                     }
-
-                    items.add(new HBoxItem<>(this.messageSource.getMessage("ose.category.buildings", null, Constants.LOCALE), hBox));
-                }
+                }));
+                items.addAll(this.buildingsFields.values());
             }
         }
 
@@ -649,7 +660,8 @@ public class ProvincePropertySheet extends VBox {
                                                                      tableView2Modifier,
                                                                      this.province.getSave()
                                                                                   .getGame()
-                                                                                  .getLocalisationClean("DOMESTIC_MODIFIERS", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                                  .getLocalisationClean("DOMESTIC_MODIFIERS",
+                                                                                                        Eu4Language.getByLocale(Constants.LOCALE)),
                                                                      list -> null,
                                                                      () -> this.modifiers);
             dialog.setDisableAddProperty(new SimpleBooleanProperty(true));
@@ -663,11 +675,11 @@ public class ProvincePropertySheet extends VBox {
         this.greatProjectsField = this.province.getGreatProjects()
                                                .stream()
                                                .map(p -> Map.entry(p,
-                                                                   new ClearableSpinnerItem<>(this.messageSource.getMessage("ose.category.great-projects", null, Constants.LOCALE),
-                                                                                              OsaSaveEditorUtils.localize(p.getName(), this.province.getSave()
-                                                                                                                                                    .getGame()),
-                                                                                              new ClearableSpinnerInt(0, p.getGreatProject().getMaxLevel(),
-                                                                                                                      p.getDevelopmentTier(), 1, p::getDevelopmentTier))))
+                                                                   new ClearableSpinnerItem<>(
+                                                                           this.messageSource.getMessage("ose.category.great-projects", null, Constants.LOCALE),
+                                                                           OsaSaveEditorUtils.localize(p.getName(), this.province.getSave().getGame()),
+                                                                           new ClearableSpinnerInt(0, p.getGreatProject().getMaxLevel(),
+                                                                                                   p.getDevelopmentTier(), 1, p::getDevelopmentTier))))
                                                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         items.addAll(this.greatProjectsField.values());
 
@@ -885,7 +897,8 @@ public class ProvincePropertySheet extends VBox {
         }
 
         if (!this.buildingsFields.isEmpty()) {
-            List<Building> buildings = this.buildingsFields.stream()
+            List<Building> buildings = this.buildingsFields.keySet()
+                                                           .stream()
                                                            .map(SelectableGridViewItem::getValue)
                                                            .flatMap(Collection::stream)
                                                            .distinct()
