@@ -63,9 +63,14 @@ public abstract class PropertySheet<T> extends VBox {
         }
     }
 
-    public abstract Set<CustomPropertySheet.Item<?>> internalUpdate(T t);
+    protected abstract Set<CustomPropertySheet.Item<?>> internalUpdate(T t);
 
-    public abstract void validate();
+    public void validate() {
+        internalValidate();
+        update(this.t);
+    }
+
+    protected abstract void internalValidate();
 
     public Save getSave() {
         return save;

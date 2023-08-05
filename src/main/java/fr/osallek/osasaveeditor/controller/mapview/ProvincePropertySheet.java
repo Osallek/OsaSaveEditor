@@ -687,7 +687,7 @@ public class ProvincePropertySheet extends PropertySheet<SaveProvince> {
         return items;
     }
 
-    public void validate() {
+    public void internalValidate() {
         if (!ClausewitzUtils.removeQuotes(this.t.getName()).equals(this.nameField.getValue())) {
             this.t.setName(this.nameField.getValue());
         }

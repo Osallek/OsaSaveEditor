@@ -110,7 +110,7 @@ public class EstatePropertySheet extends PropertySheet<SaveEstate> {
         return new HashSet<>(this.propertySheet.getItems());
     }
 
-    public void validate() {
+    public void internalValidate() {
         if (!Objects.equals(this.t.getLoyalty(), this.loyaltyField.getDoubleValue())) {
             this.t.setLoyalty(this.loyaltyField.getDoubleValue());
         }

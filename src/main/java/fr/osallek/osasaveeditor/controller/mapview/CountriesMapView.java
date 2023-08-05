@@ -89,7 +89,7 @@ public class CountriesMapView extends AbstractMapView {
             this.provinceSheet.update(province);
         }
 
-        if (!Objects.equals(this.countrySheet.getCountry(), province.getOwner())) {
+        if (!Objects.equals(this.countrySheet.getT(), province.getOwner())) {
             this.countrySheet.update(province.getOwner());
         }
 
@@ -105,7 +105,7 @@ public class CountriesMapView extends AbstractMapView {
             this.mapViewContainer.updateTitle();
 
             if (this.countryButton.isSelected()) {
-                if (this.countrySheet.getCountry() == null) {
+                if (this.countrySheet.getT() == null) {
                     this.mapViewContainer.bindSubmitButtonDisableProperty(new ReadOnlyBooleanWrapper(true));
                 } else {
                     this.mapViewContainer.bindSubmitButtonDisableProperty(this.countrySheet.getValidationSupport().invalidProperty());
@@ -142,7 +142,7 @@ public class CountriesMapView extends AbstractMapView {
             this.mapViewContainer.updateTitle();
         });
 
-        if (this.countrySheet.getCountry() == null) {
+        if (this.countrySheet.getT() == null) {
             this.mapViewContainer.bindSubmitButtonDisableProperty(new ReadOnlyBooleanWrapper(true));
         } else {
             this.mapViewContainer.bindSubmitButtonDisableProperty(this.countrySheet.getValidationSupport().invalidProperty());

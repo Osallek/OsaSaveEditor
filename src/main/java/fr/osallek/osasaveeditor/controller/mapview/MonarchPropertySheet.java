@@ -217,7 +217,7 @@ public class MonarchPropertySheet extends PropertySheet<Monarch> {
         return new HashSet<>(this.propertySheet.getItems());
     }
 
-    public void validate() {
+    public void internalValidate() {
         if (!ClausewitzUtils.removeQuotes(this.t.getName()).equals(this.nameField.getValue())) {
             this.t.setName(ClausewitzUtils.addQuotes(this.nameField.getValue()));
         }

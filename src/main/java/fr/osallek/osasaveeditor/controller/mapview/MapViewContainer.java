@@ -168,7 +168,7 @@ public class MapViewContainer {
         showSheet(this.saveSheet.getPropertySheet());
         setSubmitButtonOnAction(event -> {
             this.saveSheet.validate();
-            this.saveSheet.update();
+            this.saveSheet.update(this.save);
             updateTitle();
         });
         bindSubmitButtonDisableProperty(this.saveSheet.getValidationSupport().invalidProperty());

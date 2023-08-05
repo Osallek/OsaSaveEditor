@@ -60,7 +60,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -79,20 +78,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class SavePropertySheet extends VBox {
+public class SavePropertySheet extends PropertySheet<Save> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SavePropertySheet.class);
-
-    private final Save save;
-
-    private final CustomPropertySheet propertySheet;
 
     private final ValidationSupport validationSupport;
 
@@ -187,17 +184,9 @@ public class SavePropertySheet extends VBox {
     private final List<ClearableSliderItem> hegemoniesProgressesFields;
 
     public SavePropertySheet(Save save, ObservableList<SaveCountry> countriesAlive, ObservableList<SaveProvince> cities, MessageSource messageSource) {
-        this.save = save;
-        this.propertySheet = new CustomPropertySheet();
-        this.propertySheet.setPropertyEditorFactory(new CustomPropertyEditorFactory());
-        this.propertySheet.setMode(CustomPropertySheet.Mode.CATEGORY);
-        this.propertySheet.setModeSwitcherVisible(false);
-        this.propertySheet.setSearchBoxVisible(false);
+        super(save, save);
 
         List<CustomPropertySheet.Item<?>> items = new ArrayList<>();
-
-        CustomPropertySheetSkin propertySheetSkin = new CustomPropertySheetSkin(this.propertySheet);
-        this.propertySheet.setSkin(propertySheetSkin);
 
         this.validationSupport = new ValidationSupport();
         this.validationSupport.setValidationDecorator(
@@ -839,7 +828,8 @@ public class SavePropertySheet extends VBox {
         this.propertySheet.getItems().setAll(items);
     }
 
-    public void update() {
+    @Override
+    public Set<CustomPropertySheet.Item<?>> internalUpdate(Save save) {
         //GAME OPTIONS
         this.difficultyField.setValue(this.save.getGameplayOptions().getDifficulty());
         this.allowHotJoinField.setValue(this.save.getGameplayOptions().getAllowHotjoin());
@@ -913,9 +903,11 @@ public class SavePropertySheet extends VBox {
         this.firedEvents.setAll(this.save.getFiredEvents().getEvents());
         this.notFiredEvents.setAll(this.save.getGame().getFireOnlyOnceEvents());
         this.notFiredEvents.removeIf(this.firedEvents::contains);
+
+        return new HashSet<>(this.propertySheet.getItems());
     }
 
-    public void validate() {
+    public void internalValidate() {
         //GAME OPTIONS
         if (!this.save.getGameplayOptions().getDifficulty().equals(this.difficultyField.getValue())) {
             this.save.getGameplayOptions().setDifficulty(this.difficultyField.getValue());
@@ -1125,15 +1117,7 @@ public class SavePropertySheet extends VBox {
                          .toPlainString();
     }
 
-    public Save getSave() {
-        return save;
-    }
-
     public ValidationSupport getValidationSupport() {
         return validationSupport;
-    }
-
-    public CustomPropertySheet getPropertySheet() {
-        return propertySheet;
     }
 }

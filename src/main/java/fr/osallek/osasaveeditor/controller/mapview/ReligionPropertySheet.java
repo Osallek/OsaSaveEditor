@@ -252,7 +252,7 @@ public class ReligionPropertySheet extends PropertySheet<SaveReligion> {
         return new HashSet<>(this.propertySheet.getItems());
     }
 
-    public void validate() {
+    public void internalValidate() {
         if (this.enableField != null) {
             if (this.enableField.isSelected()) {
                 this.t.setEnable(this.save.getDate());
