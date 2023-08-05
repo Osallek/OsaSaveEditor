@@ -1035,9 +1035,8 @@ public class CountryPropertySheet extends VBox {
                 ((GovernmentRankConverter) this.governmentRankField.getConverter()).setCountry(this.country);
                 ((GovernmentRankCellFactory) this.governmentRankField.getCellFactory()).setCountry(this.country);
                 this.governmentRankField.setValues(FXCollections.observableArrayList(this.country.getGovernmentName().getRanks().keySet()));
-                this.governmentRankField.select(this.country.getGovernmentLevel());
-                this.governmentRankField.setValue(this.country.getGovernmentLevel());
                 this.governmentRankField.setSupplier(() -> this.country.getGovernmentLevel());
+                this.governmentRankField.setValue(this.country.getGovernmentLevel());
                 items.add(this.governmentRankField);
 
                 this.governmentReformProgressField.setSupplier(this.country::getGovernmentReformProgress);
@@ -1626,7 +1625,7 @@ public class CountryPropertySheet extends VBox {
             this.country.setPrimaryCulture(this.cultureField.getValue());
         }
 
-        if (!Objects.deepEquals(this.country.getAcceptedCultures(), this.acceptedCulturesField.getValue())) {
+        if (!CollectionUtils.isEqualCollection(this.country.getAcceptedCultures(), this.acceptedCulturesField.getValue())) {
             this.country.setAcceptedCulture(new ArrayList<>(this.acceptedCulturesField.getValue()));
         }
 

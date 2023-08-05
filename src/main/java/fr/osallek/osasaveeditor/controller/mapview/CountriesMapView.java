@@ -85,7 +85,7 @@ public class CountriesMapView extends AbstractMapView {
 
     @Override
     public void onProvinceSelected(SaveProvince province) {
-        if (!Objects.equals(this.provinceSheet.getProvince(), province)) {
+        if (!Objects.equals(this.provinceSheet.getT(), province)) {
             this.provinceSheet.update(province);
         }
 
@@ -156,7 +156,7 @@ public class CountriesMapView extends AbstractMapView {
         this.mapViewContainer.updateTitle();
         this.mapViewContainer.setSubmitButtonOnAction(e -> {
             this.provinceSheet.validate();
-            this.provinceSheet.update(this.provinceSheet.getProvince());
+            this.provinceSheet.update(this.provinceSheet.getT());
             this.mapViewContainer.updateTitle();
         });
 

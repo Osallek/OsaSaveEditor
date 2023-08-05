@@ -47,6 +47,7 @@ public class ClearableCheckComboBoxItem<U> implements CustomItem<ObservableList<
         this.name = name;
         this.values = values;
         this.checkComboBox = checkComboBox;
+        this.checkComboBox.getItems().setAll(this.values);
         this.editable = editable;
         this.checkComboBox.managedProperty().bind(this.checkComboBox.visibleProperty());
         setValue(selectedValues);

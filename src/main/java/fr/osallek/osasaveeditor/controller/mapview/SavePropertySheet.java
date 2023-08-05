@@ -898,11 +898,16 @@ public class SavePropertySheet extends VBox {
             this.celestialInfluenceField.setValue(this.save.getCelestialEmpire().getImperialInfluence());
             this.passedCelestialReforms.setAll(this.save.getCelestialEmpire().getMainLinePassedReforms());
             this.notPassedCelestialReforms.setAll(this.save.getCelestialEmpire().getMainLineNotPassedReforms());
-            this.decreeField.setValue(new Decree(this.save.getCelestialEmpire().getDecree().getDecree(), this.save));
+
+            if (this.save.getCelestialEmpire().getDecree().getDecree() != null) {
+                this.decreeField.setValue(new Decree(this.save.getCelestialEmpire().getDecree().getDecree(), this.save));
+            } else {
+                this.decreeField.setValue(null);
+            }
         }
 
         //RELIGIONS
-        this.religionPropertySheets.forEach(ReligionPropertySheet::update);
+        this.religionPropertySheets.forEach(sheet -> sheet.update(sheet.t));
 
         //EVENTS
         this.firedEvents.setAll(this.save.getFiredEvents().getEvents());

@@ -35,10 +35,6 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
 
     private EventHandler<ActionEvent> onAction;
 
-    private StringConverter<U> converter;
-
-    private Callback<ListView<U>, ListCell<U>> cellFactory;
-
     private Predicate<U> filter;
 
     public ClearableComboBoxItem(String category, String name, ObservableList<U> values, ClearableComboBox<U> comboBox) {
@@ -149,19 +145,19 @@ public class ClearableComboBoxItem<U> implements CustomItem<U> {
     }
 
     public void setConverter(StringConverter<U> converter) {
-        this.converter = converter;
+        this.comboBox.setConverter(converter);
     }
 
     public StringConverter<U> getConverter() {
-        return this.converter;
+        return this.comboBox.getConverter();
     }
 
     public void setCellFactory(Callback<ListView<U>, ListCell<U>> cellFactory) {
-        this.cellFactory = cellFactory;
+        this.comboBox.setCellFactory(cellFactory);
     }
 
     public Callback<ListView<U>, ListCell<U>> getCellFactory() {
-        return this.cellFactory;
+        return this.comboBox.getCellFactory();
     }
 
     public BooleanProperty editableProperty() {

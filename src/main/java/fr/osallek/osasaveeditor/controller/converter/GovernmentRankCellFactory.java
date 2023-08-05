@@ -25,7 +25,10 @@ public class GovernmentRankCellFactory implements Callback<ListView<Integer>, Li
             @Override
             protected void updateItem(Integer value, boolean empty) {
                 super.updateItem(value, empty);
-                setText(value == null ? null : OsaSaveEditorUtils.localize(country.getGovernmentName().getRank(value), country.getSave().getGame()));
+
+                if (!empty) {
+                    setText(value == null ? null : OsaSaveEditorUtils.localize(country.getGovernmentName().getRank(value), country.getSave().getGame()));
+                }
             }
         };
     }
