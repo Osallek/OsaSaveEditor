@@ -374,7 +374,7 @@ public class EditorController {
         return this.root;
     }
 
-    public void maximize() {
+    public void maximize() throws IOException {
         ((Stage) this.provincesPane.getScene().getWindow()).setMaximized(true);
         ((Stage) this.provincesPane.getScene().getWindow()).setTitle("Osa Save Editor - " + this.title.getText());
         if (this.provincesCanvas.getWidth() > this.provincesPane.getViewportBounds().getWidth()) {

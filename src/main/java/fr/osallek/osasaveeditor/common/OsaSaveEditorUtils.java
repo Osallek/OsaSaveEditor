@@ -66,7 +66,7 @@ public class OsaSaveEditorUtils {
 
     public static Path getSaveFolder(Path gameFolder) {
         try {
-            return Eu4Parser.loadSettings(gameFolder).getSavesFolder();
+            return Eu4Parser.detectSaveFolder().orElse(Eu4Parser.loadSettings(gameFolder).getSavesFolder());
         } catch (IOException e) {
             return null;
         }

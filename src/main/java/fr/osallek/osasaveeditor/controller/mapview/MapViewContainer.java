@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -125,7 +126,7 @@ public class MapViewContainer {
         this.saveButton.setSelected(true);
     }
 
-    public void draw() {
+    public void draw() throws IOException {
         if (this.selectedMapView != null) {
             this.selectedMapView.draw();
         }

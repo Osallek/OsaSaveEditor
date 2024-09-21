@@ -13,6 +13,8 @@ public class ApplicationProperties {
 
     private String gameVersion;
 
+    private String serverUrl;
+
     public ArtifactVersion getVersion() {
         return version;
     }
@@ -27,5 +29,13 @@ public class ApplicationProperties {
 
     public void setGameVersion(String gameVersion) {
         this.gameVersion = gameVersion;
+    }
+
+    public String getServerUrl() {
+        return serverUrl;
+    }
+
+    public void setServerUrl(String serverUrl) {
+        this.serverUrl = serverUrl;
     }
 }

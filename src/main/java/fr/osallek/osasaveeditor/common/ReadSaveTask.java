@@ -44,7 +44,7 @@ public class ReadSaveTask extends Task<Save> {
                                             updateProgress(progress, 100);
                                         });
 
-        return Eu4Parser.loadSave(this.saveFile, game, new HashMap<>(),
+        return Eu4Parser.loadSave(this.saveFile, game, null,
                                   Map.of(item -> ClausewitzItem.DEFAULT_NAME.equals(item.getParent().getName()), this::getProgress));
     }
 

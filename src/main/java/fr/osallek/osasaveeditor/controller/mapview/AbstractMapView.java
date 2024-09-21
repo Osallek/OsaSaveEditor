@@ -4,6 +4,8 @@ import fr.osallek.eu4parser.model.save.province.SaveProvince;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 
+import java.io.IOException;
+
 public abstract class AbstractMapView {
 
     protected final MapViewType type;
@@ -31,7 +33,7 @@ public abstract class AbstractMapView {
         this.selected.setValue(selected);
     }
 
-    public abstract void draw();
+    public abstract void draw() throws IOException;
 
     public abstract void onProvinceSelected(SaveProvince province);
 

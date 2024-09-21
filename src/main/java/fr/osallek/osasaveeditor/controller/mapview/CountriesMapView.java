@@ -12,6 +12,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.paint.Color;
 import org.springframework.context.MessageSource;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class CountriesMapView extends AbstractMapView {
@@ -37,7 +38,11 @@ public class CountriesMapView extends AbstractMapView {
                                                        this.mapViewContainer.getTradeNodes());
         this.provinceSheet.countryChangedProperty().addListener((observable, oldValue, newValue) -> {
             if (Boolean.FALSE.equals(oldValue) && Boolean.TRUE.equals(newValue)) {
-                draw();
+                try {
+                    draw();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         this.provinceSheet.getPropertySheet().visibleProperty().set(false);
@@ -48,7 +53,11 @@ public class CountriesMapView extends AbstractMapView {
                                                      this.mapViewContainer.getPlayableReligions());
         this.countrySheet.colorChangedProperty().addListener((observable, oldValue, newValue) -> {
             if (Boolean.FALSE.equals(oldValue) && Boolean.TRUE.equals(newValue)) {
-                draw();
+                try {
+                    draw();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         this.countrySheet.getPropertySheet().visibleProperty().set(false);
@@ -74,7 +83,7 @@ public class CountriesMapView extends AbstractMapView {
     }
 
     @Override
-    public void draw() {
+    public void draw() throws IOException {
         GraphicsContext graphicsContext = this.mapViewContainer.getCanvas().getGraphicsContext2D();
         graphicsContext.drawImage(OsaSaveEditorUtils.bufferedToView(Eu4MapUtils.generateMapPng(this.save.getGame(), province -> {
             Color color = getOwnerColor(this.save.getProvince(province.getId()));
