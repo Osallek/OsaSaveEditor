@@ -650,13 +650,13 @@ public class SavePropertySheet extends PropertySheet<Save> {
                                                                 save.getGame()
                                                                     .getLocalisationClean("HINT_EMPEROR_TITLE", Eu4Language.getByLocale(Constants.LOCALE)),
                                                                 new FilteredList<>(countriesAlive,
-                                                                                   country ->
-                                                                                           "pagan".equals(country.getReligion()
-                                                                                                                 .getReligionGroup()
-                                                                                                                 .getName())
-                                                                                           || "eastern".equals(country.getReligion()
-                                                                                                                      .getReligionGroup()
-                                                                                                                      .getName())),
+                                                                                   country -> country.getReligion() != null &&
+                                                                                              ("pagan".equals(country.getReligion()
+                                                                                                                     .getReligionGroup()
+                                                                                                                     .getName())
+                                                                                               || "eastern".equals(country.getReligion()
+                                                                                                                          .getReligionGroup()
+                                                                                                                          .getName()))),
                                                                 this.save.getCelestialEmpire().getEmperor(),
                                                                 new ClearableComboBox<>(new SearchableComboBox<>(),
                                                                                         () -> this.save.getCelestialEmpire().getEmperor()));
