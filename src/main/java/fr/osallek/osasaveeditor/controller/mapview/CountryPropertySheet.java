@@ -36,6 +36,7 @@ import fr.osallek.osasaveeditor.controller.control.TableView2Modifier;
 import fr.osallek.osasaveeditor.controller.control.TableView2Policy;
 import fr.osallek.osasaveeditor.controller.control.TableView2Rival;
 import fr.osallek.osasaveeditor.controller.control.TableView2StringDate;
+import fr.osallek.osasaveeditor.controller.converter.CountryStringCellFactory;
 import fr.osallek.osasaveeditor.controller.converter.CountryStringConverter;
 import fr.osallek.osasaveeditor.controller.converter.CultureStringCellFactory;
 import fr.osallek.osasaveeditor.controller.converter.CultureStringConverter;
@@ -217,6 +218,8 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
     private Map<SaveCountry, CountrySubject> countrySubjectsField;
 
     private final ClearableComboBoxItem<SaveCountry> overlordField;
+
+    private final CheckBoxItem breakUnion;
 
     private final ButtonItem rivalsButton;
 
@@ -560,20 +563,26 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
                                                      this.courtPropertySheet));
 
         //Diplomacy
-        this.overlordField = new ClearableComboBoxItem<>(save.getGame().getLocalisationClean("HEADER_DIPLOMACY", Eu4Language.getByLocale(Constants.LOCALE)),
+        this.overlordField = new ClearableComboBoxItem<>(this.messageSource.getMessage("ose.category.diplomacy", null, Constants.LOCALE),
                                                          save.getGame().getLocalisationClean("HEADER_OVERLORD", Eu4Language.getByLocale(Constants.LOCALE)),
                                                          FXCollections.observableArrayList(new ArrayList<>()),
                                                          new ClearableComboBox<>(new ComboBox<>()));
         this.overlordField.setEditable(false);
+        this.overlordField.setConverter(CountryStringConverter.INSTANCE);
+        this.overlordField.setCellFactory(CountryStringCellFactory.INSTANCE);
         this.propertySheet.getItems().add(this.overlordField);
 
-        this.countrySubjectsButton = new ButtonItem(save.getGame().getLocalisationClean("HEADER_DIPLOMACY", Eu4Language.getByLocale(Constants.LOCALE)),
+        this.breakUnion = new CheckBoxItem(this.messageSource.getMessage("ose.category.diplomacy", null, Constants.LOCALE),
+                                           this.messageSource.getMessage("country.breakUnion", null, Constants.LOCALE), false);
+        this.propertySheet.getItems().add(this.breakUnion);
+
+        this.countrySubjectsButton = new ButtonItem(this.messageSource.getMessage("ose.category.diplomacy", null, Constants.LOCALE),
                                                     null,
                                                     save.getGame().getLocalisationClean("HEADER_SUBJECTS", Eu4Language.getByLocale(Constants.LOCALE)),
                                                     2);
         this.propertySheet.getItems().add(this.countrySubjectsButton);
 
-        this.rivalsButton = new ButtonItem(save.getGame().getLocalisationClean("HEADER_DIPLOMACY", Eu4Language.getByLocale(Constants.LOCALE)), null,
+        this.rivalsButton = new ButtonItem(this.messageSource.getMessage("ose.category.diplomacy", null, Constants.LOCALE), null,
                                            save.getGame().getLocalisationClean("RIVALS", Eu4Language.getByLocale(Constants.LOCALE)), 2);
         this.propertySheet.getItems().add(this.rivalsButton);
         this.rivals = FXCollections.observableArrayList();
@@ -1099,49 +1108,49 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
             //Court
             this.courtPropertySheet.getItems().clear();
             this.monarchPropertySheet = null;
-
-            if (this.t.getMonarch() != null) {
-                MonarchPropertySheet sheet = new MonarchPropertySheet(this.t, this.t.getMonarch(),
-                                                                      this.t.getSave()
-                                                                            .getGame()
-                                                                            .getLocalisationClean("CURRENT_MONARCH",
-                                                                                                  Eu4Language.getByLocale(Constants.LOCALE)),
-                                                                      this.cultures, this.religions);
-
-                if (!sheet.getPropertySheet().getItems().isEmpty()) {
-                    this.monarchPropertySheet = sheet;
-                    this.courtPropertySheet.getItems().addAll(sheet.getPropertySheet().getItems());
-                }
-            }
-
             this.heirPropertySheet = null;
-
-            if (this.t.getHeir() != null) {
-                MonarchPropertySheet sheet = new MonarchPropertySheet(this.t, this.t.getHeir(),
-                                                                      this.t.getSave()
-                                                                            .getGame()
-                                                                            .getLocalisationClean("HEIR", Eu4Language.getByLocale(Constants.LOCALE)),
-                                                                      this.cultures, this.religions);
-
-                if (!sheet.getPropertySheet().getItems().isEmpty()) {
-                    this.heirPropertySheet = sheet;
-                    this.courtPropertySheet.getItems().addAll(sheet.getPropertySheet().getItems());
-                }
-            }
-
             this.queenPropertySheet = null;
 
-            if (this.t.getQueen() != null) {
-                MonarchPropertySheet sheet = new MonarchPropertySheet(this.t, this.t.getQueen(),
-                                                                      this.t.getSave()
-                                                                            .getGame()
-                                                                            .getLocalisationClean("CONSORT",
-                                                                                                  Eu4Language.getByLocale(Constants.LOCALE)),
-                                                                      this.cultures, this.religions);
+            if ((this.t.getSubjectType() == null || !"personal_union".equals(this.t.getSubjectType().getName()))) {
+                if (this.t.getMonarch() != null) {
+                    MonarchPropertySheet sheet = new MonarchPropertySheet(this.t, this.t.getMonarch(),
+                                                                          this.t.getSave()
+                                                                                .getGame()
+                                                                                .getLocalisationClean("CURRENT_MONARCH",
+                                                                                                      Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                          this.cultures, this.religions);
 
-                if (!sheet.getPropertySheet().getItems().isEmpty()) {
-                    this.queenPropertySheet = sheet;
-                    this.courtPropertySheet.getItems().addAll(sheet.getPropertySheet().getItems());
+                    if (!sheet.getPropertySheet().getItems().isEmpty()) {
+                        this.monarchPropertySheet = sheet;
+                        this.courtPropertySheet.getItems().addAll(sheet.getPropertySheet().getItems());
+                    }
+                }
+
+                if (this.t.getHeir() != null) {
+                    MonarchPropertySheet sheet = new MonarchPropertySheet(this.t, this.t.getHeir(),
+                                                                          this.t.getSave()
+                                                                                .getGame()
+                                                                                .getLocalisationClean("HEIR", Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                          this.cultures, this.religions);
+
+                    if (!sheet.getPropertySheet().getItems().isEmpty()) {
+                        this.heirPropertySheet = sheet;
+                        this.courtPropertySheet.getItems().addAll(sheet.getPropertySheet().getItems());
+                    }
+                }
+
+                if (this.t.getQueen() != null) {
+                    MonarchPropertySheet sheet = new MonarchPropertySheet(this.t, this.t.getQueen(),
+                                                                          this.t.getSave()
+                                                                                .getGame()
+                                                                                .getLocalisationClean("CONSORT",
+                                                                                                      Eu4Language.getByLocale(Constants.LOCALE)),
+                                                                          this.cultures, this.religions);
+
+                    if (!sheet.getPropertySheet().getItems().isEmpty()) {
+                        this.queenPropertySheet = sheet;
+                        this.courtPropertySheet.getItems().addAll(sheet.getPropertySheet().getItems());
+                    }
                 }
             }
 
@@ -1155,6 +1164,11 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
             this.overlordField.setValues(FXCollections.observableArrayList(this.t.getOverlord()));
             this.overlordField.setValue(this.t.getOverlord());
             items.add(this.overlordField);
+
+            this.breakUnion.setValue(false);
+            if (this.t.getSubjectType() != null && "personal_union".equals(this.t.getSubjectType().getName())) {
+                items.add(this.breakUnion);
+            }
 
             this.countrySubjectsField = this.t.getSubjects()
                                               .stream()
@@ -1175,8 +1189,8 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
                                                     .getGame()
                                                     .getLocalisationClean("HEADER_SUBJECTS", Eu4Language.getByLocale(Constants.LOCALE)),
                                               list -> new CountrySubject(this.t,
-                                                                         this.countriesAlive.get(0),
-                                                                         this.subjectTypes.get(0),
+                                                                         this.countriesAlive.getFirst(),
+                                                                         this.subjectTypes.getFirst(),
                                                                          this.t.getSave().getDate()),
                                               () -> this.t.getSubjects()
                                                           .stream()
@@ -2064,6 +2078,10 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
 
         if (this.removeAnnexPartHre.isVisible().get() && this.removeAnnexPartHre.isSelected()) { //opinion_annex_part_of_empire
             this.t.getSave().getCountries().values().forEach(c -> c.removeOpinionFor(this.t.getTag(), "\"opinion_annex_part_of_empire\""));
+        }
+
+        if (this.breakUnion.isVisible().get() && this.breakUnion.isSelected()) {
+            this.t.getSave().breakUnion(this.t);
         }
     }
 
