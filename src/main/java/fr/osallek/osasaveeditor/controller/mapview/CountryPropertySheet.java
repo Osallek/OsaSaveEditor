@@ -28,6 +28,7 @@ import fr.osallek.osasaveeditor.controller.control.ClearableSpinnerDouble;
 import fr.osallek.osasaveeditor.controller.control.ClearableSpinnerInt;
 import fr.osallek.osasaveeditor.controller.control.CustomListSelectionView;
 import fr.osallek.osasaveeditor.controller.control.RequiredComboBox;
+import fr.osallek.osasaveeditor.controller.control.TableView2Army;
 import fr.osallek.osasaveeditor.controller.control.TableView2CountrySubject;
 import fr.osallek.osasaveeditor.controller.control.TableView2Ideas;
 import fr.osallek.osasaveeditor.controller.control.TableView2Leader;
@@ -54,6 +55,7 @@ import fr.osallek.osasaveeditor.controller.converter.ReligiousReformStringCellFa
 import fr.osallek.osasaveeditor.controller.converter.SaveReligionStringCellFactory;
 import fr.osallek.osasaveeditor.controller.converter.SaveReligionStringConverter;
 import fr.osallek.osasaveeditor.controller.object.ActivePolicy;
+import fr.osallek.osasaveeditor.controller.object.Army;
 import fr.osallek.osasaveeditor.controller.object.CountrySubject;
 import fr.osallek.osasaveeditor.controller.object.Idea;
 import fr.osallek.osasaveeditor.controller.object.Leader;
@@ -124,6 +126,8 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
     private final ObservableList<SaveCountry> countriesAlive;
 
     private final ObservableList<SubjectType> subjectTypes;
+
+    private final ObservableList<SaveProvince> cities;
 
     private final ValidationSupport validationSupport;
 
@@ -251,6 +255,10 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
 
     private final ObservableList<Leader> leaders;
 
+    private final ButtonItem armiesButton;
+
+    private final ObservableList<Army> armies;
+
     private final ButtonItem loansButton;
 
     private final ObservableList<Loan> loans;
@@ -310,10 +318,11 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
     private BooleanProperty colorChanged;
 
     public CountryPropertySheet(MessageSource messageSource, Save save, ObservableList<SaveCountry> countriesAlive, ObservableList<Culture> cultures,
-                                ObservableList<SaveReligion> religions) {
+                                ObservableList<SaveReligion> religions, ObservableList<SaveProvince> cities) {
         super(save, null);
         this.messageSource = messageSource;
         this.countriesAlive = countriesAlive;
+        this.cities = cities;
         this.cultures = cultures;
         this.religions = religions;
         this.subjectTypes = save.getGame()
@@ -629,6 +638,12 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
                                             2);
         this.propertySheet.getItems().add(this.leadersButton);
         this.leaders = FXCollections.observableArrayList();
+
+        this.armiesButton = new ButtonItem(this.messageSource.getMessage("ose.category.military", null, Constants.LOCALE), null,
+                                           this.messageSource.getMessage("country.armies", null, Constants.LOCALE),
+                                           2);
+        this.propertySheet.getItems().add(this.armiesButton);
+        this.armies = FXCollections.observableArrayList();
 
         //ESTATES
         this.estatesPropertySheet = new CustomPropertySheet();
@@ -1259,7 +1274,7 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
             this.leaders.setAll(this.t.getLeaders().values().stream().map(Leader::new).collect(Collectors.toList()));
             this.leadersButton.getButton().setOnAction(event -> {
                 TableViewDialog<Leader> dialog = new TableViewDialog<>(this.t.getSave(),
-                                                                       new TableView2Leader(this.t, this.leaders),
+                                                                       new TableView2Leader(this.t, this.leaders, this.messageSource),
                                                                        this.t.getSave()
                                                                              .getGame()
                                                                              .getLocalisationClean("HEADER_LEADER",
@@ -1283,6 +1298,19 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
                 countrySubjects.ifPresent(this.leaders::setAll);
             });
             items.add(this.leadersButton);
+
+            this.armies.setAll(this.t.getArmies().values().stream().map(Army::new).collect(Collectors.toList()));
+            this.armiesButton.getButton().setOnAction(event -> {
+                TableViewDialog<Army> dialog = new TableViewDialog<>(this.t.getSave(),
+                                                                     new TableView2Army(this.t, this.armies, this.cities, this.messageSource),
+                                                                     this.messageSource.getMessage("country.armies", null, Constants.LOCALE),
+                                                                     list -> new Army(this.t, "Army " + this.armies.size() + 1, this.t.getCapital()),
+                                                                     () -> this.armies);
+                Optional<List<Army>> armies = dialog.showAndWait();
+
+                armies.ifPresent(this.armies::setAll);
+            });
+            items.add(this.armiesButton);
 
             //Estates
             this.estatePropertySheets.clear();

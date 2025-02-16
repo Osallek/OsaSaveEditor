@@ -1,6 +1,8 @@
 package fr.osallek.osasaveeditor.common;
 
 import fr.osallek.eu4parser.common.Eu4Utils;
+import fr.osallek.osasaveeditor.OsaSaveEditorApplication;
+import javafx.scene.image.Image;
 
 import java.nio.file.Path;
 import java.time.chrono.IsoChronology;
@@ -23,6 +25,8 @@ public final class Constants {
 
     //Images
     public static final String IMAGE_ICON = "/images/favicon.ico";
+
+    public static final Image ICON_IMAGE = new Image(OsaSaveEditorApplication.class.getResourceAsStream(IMAGE_ICON));
 
     public static final Path EDITOR_FOLDER = Eu4Utils.OSALLEK_DOCUMENTS_FOLDER.resolve("OsaSaveEditor");
 

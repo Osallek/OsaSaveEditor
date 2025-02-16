@@ -50,7 +50,8 @@ public class CountriesMapView extends AbstractMapView {
         this.countrySheet = new CountryPropertySheet(messageSource, this.mapViewContainer.getSave(),
                                                      this.mapViewContainer.getCountriesAlive(),
                                                      this.mapViewContainer.getCultures(),
-                                                     this.mapViewContainer.getPlayableReligions());
+                                                     this.mapViewContainer.getPlayableReligions(),
+                                                     this.mapViewContainer.getCities());
         this.countrySheet.colorChangedProperty().addListener((observable, oldValue, newValue) -> {
             if (Boolean.FALSE.equals(oldValue) && Boolean.TRUE.equals(newValue)) {
                 try {

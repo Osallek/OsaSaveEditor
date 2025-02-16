@@ -81,7 +81,7 @@ public class TableView2ReformationCenter extends TableView<ReformationCenter> {
                 });
                 c.getAddedSubList().forEach(s -> {
                     this.reformationCenters.values().forEach(list -> list.remove(s.getProvince()));
-                    this.reformationCenters.put(s, this.getNewList());
+                    this.reformationCenters.put(s, getNewList());
                 });
             }
         });

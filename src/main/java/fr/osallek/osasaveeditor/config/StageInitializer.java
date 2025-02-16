@@ -37,7 +37,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
             stage.setMaximized(true);
             stage.setScene(scene);
             stage.setTitle("Osa Save Editor");
-            stage.getIcons().add(new Image(getClass().getResourceAsStream(Constants.IMAGE_ICON)));
+            stage.getIcons().add(Constants.ICON_IMAGE);
             stage.show();
         } catch (Exception e) {
             LOGGER.error("{}", e.getMessage(), e);

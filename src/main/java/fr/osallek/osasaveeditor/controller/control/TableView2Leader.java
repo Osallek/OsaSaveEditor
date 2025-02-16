@@ -14,35 +14,36 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.skin.TableColumnHeader;
 import javafx.util.converter.IntegerStringConverter;
+import org.springframework.context.MessageSource;
 
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TableView2Leader extends TableView<Leader> {
+public class TableView2Leader extends CustomTableView<Leader> {
 
-    public TableView2Leader(SaveCountry country, ObservableList<Leader> leaders) {
-        TableColumn<Leader, String> name = new TableColumn<>(country.getSave().getGame().getLocalisationClean("NAME", Eu4Language.getByLocale(Constants.LOCALE)));
+    public TableView2Leader(SaveCountry country, ObservableList<Leader> leaders, MessageSource messageSource) {
+        TableColumn<Leader, String> name = new TableColumn<>(messageSource.getMessage("ose.name", null, Constants.LOCALE));
         name.setCellValueFactory(p -> p.getValue() == null ? null : new ReadOnlyObjectWrapper<>(p.getValue().getName()));
         name.setCellFactory(TextFieldTableCell.forTableColumn());
         name.setOnEditCommit(event -> event.getRowValue().setName(event.getNewValue()));
-        name.setPrefWidth(150);
         name.setStyle("-fx-alignment: CENTER-LEFT");
 
         TableColumn<Leader, LeaderType> type = new TableColumn<>(country.getSave()
                                                                         .getGame()
-                                                                        .getLocalisationCleanNoPunctuation("LEDGER_TYPE", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                                        .getLocalisationCleanNoPunctuation("LEDGER_TYPE",
+                                                                                                           Eu4Language.getByLocale(Constants.LOCALE)));
         type.setCellValueFactory(p -> p.getValue() == null ? null : new ReadOnlyObjectWrapper<>(p.getValue().getType()));
         type.setCellFactory(ComboBoxTableCell.forTableColumn(new LeaderTypeStringConverter(country.getSave().getGame()), LeaderType.values()));
         type.setOnEditCommit(event -> event.getRowValue().setType(event.getNewValue()));
-        type.setPrefWidth(100);
         type.setStyle("-fx-alignment: CENTER-LEFT");
 
-        TableColumn<Leader, Integer> fire = new TableColumn<>(country.getSave().getGame().getLocalisationCleanNoPunctuation("FIRE", Eu4Language.getByLocale(Constants.LOCALE)));
+        TableColumn<Leader, Integer> fire = new TableColumn<>(
+                country.getSave().getGame().getLocalisationCleanNoPunctuation("FIRE", Eu4Language.getByLocale(Constants.LOCALE)));
         fire.setCellValueFactory(p -> p.getValue() == null ? null : new ReadOnlyObjectWrapper<>(p.getValue().getFire()));
         fire.setCellFactory(SpinnerTableCell.forTableColumn(0, 6, 1, new IntegerStringConverter()));
         fire.setOnEditCommit(event -> event.getRowValue().setFire(event.getNewValue()));
@@ -56,17 +57,16 @@ public class TableView2Leader extends TableView<Leader> {
         shock.setCellValueFactory(p -> p.getValue() == null ? null : new ReadOnlyObjectWrapper<>(p.getValue().getShock()));
         shock.setCellFactory(SpinnerTableCell.forTableColumn(0, 6, 1, new IntegerStringConverter()));
         shock.setOnEditCommit(event -> event.getRowValue().setShock(event.getNewValue()));
-        shock.setPrefWidth(50);
         shock.setEditable(true);
         shock.setStyle("-fx-alignment: CENTER-LEFT");
 
         TableColumn<Leader, Integer> maneuever = new TableColumn<>(country.getSave()
                                                                           .getGame()
-                                                                          .getLocalisationCleanNoPunctuation("MANEUEVER", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                                          .getLocalisationCleanNoPunctuation("MANEUEVER",
+                                                                                                             Eu4Language.getByLocale(Constants.LOCALE)));
         maneuever.setCellValueFactory(p -> p.getValue() == null ? null : new ReadOnlyObjectWrapper<>(p.getValue().getManuever()));
         maneuever.setCellFactory(SpinnerTableCell.forTableColumn(0, 6, 1, new IntegerStringConverter()));
         maneuever.setOnEditCommit(event -> event.getRowValue().setManuever(event.getNewValue()));
-        maneuever.setPrefWidth(100);
         maneuever.setEditable(true);
         maneuever.setStyle("-fx-alignment: CENTER-LEFT");
 
@@ -76,13 +76,13 @@ public class TableView2Leader extends TableView<Leader> {
         siege.setCellValueFactory(p -> p.getValue() == null ? null : new ReadOnlyObjectWrapper<>(p.getValue().getSiege()));
         siege.setCellFactory(SpinnerTableCell.forTableColumn(0, 6, 1, new IntegerStringConverter()));
         siege.setOnEditCommit(event -> event.getRowValue().setSiege(event.getNewValue()));
-        siege.setPrefWidth(50);
         siege.setEditable(true);
         siege.setStyle("-fx-alignment: CENTER-LEFT");
 
         TableColumn<Leader, LeaderPersonality> personality = new TableColumn<>(country.getSave()
                                                                                       .getGame()
-                                                                                      .getLocalisationCleanNoPunctuation("PERSONALITY", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                                                      .getLocalisationCleanNoPunctuation("PERSONALITY", Eu4Language.getByLocale(
+                                                                                              Constants.LOCALE)));
         personality.setCellValueFactory(p -> p.getValue() == null ? null : new ReadOnlyObjectWrapper<>(p.getValue().getPersonality()));
         personality.setCellFactory(ComboBoxTableCell.forTableColumn(new LeaderPersonalityStringConverter(country.getSave().getGame()),
                                                                     Stream.concat(country.getSave().getGame().getLeaderPersonalities().stream(),
@@ -94,12 +94,12 @@ public class TableView2Leader extends TableView<Leader> {
                                                                                                        Eu4Utils.COLLATOR)))
                                                                           .collect(Collectors.toCollection(FXCollections::observableArrayList))));
         personality.setOnEditCommit(event -> event.getRowValue().setPersonality(event.getNewValue()));
-        personality.setPrefWidth(200);
         personality.setStyle("-fx-alignment: CENTER-LEFT");
 
         TableColumn<Leader, LocalDate> birthDate = new TableColumn<>(country.getSave()
                                                                             .getGame()
-                                                                            .getLocalisationCleanNoPunctuation("DATE_OF_BIRTH_REQUIRED", Eu4Language.getByLocale(Constants.LOCALE)));
+                                                                            .getLocalisationCleanNoPunctuation("DATE_OF_BIRTH_REQUIRED",
+                                                                                                               Eu4Language.getByLocale(Constants.LOCALE)));
         birthDate.setCellValueFactory(p -> p.getValue() == null ? null : new ReadOnlyObjectWrapper<>(p.getValue().getBirthDate()));
         birthDate.setCellFactory(DatePickerCell.forTableColumn(null, country.getSave().getDate()));
         birthDate.setOnEditCommit(event -> event.getRowValue().setBirthDate(event.getNewValue()));
@@ -112,7 +112,6 @@ public class TableView2Leader extends TableView<Leader> {
         remove.setCellFactory(ClearCellFactory.forTableColumn());
 
         setFixedCellSize(40);
-        setPrefWidth(900);
         setEditable(true);
 
         getColumns().clear();
@@ -126,5 +125,7 @@ public class TableView2Leader extends TableView<Leader> {
         getColumns().add(birthDate);
         getColumns().add(remove);
         setItems(leaders.stream().map(Leader::new).collect(Collectors.toCollection(FXCollections::observableArrayList)));
+
+        prepare();
     }
 }

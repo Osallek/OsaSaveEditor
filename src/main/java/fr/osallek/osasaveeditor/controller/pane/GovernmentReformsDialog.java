@@ -86,7 +86,7 @@ public class GovernmentReformsDialog extends Dialog<List<GovernmentReform>> {
         getDialogPane().setPrefWidth(800);
         getDialogPane().setContent(scrollPane);
         getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-        ((Stage) getDialogPane().getScene().getWindow()).getIcons().addAll(new Image(OsaSaveEditorApplication.class.getResourceAsStream(Constants.IMAGE_ICON)));
+        ((Stage) getDialogPane().getScene().getWindow()).getIcons().addAll(Constants.ICON_IMAGE);
         setResultConverter(button -> {
             if (button.getButtonData().isDefaultButton() && !button.getButtonData().isCancelButton()) {
                 this.selectableGridViews.forEach(view -> this.governmentReforms.addAll(view.getSelectedItems()));
