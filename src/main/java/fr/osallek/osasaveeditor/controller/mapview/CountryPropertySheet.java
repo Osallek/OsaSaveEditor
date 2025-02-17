@@ -34,6 +34,7 @@ import fr.osallek.osasaveeditor.controller.control.TableView2Ideas;
 import fr.osallek.osasaveeditor.controller.control.TableView2Leader;
 import fr.osallek.osasaveeditor.controller.control.TableView2Loan;
 import fr.osallek.osasaveeditor.controller.control.TableView2Modifier;
+import fr.osallek.osasaveeditor.controller.control.TableView2Navy;
 import fr.osallek.osasaveeditor.controller.control.TableView2Policy;
 import fr.osallek.osasaveeditor.controller.control.TableView2Rival;
 import fr.osallek.osasaveeditor.controller.control.TableView2StringDate;
@@ -61,6 +62,8 @@ import fr.osallek.osasaveeditor.controller.object.Idea;
 import fr.osallek.osasaveeditor.controller.object.Leader;
 import fr.osallek.osasaveeditor.controller.object.Loan;
 import fr.osallek.osasaveeditor.controller.object.Modifier;
+import fr.osallek.osasaveeditor.controller.object.Navy;
+import fr.osallek.osasaveeditor.controller.object.Regiment;
 import fr.osallek.osasaveeditor.controller.object.Rival;
 import fr.osallek.osasaveeditor.controller.object.StringDate;
 import fr.osallek.osasaveeditor.controller.pane.CustomPropertySheet;
@@ -258,6 +261,10 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
     private final ButtonItem armiesButton;
 
     private final ObservableList<Army> armies;
+
+    private final ButtonItem naviesButton;
+
+    private final ObservableList<Navy> navies;
 
     private final ButtonItem loansButton;
 
@@ -644,6 +651,12 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
                                            2);
         this.propertySheet.getItems().add(this.armiesButton);
         this.armies = FXCollections.observableArrayList();
+
+        this.naviesButton = new ButtonItem(this.messageSource.getMessage("ose.category.military", null, Constants.LOCALE), null,
+                                           this.messageSource.getMessage("country.navies", null, Constants.LOCALE),
+                                           2);
+        this.propertySheet.getItems().add(this.naviesButton);
+        this.navies = FXCollections.observableArrayList();
 
         //ESTATES
         this.estatesPropertySheet = new CustomPropertySheet();
@@ -1304,13 +1317,33 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
                 TableViewDialog<Army> dialog = new TableViewDialog<>(this.t.getSave(),
                                                                      new TableView2Army(this.t, this.armies, this.cities, this.messageSource),
                                                                      this.messageSource.getMessage("country.armies", null, Constants.LOCALE),
-                                                                     list -> new Army(this.t, "Army " + this.armies.size() + 1, this.t.getCapital()),
+                                                                     list -> new Army("Army " + (this.armies.size() + 1), this.t.getCapital()),
                                                                      () -> this.armies);
                 Optional<List<Army>> armies = dialog.showAndWait();
 
                 armies.ifPresent(this.armies::setAll);
             });
             items.add(this.armiesButton);
+
+            if (this.t.getOwnedProvinces().stream().anyMatch(SaveProvince::isPort)) {
+                this.navies.setAll(this.t.getNavies().values().stream().map(Navy::new).collect(Collectors.toList()));
+                this.naviesButton.getButton().setOnAction(event -> {
+                    TableViewDialog<Navy> dialog = new TableViewDialog<>(this.t.getSave(),
+                                                                         new TableView2Navy(this.t, this.navies, this.cities, this.messageSource),
+                                                                         this.messageSource.getMessage("country.navies", null, Constants.LOCALE),
+                                                                         list -> new Navy(this.t, "Navy " + (this.navies.size() + 1), this.t.getOwnedProvinces()
+                                                                                                                                            .stream()
+                                                                                                                                            .filter(SaveProvince::isPort)
+                                                                                                                                            .findFirst()
+                                                                                                                                            .get()),
+                                                                         () -> this.navies);
+                    Optional<List<Navy>> navies = dialog.showAndWait();
+
+                    navies.ifPresent(this.navies::setAll);
+                });
+
+                items.add(this.naviesButton);
+            }
 
             //Estates
             this.estatePropertySheets.clear();
@@ -1908,6 +1941,116 @@ public class CountryPropertySheet extends PropertySheet<SaveCountry> {
                                                                   () -> this.t.removeLeader(leader.getId().getId())));
             this.leaders.forEach(l -> this.t.addLeader(this.t.getSave().getDate(), l.getBirthDate(), l.getName(), l.getType(), l.getManuever(),
                                                        l.getFire(), l.getShock(), l.getSiege(), l.getPersonality()));
+        }
+
+        if (this.armiesButton.isVisible().get() && this.t.getArmies().size() != this.armies.size() || this.armies.stream().anyMatch(Army::isChanged)) {
+            this.t.getArmies()
+                  .values()
+                  .forEach(army -> this.armies.stream()
+                                              .filter(a -> army.getId().getId().equals(a.getId()))
+                                              .findFirst()
+                                              .ifPresentOrElse(a -> {
+                                                                   if (!Objects.equals(ClausewitzUtils.removeQuotes(a.getName()),
+                                                                                       ClausewitzUtils.removeQuotes(army.getName()))) {
+                                                                       army.setName(a.getName());
+                                                                   }
+
+                                                                   if (!Objects.equals(a.getLocation(), army.getLocation())) {
+                                                                       army.setLocation(a.getLocation());
+                                                                   }
+
+                                                                   if (CollectionUtils.size(army.getRegiments()) != CollectionUtils.size(a.getRegiments()) ||
+                                                                       a.getRegiments().stream().anyMatch(Regiment::isChanged)) {
+                                                                       for (fr.osallek.eu4parser.model.save.country.Regiment regiment : army.getRegiments()) {
+                                                                           a.getRegiments().stream()
+                                                                            .filter(r -> regiment.getId().getId().equals(r.getId()))
+                                                                            .findFirst()
+                                                                            .ifPresentOrElse(r -> {
+                                                                                                 if (!Objects.equals(ClausewitzUtils.removeQuotes(r.getName()),
+                                                                                                                     ClausewitzUtils.removeQuotes(regiment.getName()))) {
+                                                                                                     regiment.setName(r.getName());
+                                                                                                 }
+
+                                                                                                 if (!Objects.equals(r.getMorale(), regiment.getMorale())) {
+                                                                                                     regiment.setMorale(r.getMorale());
+                                                                                                 }
+
+                                                                                                 if (!Objects.equals(r.getType().get(), regiment.getType())) {
+                                                                                                     regiment.setType(r.getType().get());
+                                                                                                 }
+
+                                                                                                 a.getRegiments().remove(r);
+                                                                                             },
+                                                                                             () -> army.removeRegiment(regiment.getId().getId()));
+                                                                       }
+                                                                       a.getRegiments()
+                                                                        .forEach(r -> army.addRegiment(r.getName(), this.t.getCapitalId(), r.getType().get(), r.getMorale(), 0));
+                                                                   }
+
+                                                                   this.armies.remove(a);
+                                                               },
+                                                               () -> this.t.removeArmy(army.getId().getId())));
+            this.armies.forEach(a -> {
+                fr.osallek.eu4parser.model.save.country.Army army = this.t.addArmy(a.getName(), a.getLocation());
+                for (Regiment regiment : a.getRegiments()) {
+                    army.addRegiment(regiment.getName(), this.t.getCapitalId(), regiment.getType().get(), regiment.getMorale(), 0);
+                }
+            });
+        }
+
+        if (this.naviesButton.isVisible().get() && this.t.getNavies().size() != this.navies.size() || this.navies.stream().anyMatch(Navy::isChanged)) {
+            this.t.getNavies()
+                  .values()
+                  .forEach(navy -> this.navies.stream()
+                                              .filter(a -> navy.getId().getId().equals(a.getId()))
+                                              .findFirst()
+                                              .ifPresentOrElse(a -> {
+                                                                   if (!Objects.equals(ClausewitzUtils.removeQuotes(a.getName()),
+                                                                                       ClausewitzUtils.removeQuotes(navy.getName()))) {
+                                                                       navy.setName(a.getName());
+                                                                   }
+
+                                                                   if (!Objects.equals(a.getLocation(), navy.getLocation())) {
+                                                                       navy.setLocation(a.getLocation());
+                                                                   }
+
+                                                                   if (CollectionUtils.size(navy.getRegiments()) != CollectionUtils.size(a.getRegiments()) ||
+                                                                       a.getRegiments().stream().anyMatch(Regiment::isChanged)) {
+                                                                       for (fr.osallek.eu4parser.model.save.country.Ship ship : navy.getShips()) {
+                                                                           a.getRegiments().stream()
+                                                                            .filter(r -> ship.getId().getId().equals(r.getId()))
+                                                                            .findFirst()
+                                                                            .ifPresentOrElse(r -> {
+                                                                                                 if (!Objects.equals(ClausewitzUtils.removeQuotes(r.getName()),
+                                                                                                                     ClausewitzUtils.removeQuotes(ship.getName()))) {
+                                                                                                     ship.setName(r.getName());
+                                                                                                 }
+
+                                                                                                 if (!Objects.equals(r.getMorale(), ship.getMorale())) {
+                                                                                                     ship.setMorale(r.getMorale());
+                                                                                                 }
+
+                                                                                                 if (!Objects.equals(r.getType().get(), ship.getType())) {
+                                                                                                     ship.setType(r.getType().get());
+                                                                                                 }
+
+                                                                                                 a.getRegiments().remove(r);
+                                                                                             },
+                                                                                             () -> navy.removeShip(ship.getId().getId()));
+                                                                       }
+                                                                       a.getRegiments()
+                                                                        .forEach(r -> navy.addShip(r.getName(), this.t.getCapitalId(), r.getType().get(), r.getMorale()));
+                                                                   }
+
+                                                                   this.navies.remove(a);
+                                                               },
+                                                               () -> this.t.removeNavy(navy.getId().getId())));
+            this.navies.forEach(a -> {
+                fr.osallek.eu4parser.model.save.country.Navy navy = this.t.addNavy(a.getName(), a.getLocation());
+                for (Regiment regiment : a.getRegiments()) {
+                    navy.addShip(regiment.getName(), this.t.getCapitalId(), regiment.getType().get(), regiment.getMorale());
+                }
+            });
         }
 
         Stream.concat(this.t.getSubjects().stream(), this.countrySubjectsField.keySet().stream())
